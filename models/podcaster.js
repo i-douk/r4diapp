@@ -4,9 +4,9 @@ dotenv.config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 
-class Podcast extends Model {}
+class Podcaster extends Model {}
 
-Podcast.init({
+Podcaster.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -16,12 +16,12 @@ Podcast.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  link: {
+  username: {
     type: DataTypes.TEXT,
-  },
-  shows: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-  },
+    allowNull: false,
+    unique: true
+  }
+ 
 }, {
   sequelize,
   underscored: true,
@@ -29,6 +29,4 @@ Podcast.init({
   modelName: 'podcast',
 });
 
-export default Podcast;
-
-
+export default Podcaster;
