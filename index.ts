@@ -1,27 +1,20 @@
-const express = require('express')
+import express from 'express'
 const app = express()
 require('express-async-errors')
-const { PORT } = require('./util/config')
-const { connectToDatabase, sequelize } = require('./util/db')
+import config from './util/config'
+import { connectToDatabase, sequelize } from './util/db'
 app.use(express.json())
 
 
 // Sync Sequelize models with the database
-sequelize.sync({ force: true }) 
+sequelize.sync({ force: false }) 
   .then(() => {
     console.log('Database synchronized');
-    app.listen(PORT, async () => {
+    app.listen(config.PORT!, async () => {
       await connectToDatabase()
-      console.log(`Server running on port ${PORT}`);
+      console.log(`Server running on port ${config.PORT!}`);
     });
   })
-  .catch(error => {
+  .catch((error: Error) => {
     console.error('Unable to sync database:', error);
   });
-// const start = async () => {
-//   app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`)
-//   })
-// }
-
-// start()

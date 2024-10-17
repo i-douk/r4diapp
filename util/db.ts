@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize'
-const { Umzug, SequelizeStorage } = require('umzug')
-const { DATABASE_URL } = require('./config')
+import { Umzug, SequelizeStorage } from 'umzug'
+import config from './config'
 
-const sequelize = new Sequelize(DATABASE_URL, {
+export const sequelize = new Sequelize(config.DATABASE_URL!, {
   dialectOptions: {
     ssl: {
       require: true,
@@ -11,16 +11,16 @@ const sequelize = new Sequelize(DATABASE_URL, {
   },
 })
 
-const migrationConf = {
+export const migrationConf = {
   migrations: {
-    glob: '../migrations/*.js',
+    glob: './migrations/*.ts',
   },
   storage: new SequelizeStorage({ sequelize, tableName: 'migrations' }),
   context: sequelize.getQueryInterface(),
   logger: console,
 }
 
-const runMigrations = async () => {
+export const runMigrations = async () => {
   const migrator = new Umzug(migrationConf)
   const migrations = await migrator.up()
   console.log('Migrations up to date', {
@@ -28,13 +28,13 @@ const runMigrations = async () => {
   })
 }
 
-const rollbackMigration = async () => {
+export const rollbackMigration = async () => {
   await sequelize.authenticate()
   const migrator = new Umzug(migrationConf)
   await migrator.down()
 }
 
-const connectToDatabase = async () => {
+export const connectToDatabase = async () => {
   try {
     await sequelize.authenticate()
     await runMigrations()
@@ -46,5 +46,3 @@ const connectToDatabase = async () => {
 
   return null
 }
-
-module.exports = { connectToDatabase, sequelize, rollbackMigration }

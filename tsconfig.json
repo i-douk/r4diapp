@@ -15,4 +15,5 @@
     "typeRoots": ["./node_modules/@types", "./util"],
     "allowJs": true
   },
+  "include": ["src/**/*"], 
 }

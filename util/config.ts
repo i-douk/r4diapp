@@ -1,7 +1,9 @@
-require('dotenv').config()
+require('dotenv').config();
 
-module.exports = {
+const config = {
   DATABASE_URL: process.env.DATABASE_URL,
   PORT: process.env.PORT || 3001,
-//   SECRET: process.env.SECRET
-}
+  // SECRET: process.env.SECRET
+};
+
+export default config;
