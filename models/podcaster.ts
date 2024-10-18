@@ -36,6 +36,10 @@ Podcaster.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
+    disabled : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
 }, {
     sequelize,
     underscored: true,
@@ -43,4 +47,4 @@ Podcaster.init({
     modelName: 'podcaster'
   });
 
-module.exports = Podcaster;
+export default Podcaster;

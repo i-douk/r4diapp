@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-const sequelize = require('../util/db') ;
+import { sequelize } from '../util/db';
 
 class Podcast extends Model {}
 
@@ -12,11 +12,6 @@ Podcast.init({
     name: {
         type: DataTypes.TEXT,
         allowNull: false
-    },
-    podcasterId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: 'podcasters', key: 'id' },
     },
     urls: {
         type: DataTypes.ARRAY(DataTypes.STRING),
@@ -34,4 +29,4 @@ Podcast.init({
     modelName: 'podcast'
   });
 
-module.exports = Podcast;
+export default Podcast;

@@ -1,17 +1,22 @@
-const Podcast = require('./podcast')
-const Podcaster = require('./podcaster')
-// const User = require('./user')
-// const ActiveSession = require('./active_session')
+import Podcast from './podcast';
+import Podcaster from './podcaster';
+import User from './user';
+import ActiveSession from './active_session';
+import FollowList from './follow_list';
+import SubscriptionList from './subscription_list';
 
-Podcaster.hasMany(Podcast)
-Podcast.belongsTo(Podcaster)
+Podcaster.hasMany(Podcast);
+Podcast.belongsTo(Podcaster);
 
-// User.belongsToMany( Blog , { through : Readinglist, as : 'readings'})
-// Blog.belongsToMany( User , { through : Readinglist})
+User.belongsToMany( Podcast , { through : FollowList, as : 'follows'});
+Podcast.belongsToMany( User , { through : FollowList});
 
-// User.hasMany(ActiveSession)
-// ActiveSession.belongsTo(User)
+Podcaster.belongsToMany( Podcast , { through : SubscriptionList, as : 'subscriptions'});
+Podcast.belongsToMany( Podcaster , { through : SubscriptionList});
+
+Podcaster.hasMany(ActiveSession);
+ActiveSession.belongsTo(Podcaster);
 
 module.exports = {
-  Podcaster, Podcast
+  Podcaster, Podcast, ActiveSession
 }
