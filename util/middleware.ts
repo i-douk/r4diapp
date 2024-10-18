@@ -1,8 +1,9 @@
-import jwt from 'jsonwebtoken'
-import config from './config.ts'
-import Podcaster from '../models/podcaster.ts'
-import Podcast from '../models/podcast.ts'
-import ActiveSession from '../models/active_session.ts'
+import jwt from 'jsonwebtoken';
+import config from './config.ts';
+import Podcaster from '../models/podcaster.ts';
+import Podcast from '../models/podcast.ts';
+import User from '../models/user.ts';
+import ActiveSession from '../models/active_session.ts';
 
 const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization')
@@ -34,10 +35,10 @@ const tokenExtractor = async (req, res, next) => {
 }
 
 //Middleware to check if the user is an admin
-const isAdmin = async (req, res, next) => {
+const isPremium = async (req, res, next) => {
   try {
-    const user = await Podcast.findByPk(req.decodedToken.id);
-    if (!user.admin) {
+    const podcaster = await Podcaster.findByPk(req.decodedToken.id);
+    if (!podcaster.premium) {
       return res.status(401).json({ error: 'Operation not allowed' });
     }
     next();
@@ -47,11 +48,16 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-//Middleware to find blog by id
+//Middleware to find podcaster by id
+const podcasterFinder = async (req, res, next) => {
+  req.pdocaster = await Podcaster.findByPk(req.params.id)
+  next()
+}
+//Middleware to find podcaster by id
 const podcastFinder = async (req, res, next) => {
-  req.blog = await Podcast.findByPk(req.params.id)
+  req.pdocast = await Podcast.findByPk(req.params.id)
   next()
 }
 
 
-module.exports = { tokenExtractor , isAdmin , podcastFinder }
+module.exports = { tokenExtractor , isPremium , podcasterFinder , podcastFinder}
