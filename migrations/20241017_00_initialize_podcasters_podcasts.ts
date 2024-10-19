@@ -1,3 +1,4 @@
+import { type } from 'os';
 import { DataTypes } from 'sequelize';
 
 module.exports = {
@@ -52,6 +53,9 @@ module.exports = {
     disabled : {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    description : {
+      type : DataTypes.TEXT
     },
       created_at: DataTypes.DATE,
       updated_at: DataTypes.DATE,
