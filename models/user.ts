@@ -24,13 +24,23 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
-  admin: {
+  verified: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }, 
   disabled: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  podcasterId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'podcasters', key: 'id'},
+  },
+  podcastId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'podcasts', key: 'id'},
   },
 }, {
   sequelize,

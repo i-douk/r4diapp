@@ -1,8 +1,8 @@
 import { Model, DataTypes } from 'sequelize'
 import { sequelize } from '../util/db'
 
-class ActiveSession extends Model {}
-ActiveSession.init(
+class ActiveUserSession extends Model {}
+ActiveUserSession.init(
   {
     id: { 
         type: DataTypes.INTEGER,
@@ -21,8 +21,8 @@ ActiveSession.init(
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'active_session',
+    modelName: 'active_user_session',
   }
 )
 
-export default ActiveSession;
+export default ActiveUserSession;

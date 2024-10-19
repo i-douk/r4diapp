@@ -1,7 +1,11 @@
 import Podcast from './podcast';
+
 import Podcaster from './podcaster';
 import User from './user';
-import ActiveSession from './active_session';
+
+import ActivePodcasterSession from './active_podcaster_session';
+import ActiveUserSession from './active_user_session';
+
 import FollowList from './follow_list';
 import SubscriptionList from './subscription_list';
 
@@ -14,9 +18,12 @@ Podcast.belongsToMany( User , { through : FollowList});
 Podcaster.belongsToMany( Podcast , { through : SubscriptionList, as : 'subscriptions'});
 Podcast.belongsToMany( Podcaster , { through : SubscriptionList});
 
-Podcaster.hasMany(ActiveSession);
-ActiveSession.belongsTo(Podcaster);
+Podcaster.hasMany(ActivePodcasterSession);
+ActivePodcasterSession.belongsTo(Podcaster);
+
+User.hasMany(ActiveUserSession);
+ActiveUserSession.belongsTo(User);
 
 module.exports = {
-  Podcaster, Podcast, ActiveSession
+  Podcaster, Podcast, ActivePodcasterSession , ActiveUserSession
 }

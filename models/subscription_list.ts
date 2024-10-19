@@ -19,17 +19,12 @@ SubscriptionList.init({
     allowNull: false,
     references: { model: 'podcasters', key: 'id'},
   },
-  podcastId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: { model: 'podcasts', key: 'id'},
-  },
 
 }, {
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'SubscriptionList'
+  modelName: 'subscription_list'
 })
 
 export default SubscriptionList;
