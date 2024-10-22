@@ -38,12 +38,10 @@ module.exports = {
     
     await queryInterface.addColumn('users', 'podcaster_id', {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: { model: 'podcasters', key: 'id' },
     })
     await queryInterface.addColumn('users', 'podcast_id', {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: { model: 'podcasts', key: 'id' },
     })
   },

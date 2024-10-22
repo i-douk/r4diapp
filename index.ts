@@ -23,10 +23,8 @@ app.use('/api/userlogin', loginUserRouter)
 // app.use('/api/subscriptions', subscriptionsRouter)
 // app.use('/api/logout', logoutRouter)
 
-
-
 // Sync Sequelize models with the database
-sequelize.sync({ force: false }) 
+sequelize.sync({ force: true }) 
   .then(() => {
     console.log('Database synchronized');
     app.listen(config.PORT!, async () => {

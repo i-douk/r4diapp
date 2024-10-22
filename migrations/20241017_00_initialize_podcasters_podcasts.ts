@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { DataTypes } from 'sequelize';
 
 module.exports = {
@@ -23,6 +22,10 @@ module.exports = {
         defaultValue: false
       },
     verified : {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
+    disabled : {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },

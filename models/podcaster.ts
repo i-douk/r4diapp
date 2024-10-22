@@ -19,11 +19,6 @@ Podcaster.init({
           },   
         }
       },
-    podcastId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: { model: 'podcast', key: 'id' },
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false
