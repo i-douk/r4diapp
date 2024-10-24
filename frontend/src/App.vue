@@ -5,22 +5,28 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <div className="flex p-5 bg-red-900">
+      <img alt="radikradish logo" className ="w-25 h-20" src="../assets/logo.png" />
+      <nav className="flex-end gap-3 p-5">
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/podcasts">Podcasts</RouterLink>
+        <RouterLink to="/podcasters">Podcasters</RouterLink>
+        <RouterLink to="/myaccount">Account</RouterLink>
+        <RouterLink to="/mysubscriptions">Subscriptions</RouterLink>
+      </nav>
+    </div>
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
     </div>
   </header>
 
   <RouterView />
 </template>
 
-<style scoped>
+<!-- <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -82,4 +88,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-</style>
+</style> -->
