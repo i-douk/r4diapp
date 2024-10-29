@@ -1,7 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from '../util/db';
+import hashPassword from '../util/hashHook';
 
-class Podcaster extends Model {}
+class Podcaster extends Model {
+  public premium?: boolean;
+  public username?: string;
+  public id?: number;
+  public name?: string;
+  public password?: string;
+}
+
 
 Podcaster.init({
     id: {
@@ -9,7 +17,7 @@ Podcaster.init({
         primaryKey: true,
         autoIncrement: true
     },
-    userName: {
+    username: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
@@ -53,5 +61,19 @@ Podcaster.init({
     timestamps: true,
     modelName: 'podcaster'
   });
+
+  // Password hashing hook
+Podcaster.beforeCreate(async (podcaster) => {
+  if (podcaster.password) {
+    podcaster.password = await hashPassword(podcaster.password);
+  }
+});
+
+Podcaster.beforeUpdate(async (podcaster : any ) => {
+  if (podcaster.changed('password')) {
+    podcaster.password = await hashPassword(podcaster.password);
+  }
+});
+
 
 export default Podcaster;

@@ -7,17 +7,16 @@ app.use(express.json());
 import usersRouter from './controllers/users/users';
 import loginUserRouter from './controllers/users/loginUser';
 
-// import podcastersRouter from './controllers/podcasters';
+import podcastersRouter from './controllers/podcasters/podcasters';
+import loginPodcasterRouter from './controllers/podcasters/loginPodcaster';
 // import podcastsRouter from './controllers/podcasts';
-// import loginPodcasterRouter from './controllers/podcasterlogin';
 // import logoutRouter from './controllers/logout';
 // import followListsRouter from './controllers/followLists';
 // import subscriptionsRouter from './controllers/subscriptions';
 app.use('/api/users', usersRouter)
 app.use('/api/userlogin', loginUserRouter)
-// app.use('/api/podcasters', podcastersRouter)
-// app.use('/api/userlogin', loginUserRouter)
-// app.use('/api/podcasterlogin', loginPodcasterRouter)
+app.use('/api/podcasters', podcastersRouter)
+app.use('/api/podcasterlogin', loginPodcasterRouter)
 // app.use('/api/podcasts', podcastsRouter)
 // app.use('/api/followLists', followListsRouter)
 // app.use('/api/subscriptions', subscriptionsRouter)
