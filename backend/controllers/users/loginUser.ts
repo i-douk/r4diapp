@@ -1,54 +1,67 @@
 import jwt from 'jsonwebtoken';
-const loginUserRouter = require('express').Router();
-import  config  from '../../util/config';
+import { Router } from 'express';
+import config from '../../util/config';
 import User from '../../models/user';
-import ActiveUserSession  from '../../models/active_user_session';
-import hashPassword from '../../util/hashHook';
+import ActiveUserSession from '../../models/active_user_session';
+import bcrypt from 'bcrypt';
+
+const loginUserRouter = Router();
 
 loginUserRouter.post('/', async (request, response) => {
-  const {username, password} = request.body
+  const { username, password } = request.body;
 
-  const hashedPassword = await hashPassword(password)
+  try {
+    // Find the user by username
+    const user : any = await User.findOne({
+      where: { username: username }
+    });
 
-  const user = await User.findOne({
-    where: {
-      username: username
+    // Check if user exists
+    if (!user) {
+      return response.status(401).json({
+        error: 'invalid username or password'
+      });
     }
-  })
+    // Compare the plaintext password with the hashed password
+    const passwordCorrect = await bcrypt.compare(password, user.password);
 
-  const passwordCorrect = hashedPassword === user?.password
+    // Check if password is correct
+    if (!passwordCorrect) {
+      return response.status(401).json({
+        error: 'invalid username or password'
+      });
+    }
 
-  if (!(user && passwordCorrect)) {
-    return response.status(401).json({
-      error: 'invalid username or password'
-    })
+    // Check if the account is disabled
+    if (user.disabled) {
+      return response.status(401).json({
+        error: 'account disabled, please contact admin'
+      });
+    }
+
+    // Create token payload
+    const userForToken = {
+      username: user.username,
+      id: user.id,
+    };
+
+    // Sign the token
+    const token = jwt.sign(userForToken, config.SECRET!, { expiresIn: '1h' });
+
+    // Create an active user session
+    await ActiveUserSession.create({
+      token,
+      userId: user.id,
+    });
+
+    // Respond with token and user information
+    return response.status(200).send({ token, username: user.username, name: user.name });
+
+  } catch (error) {
+    console.error(error);
+    // Ensure that all paths return a response
+    return response.status(500).json({ error: 'Internal server error' });
   }
+});
 
-  if (user.disabled) {
-    return response.status(401).json({
-      error: 'account disabled, please contact admin'
-    })
-  }
-
-  const userForToken = {
-    username: user.username,
-    id: user.id,
-  }
-
-  const token = jwt.sign(
-    userForToken,
-    config.SECRET!,
-    { expiresIn: 60*60 }
-  )
-
-  await ActiveUserSession.create({
-    token,
-    userId: user.id,
-  })
-
-  response
-    .status(200)
-    .send({ token, username: user.username, name: user.name })
-})
-
-export default loginUserRouter
+export default loginUserRouter;
