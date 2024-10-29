@@ -19,6 +19,10 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false
       },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       premium: {
         type: DataTypes.BOOLEAN,
         defaultValue: false

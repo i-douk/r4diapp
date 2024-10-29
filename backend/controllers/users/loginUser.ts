@@ -3,17 +3,20 @@ const loginUserRouter = require('express').Router();
 import  config  from '../../util/config';
 import User from '../../models/user';
 import ActiveUserSession  from '../../models/active_user_session';
+import hashPassword from '../../util/hashHook';
 
 loginUserRouter.post('/', async (request, response) => {
-  const body = request.body
+  const {username, password} = request.body
+
+  const hashedPassword = await hashPassword(password)
 
   const user = await User.findOne({
     where: {
-      username: body.username
+      username: username
     }
   })
 
-  const passwordCorrect = body.password === 'secret'
+  const passwordCorrect = hashedPassword === user?.password
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({

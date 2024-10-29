@@ -1,12 +1,13 @@
-import { Model, DataTypes } from 'sequelize'
-
-import { sequelize } from '../util/db'
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../util/db';
+import hashPassword  from '../util/hashHook';
 
 class User extends Model {
-    disabled: any;
-    username: any;
-    id: any;
-    name: any;
+  public disabled?: boolean;
+  public username?: string;
+  public id?: number;
+  public name?: string;
+  public password?: string;
 }
 
 User.init({
@@ -29,6 +30,18 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [8, 100],  // Minimum length requirement
+      isStrongPassword(value) {
+        if (!/[A-Z]/.test(value) || !/[a-z]/.test(value) || !/[0-9]/.test(value) || !/[@$!%*?&#]/.test(value)) {
+          throw new Error('Password must contain uppercase, lowercase, number, and special character');
+        }
+      }
+    }
+  },
   verified: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
@@ -37,12 +50,24 @@ User.init({
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
-
 }, {
   sequelize,
   underscored: true,
   timestamps: true,
   modelName: 'user'
-})
+});
+
+// Password hashing hook
+User.beforeCreate(async (user) => {
+  if (user.password) {
+    user.password = await hashPassword(user.password);
+  }
+});
+
+User.beforeUpdate(async (user : any ) => {
+  if (user.changed('password')) {
+    user.password = await hashPassword(user.password);
+  }
+});
 
 export default User;

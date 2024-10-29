@@ -31,8 +31,14 @@ usersRouter.get('/', async (_req, res) => {
 
 //create a new user
 usersRouter.post('/', async (req, res) => {
+  const { username, name, password } = req.body
   try {
-    const user = await User.create(req.body);
+
+    const user = await User.create({
+      username: username,
+      name: name,
+      password: password
+    });
     res.json(user);
   } catch (error) {
     console.error(error);
