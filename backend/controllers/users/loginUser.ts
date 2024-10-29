@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 const loginUserRouter = require('express').Router();
 import  config  from '../../util/config';
 import User from '../../models/user';
-import ActiveUserSession  from '../../models/active_podcaster_session';
+import ActiveUserSession  from '../../models/active_user_session';
 
 loginUserRouter.post('/', async (request, response) => {
   const body = request.body
