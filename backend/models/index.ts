@@ -1,11 +1,8 @@
-import Podcast from './podcast';
-
 import Podcaster from './podcaster';
 import User from './user';
-
 import ActivePodcasterSession from './active_podcaster_session';
 import ActiveUserSession from './active_user_session';
-
+import Podcast from './podcast';
 import FollowList from './follow_list';
 import SubscriptionList from './subscription_list';
 
@@ -24,6 +21,5 @@ ActivePodcasterSession.belongsTo(Podcaster);
 User.hasMany(ActiveUserSession);
 ActiveUserSession.belongsTo(User);
 
-module.exports = {
-  Podcaster, Podcast, ActivePodcasterSession , ActiveUserSession
-}
+
+export default { User ,  Podcaster, Podcast, ActivePodcasterSession , ActiveUserSession };
