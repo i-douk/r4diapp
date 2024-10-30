@@ -8,56 +8,41 @@ import config from './config';
 
 //extract token from user active session and podcaster active session
 const tokenExtractor = async (
-  req: { 
-    get: (arg0: string) => any; token: string ; decodedToken: jwt.JwtPayload
-  },
-  res: { 
-    status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string }): any; new(): any } }
-  },
+  req: { get: (arg0: string) => any; token: any; decodedToken: jwt.JwtPayload },
+  res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string }): any; new(): any } } },
   next: () => void) => {
 
-  const authorization = req.get('authorization');
+  const authorization = req.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    const token = authorization.substring(7);
-
-    const activeUserSession = await ActiveUserSession.findOne({ where: { token } });
-    const activePodcasterSession = await ActivePodcasterSession.findOne({ where: { token } });
-    if (!activeUserSession || !activePodcasterSession ) {
+    const token = authorization.substring(7)
+    const activeUserSession = await ActiveUserSession.findOne({ where: { token } })
+    const activePodcasterSession = await ActivePodcasterSession.findOne({ where: { token } })
+    if (!activeUserSession && !activePodcasterSession ) {
       return res
         .status(401)
-        .json({ error: 'Session expired: please log back in.' });
+        .json({ error: 'Session expired: please log back in.' })
     }
     if (!config.SECRET) {
         throw new Error("Environment variable SECRET is not defined");
       }
     const decodedToken = jwt.verify(token, config.SECRET) as JwtPayload | string;
-
-    if (typeof decodedToken === 'object' && 'id' in decodedToken && activeUserSession) {
-    const user = await User.findByPk(decodedToken.id);
+    if (typeof decodedToken === 'object' && 'id' in decodedToken) {
+    const user = await User.findByPk(decodedToken.id)
+    const podcaster = await Podcaster.findByPk(decodedToken.id)
     
-    if (user?.disabled) {
-      return res.status(401).json({ error: 'User account is banned' });}
-  } else {
+  if (user?.disabled) { return res.status(401).json({ error: 'Account is banned' })}
+  if (podcaster?.disabled) { return res.status(401).json({ error: 'Account is banned' })}
+    } else {
         throw new Error("Token verification failed: 'id' not found in payload");
       }
-
-    if (typeof decodedToken === 'object' && 'id' in decodedToken && activePodcasterSession) {
-    const podcaster = await Podcaster.findByPk(decodedToken.id);
-    
-    if (podcaster?.disabled) {
-      return res.status(401).json({ error: 'Podcaster account is banned' });
-    }} else {
-        throw new Error("Token verification failed: 'id' not found in payload");
-      }
-
-    req.token = token;
-    req.decodedToken = decodedToken;
+    req.token = token
+    req.decodedToken = decodedToken
   } else {
     return res
       .status(401)
       .json({ error: 'Authorization token missing: you are not logged in.' })
   }
-  next();
+  next()
 }
 
 export default tokenExtractor ;

@@ -1,10 +1,10 @@
+import { Request, Response } from 'express';
 const usersRouter = require('express').Router()
 import  User  from '../../models/user';
 import tokenExtractor  from '../../utils/middleware';
 // import Podcaster from '../../models/podcaster';
 // import Podcast from '../../models/podcast';
 // import { sequelize } from '../../util/db';
-import { Request, Response } from 'express';
 
 
 //get all users , their podcasters subscription and their followed podcasts
@@ -29,18 +29,6 @@ usersRouter.post('/', async (req : Request, res: Response) => {
 usersRouter.get('/:username', async (req : Request, res: Response) => {  
     const user = await User.findOne({ 
       where: { username: req.params.username }
-    });
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ error: 'User not found' });
-    }
-
-});
-// Get a user by username
-usersRouter.get('/:id', async (req: Request , res: Response) => {  
-    const user = await User.findOne({ 
-      where: { id: req.params.id }
     });
     if (user) {
       res.json(user);
