@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import {sequelize} from '../util/db';
-import hashPassword from '../util/hashHook';
+import {sequelize} from '../utils/db';
+import hashPassword from '../utils/hashHook';
 
 class Podcaster extends Model {
   public premium?: boolean;

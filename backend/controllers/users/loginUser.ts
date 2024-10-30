@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
-import config from '../../util/config';
+import config from '../../utils/config';
 import User from '../../models/user';
 import ActiveUserSession from '../../models/active_user_session';
 import bcrypt from 'bcrypt';
@@ -10,7 +10,6 @@ const loginUserRouter = Router();
 loginUserRouter.post('/', async (request, response) => {
   const { username, password } = request.body;
 
-  try {
     // Find the user by username
     const user : any = await User.findOne({
       where: { username: username }
@@ -43,6 +42,7 @@ loginUserRouter.post('/', async (request, response) => {
     const userForToken = {
       username: user.username,
       id: user.id,
+      role:user.role
     };
 
     // Sign the token
@@ -52,16 +52,13 @@ loginUserRouter.post('/', async (request, response) => {
     await ActiveUserSession.create({
       token,
       userId: user.id,
+      role: user.role
     });
 
     // Respond with token and user information
-    return response.status(200).send({ token, username: user.username, name: user.name });
+    return response.status(200).send({ token, username: user.username, name: user.name , role: user.role});
 
-  } catch (error) {
-    console.error(error);
-    // Ensure that all paths return a response
-    return response.status(500).json({ error: 'Internal server error' });
-  }
+
 });
 
 export default loginUserRouter;

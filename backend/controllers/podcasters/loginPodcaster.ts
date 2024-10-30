@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
-import config from '../../util/config';
+import config from '../../utils/config';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
 import bcrypt from 'bcrypt';
 import Podcaster from '../../models/podcaster';
@@ -10,7 +10,6 @@ const loginPodcasterRouter = Router();
 loginPodcasterRouter.post('/', async (request, response) => {
   const { username, password } = request.body;
 
-  try {
     // Find the podcaster by username
     const podcaster : any = await Podcaster.findOne({
       where: { username: username }
@@ -57,11 +56,6 @@ loginPodcasterRouter.post('/', async (request, response) => {
     // Respond with token and podcaster information
     return response.status(200).send({ token, username: podcaster.username, name: podcaster.name });
 
-  } catch (error) {
-    console.error(error);
-    // Ensure that all paths return a response
-    return response.status(500).json({ error: 'Internal server error' });
-  }
 });
 
 export default loginPodcasterRouter;

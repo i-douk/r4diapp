@@ -12,7 +12,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "./util"],
+    "typeRoots": ["./node_modules/@types", "utils"],
     "allowJs": true
   },
   "include": ["src/**/*"], 

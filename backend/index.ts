@@ -1,8 +1,9 @@
 import express from 'express';
+require('express-async-errors');
 const app = express();
 import 'express-async-errors'; 
-import config from './util/config';
-import { connectToDatabase, sequelize } from './util/db';
+import config from './utils/config';
+import { connectToDatabase, sequelize } from './utils/db';
 app.use(express.json());
 import usersRouter from './controllers/users/users';
 import loginUserRouter from './controllers/users/loginUser';

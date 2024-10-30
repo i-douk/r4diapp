@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import { sequelize } from '../util/db'
+import { sequelize } from '../utils/db'
 
 class ActivePodcasterSession extends Model {}
 ActivePodcasterSession.init(
