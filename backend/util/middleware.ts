@@ -1,10 +1,11 @@
 import jwt , { JwtPayload } from 'jsonwebtoken';
 import User from '../models/user';
 import Podcast from '../models/podcast';
+import Podcaster from '../models/podcaster';
 import ActiveUserSession from '../models/active_user_session';
+import ActivePodcasterSession from '../models/active_podcaster_session';
 import config from './config';
 import { Identifier } from 'sequelize';
-
 
 const tokenExtractor = async (req: { get: (arg0: string) => any; token: any; decodedToken: jwt.JwtPayload }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string }): any; new(): any } } }, next: () => void) => {
   const authorization = req.get('authorization');
@@ -12,7 +13,8 @@ const tokenExtractor = async (req: { get: (arg0: string) => any; token: any; dec
     const token = authorization.substring(7);
 
     const activeUserSession = await ActiveUserSession.findOne({ where: { token } });
-    if (!activeUserSession) {
+    const activePodcasterSession = await ActivePodcasterSession.findOne({ where: { token } });
+    if (!activeUserSession || !activePodcasterSession ) {
       return res
         .status(401)
         .json({ error: 'Session expired: please log back in.' });
@@ -21,11 +23,21 @@ const tokenExtractor = async (req: { get: (arg0: string) => any; token: any; dec
         throw new Error("Environment variable SECRET is not defined");
       }
     const decodedToken = jwt.verify(token, config.SECRET) as JwtPayload | string;
-    if (typeof decodedToken === 'object' && 'id' in decodedToken) {
+
+    if (typeof decodedToken === 'object' && 'id' in decodedToken && activeUserSession) {
     const user = await User.findByPk(decodedToken.id);
     
     if (user?.disabled) {
-      return res.status(401).json({ error: 'Account is banned' });
+      return res.status(401).json({ error: 'User account is banned' });
+    }} else {
+        throw new Error("Token verification failed: 'id' not found in payload");
+      }
+
+    if (typeof decodedToken === 'object' && 'id' in decodedToken && activePodcasterSession) {
+    const podcaster = await Podcaster.findByPk(decodedToken.id);
+    
+    if (podcaster?.disabled) {
+      return res.status(401).json({ error: 'Podcaster account is banned' });
     }} else {
         throw new Error("Token verification failed: 'id' not found in payload");
       }

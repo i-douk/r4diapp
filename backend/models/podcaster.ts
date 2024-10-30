@@ -4,6 +4,7 @@ import hashPassword from '../util/hashHook';
 
 class Podcaster extends Model {
   public premium?: boolean;
+  public disabled?: boolean;
   public username?: string;
   public id?: number;
   public name?: string;

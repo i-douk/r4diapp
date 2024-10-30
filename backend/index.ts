@@ -23,7 +23,7 @@ app.use('/api/podcasterlogin', loginPodcasterRouter)
 // app.use('/api/logout', logoutRouter)
 
 // Sync Sequelize models with the database
-sequelize.sync({ force: true }) 
+sequelize.sync({ force: false }) 
   .then(() => {
     console.log('Database synchronized');
     app.listen(config.PORT!, async () => {

@@ -4,20 +4,7 @@ import  Podcaster  from '../../models/podcaster';
 //get all users , their podcasters subscription and their followed podcasts
 podcastersRouter.get('/', async (_req, res) => {
   try {
-    const podcasters = await Podcaster.findAll({
-    //   include: [
-    //   {
-    //     model: Podcast,
-    //     as: 'follows',
-    //     attributes: { exclude: [''] },      
-    //   },
-    //   {
-    //     model: Podcaster,
-    //     as: 'subscriptions', 
-    //     attributes: { exclude: [''] },     
-    //   }
-    // ]
-    });
+    const podcasters = await Podcaster.findAll({});
     res.json(podcasters);
   } catch (error) {
     console.error(error);
@@ -25,7 +12,7 @@ podcastersRouter.get('/', async (_req, res) => {
   }
 });
 
-//create a new user
+//create a new podcaster
 podcastersRouter.post('/', async (req, res) => {
   const { username, name, password } = req.body
   try {
