@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-const usersRouter = require('express').Router()
+const usersRouter = require('express').Router();
 import  User  from '../../models/user';
 import tokenExtractor  from '../../utils/middleware';
 import { sequelize } from '../../utils/db';
@@ -28,7 +28,7 @@ usersRouter.get('/', async (_req : Request, res: Response) => {
 
 //create a new user
 usersRouter.post('/', async (req : Request, res: Response) => {
-  const { username, name, password } = req.body
+  const { username, name, password } = req.body;
   const user = await User.create({
       username: username,
       name: name,

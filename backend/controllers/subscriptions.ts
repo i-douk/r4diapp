@@ -1,10 +1,10 @@
-const usersRouter = require('express').Router()
-import  SubscriptionList  from '../models/subscription_list';
+const usersRouter = require('express').Router();
+import  Subscription  from '../models/subscription';
 // import { sequelize } from '../utils/db';
 
-usersRouter.get('/', async (_req: any, res: { json: (arg0: SubscriptionList[]) => void; }) => {
+usersRouter.get('/', async (_req: any, res: { json: (arg0: Subscription[]) => void; }) => {
   
-  const subscriptions = await SubscriptionList.findAll(
+  const subscriptions = await Subscription.findAll(
     {
     attributes: [
     //     'podcaster',
@@ -16,7 +16,7 @@ usersRouter.get('/', async (_req: any, res: { json: (arg0: SubscriptionList[]) =
   ]
     }
 );
-  res.json(subscriptions)
-})
+  res.json(subscriptions);
+});
 
 export default usersRouter;

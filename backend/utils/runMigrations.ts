@@ -1,3 +1,3 @@
-import { runMigrations } from './db'
+import { runMigrations } from './db';
 
-runMigrations()
+runMigrations();

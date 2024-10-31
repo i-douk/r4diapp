@@ -12,37 +12,37 @@ const tokenExtractor = async (
   res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string }): any; new(): any } } },
   next: () => void) => {
 
-  const authorization = req.get('authorization')
+  const authorization = req.get('authorization');
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    const token = authorization.substring(7)
-    const activeUserSession = await ActiveUserSession.findOne({ where: { token } })
-    const activePodcasterSession = await ActivePodcasterSession.findOne({ where: { token } })
+    const token = authorization.substring(7);
+    const activeUserSession = await ActiveUserSession.findOne({ where: { token } });
+    const activePodcasterSession = await ActivePodcasterSession.findOne({ where: { token } });
     if (!activeUserSession && !activePodcasterSession ) {
       return res
         .status(401)
-        .json({ error: 'Session expired: please log back in.' })
+        .json({ error: 'Session expired: please log back in.' });
     }
     if (!config.SECRET) {
         throw new Error("Environment variable SECRET is not defined");
       }
-    const decodedToken = jwt.verify(token, config.SECRET) as JwtPayload | string;
+    const decodedToken = jwt.verify(token, config.SECRET);
     if (typeof decodedToken === 'object' && 'id' in decodedToken) {
-    const user = await User.findByPk(decodedToken.id)
-    const podcaster = await Podcaster.findByPk(decodedToken.id)
+    const user = await User.findByPk(decodedToken.id);
+    const podcaster = await Podcaster.findByPk(decodedToken.id);
     
-  if (user?.disabled) { return res.status(401).json({ error: 'Account is banned' })}
-  if (podcaster?.disabled) { return res.status(401).json({ error: 'Account is banned' })}
+  if (user?.disabled) { return res.status(401).json({ error: 'Account is banned' });}
+  if (podcaster?.disabled) { return res.status(401).json({ error: 'Account is banned' });}
     } else {
         throw new Error("Token verification failed: 'id' not found in payload");
       }
-    req.token = token
-    req.decodedToken = decodedToken
+    req.token = token;
+    req.decodedToken = decodedToken;
   } else {
     return res
       .status(401)
-      .json({ error: 'Authorization token missing: you are not logged in.' })
+      .json({ error: 'Authorization token missing: you are not logged in.' });
   }
-  next()
-}
+  next();
+};
 
 export default tokenExtractor ;

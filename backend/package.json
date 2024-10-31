@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node build/index.ts",
     "build": "npx tsc",
     "migration:up": "ts-node ./utils/runMigrations.ts",
     "migration:down": "ts-node ./utils/rollback.ts",
     "dev": "ts-node-dev index.ts",
+    "lint:fix": "eslint --fix",
     "lint": "eslint ."
   },
   "keywords": [],

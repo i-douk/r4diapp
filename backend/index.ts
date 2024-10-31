@@ -14,10 +14,10 @@ import loginPodcasterRouter from './controllers/podcasters/loginPodcaster';
 // import logoutRouter from './controllers/logout';
 // import followListsRouter from './controllers/followLists';
 // import subscriptionsRouter from './controllers/subscriptions';
-app.use('/api/users', usersRouter)
-app.use('/api/userlogin', loginUserRouter)
-app.use('/api/podcasters', podcastersRouter)
-app.use('/api/podcasterlogin', loginPodcasterRouter)
+app.use('/api/users', usersRouter);
+app.use('/api/userlogin', loginUserRouter);
+app.use('/api/podcasters', podcastersRouter);
+app.use('/api/podcasterlogin', loginPodcasterRouter);
 // app.use('/api/podcasts', podcastsRouter)
 // app.use('/api/followLists', followListsRouter)
 // app.use('/api/subscriptions', subscriptionsRouter)
@@ -27,9 +27,9 @@ app.use('/api/podcasterlogin', loginPodcasterRouter)
 sequelize.sync({ force: false }) 
   .then(() => {
     console.log('Database synchronized');
-    app.listen(config.PORT!, async () => {
-      await connectToDatabase()
-      console.log(`Server running on port ${config.PORT!}`);
+    app.listen(config.PORT, async () => {
+      await connectToDatabase();
+      console.log(`Server running on port ${config.PORT}`);
     });
   })
   .catch((error: Error) => {

@@ -1,9 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-class FollowList extends Model {}
+class Following extends Model {}
 
-FollowList.init({
+Following.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -19,12 +19,17 @@ FollowList.init({
     allowNull: false,
     references: { model: 'podcasts', key: 'id'},
   },
+  starred: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
 
 }, {
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'follow_list'
-})
+  modelName: 'following'
+});
 
-export default FollowList;
+export default Following;
