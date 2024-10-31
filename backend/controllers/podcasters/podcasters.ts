@@ -4,22 +4,27 @@ import  Podcaster  from '../../models/podcaster';
 import tokenExtractor from '../../utils/middleware';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
 import { sequelize } from '../../utils/db';
+import User from '../../models/user';
+import Podcast from '../../models/podcast';
+import Subscription from '../../models/subscription';
 // import Podcast from '../../models/podcast';
 // import User from '../../models/user';
 
 //get all users , their podcasters subscription and their followed podcasts
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
     const podcasters = await Podcaster.findAll({
-        //  include:[
-        //   {
-        //     model: Podcaster,
-        //     attributes: { exclude: ['podcasterId'] }
-        //   },
-        //   {
-        //     model: User,
-        //     attributes: { exclude: ['userId'] }
-        //   },
-        //  ]  
+         include:[
+          {
+            model: Podcast,
+            as: 'podcasts',
+            attributes: { exclude: ['podcasterId'] }
+          },
+          {
+            model: User,
+            as:'subscribers',
+            attributes: { exclude: ['userId'] }
+          },
+         ]  
     });
     res.json(podcasters);
 
@@ -63,5 +68,11 @@ podcastersRouter.delete('/:username', tokenExtractor, async (req: Request, res: 
       res.status(404).json({ error: 'Podcaster not found' });
   }
 });
+
+Podcaster.hasMany(Podcast, { foreignKey: 'podcaster_id', as: 'podcasts' });
+Podcast.belongsTo(Podcaster, { foreignKey: 'podcaster_id' });
+
+User.belongsToMany( Podcaster , { through : Subscription, as : 'subscriptions'});
+Podcaster.belongsToMany( User , { through : Subscription , as : 'subscribers'});
 
 export default podcastersRouter;

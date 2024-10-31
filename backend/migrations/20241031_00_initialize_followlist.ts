@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
-    await queryInterface.createTable('follow_lists', {
+    await queryInterface.createTable('followings', {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -18,9 +18,14 @@ module.exports = {
         allowNull: false,
         references: { model: 'podcasts', key: 'id'},
       },
+      starred: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      }
       });
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('follow_lists');
+    await queryInterface.dropTable('followings');
   },
 };

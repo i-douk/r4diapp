@@ -1,7 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-class Podcast extends Model {}
+class Podcast extends Model {
+    public transcribed?: boolean;
+    public username?: string;
+    public id?: number;
+    public name?: string;
+    public url?: string[];
+    public description?: string;
+}
 
 Podcast.init({
     id: {
@@ -29,7 +36,7 @@ Podcast.init({
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'podcast'
+    modelName: 'Podcast'
   });
 
 export default Podcast;

@@ -21,7 +21,7 @@ ActiveUserSession.init(
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'active_user_session',
+    modelName: 'Active_user_session',
   }
 );
 

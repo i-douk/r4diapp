@@ -60,7 +60,7 @@ Podcaster.init({
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'podcaster'
+    modelName: 'Podcaster'
   });
 
   // Password hashing hook

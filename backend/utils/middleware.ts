@@ -1,4 +1,4 @@
-import jwt , { JwtPayload } from 'jsonwebtoken';
+import jwt  from 'jsonwebtoken';
 import User from '../models/user';
 import Podcaster from '../models/podcaster';
 import ActiveUserSession from '../models/active_user_session';

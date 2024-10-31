@@ -21,7 +21,7 @@ ActivePodcasterSession.init(
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'active_podcaster_session',
+    modelName: 'Active_podcaster_session',
   }
 );
 
