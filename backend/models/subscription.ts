@@ -1,9 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-class SubscriptionList extends Model {}
+class Subscription extends Model {}
 
-SubscriptionList.init({
+Subscription.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -19,12 +19,16 @@ SubscriptionList.init({
     allowNull: false,
     references: { model: 'podcasters', key: 'id'},
   },
-
+  paid: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
+  }
 }, {
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'subscription_list'
-})
+  modelName: 'subscription'
+});
 
-export default SubscriptionList;
+export default Subscription;

@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize'
-import { sequelize } from '../utils/db'
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../utils/db';
 
 class ActiveUserSession extends Model {}
 ActiveUserSession.init(
@@ -23,6 +23,6 @@ ActiveUserSession.init(
     timestamps: true,
     modelName: 'active_user_session',
   }
-)
+);
 
 export default ActiveUserSession;

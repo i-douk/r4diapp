@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize'
-import { sequelize } from '../utils/db'
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../utils/db';
 
 class ActivePodcasterSession extends Model {}
 ActivePodcasterSession.init(
@@ -23,6 +23,6 @@ ActivePodcasterSession.init(
     timestamps: true,
     modelName: 'active_podcaster_session',
   }
-)
+);
 
 export default ActivePodcasterSession;

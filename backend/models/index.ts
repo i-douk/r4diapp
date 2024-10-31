@@ -3,17 +3,17 @@ import User from './user';
 import ActivePodcasterSession from './active_podcaster_session';
 import ActiveUserSession from './active_user_session';
 import Podcast from './podcast';
-import FollowList from './follow_list';
-import SubscriptionList from './subscription_list';
+import Following from './following';
+import Subscription from './subscription';
 
 Podcaster.hasMany(Podcast);
 Podcast.belongsTo(Podcaster);
 
-User.belongsToMany( Podcast , { through : FollowList, as : 'followings'});
-Podcast.belongsToMany( User , { through : FollowList , as : 'followers'});
+User.belongsToMany( Podcast , { through : Following, as : 'followings'});
+Podcast.belongsToMany( User , { through : Following , as : 'followers'});
 
-User.belongsToMany( Podcaster , { through : SubscriptionList, as : 'subscriptions'});
-Podcaster.belongsToMany( User , { through : SubscriptionList , as : 'subscribers'});
+User.belongsToMany( Podcaster , { through : Subscription, as : 'subscriptions'});
+Podcaster.belongsToMany( User , { through : Subscription , as : 'subscribers'});
 
 Podcaster.hasMany(ActivePodcasterSession);
 ActivePodcasterSession.belongsTo(Podcaster);

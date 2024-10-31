@@ -43,15 +43,15 @@ module.exports = {
     await queryInterface.addColumn('users', 'podcaster_id', {
       type: DataTypes.INTEGER,
       references: { model: 'podcasters', key: 'id' },
-    })
+    });
     await queryInterface.addColumn('users', 'podcast_id', {
       type: DataTypes.INTEGER,
       references: { model: 'podcasts', key: 'id' },
-    })
+    });
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('users')
-    await queryInterface.removeColumn('users', 'podcast_id')
-    await queryInterface.removeColumn('users', 'podcaster_id')
+    await queryInterface.dropTable('users');
+    await queryInterface.removeColumn('users', 'podcast_id');
+    await queryInterface.removeColumn('users', 'podcaster_id');
   },
-}
+};

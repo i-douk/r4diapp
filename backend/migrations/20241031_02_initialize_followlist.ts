@@ -21,6 +21,6 @@ module.exports = {
       });
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable('follow_lists')
+    await queryInterface.dropTable('follow_lists');
   },
-}
+};

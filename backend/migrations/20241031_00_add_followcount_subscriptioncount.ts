@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes } from 'sequelize';
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
@@ -6,15 +6,15 @@ module.exports = {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull : false
-    })
+    });
     await queryInterface.addColumn('podcasts', 'followcount', {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull : false
-    })
+    });
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.removeColumn('podcasters', 'subscriptioncount')
-    await queryInterface.removeColumn('podcasts', 'followcount')
+    await queryInterface.removeColumn('podcasters', 'subscriptioncount');
+    await queryInterface.removeColumn('podcasts', 'followcount');
   },
-}
+};
