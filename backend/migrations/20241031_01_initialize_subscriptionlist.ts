@@ -18,10 +18,10 @@ module.exports = {
         allowNull: false,
         references: { model: 'users', key: 'id'},
       },
-      podcast_id: {
+      podcaster_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: { model: 'podcasts', key: 'id'},
+        references: { model: 'podcasters', key: 'id'},
       },
       });
   },
