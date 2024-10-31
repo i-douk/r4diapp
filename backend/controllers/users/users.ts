@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 const usersRouter = require('express').Router()
 import  User  from '../../models/user';
 import tokenExtractor  from '../../utils/middleware';
+import { sequelize } from '../../utils/db';
+import ActiveUserSession from '../../models/active_user_session';
 // import Podcaster from '../../models/podcaster';
 // import Podcast from '../../models/podcast';
 // import { sequelize } from '../../util/db';
@@ -48,6 +50,21 @@ usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response
     } else {
       res.status(404).json({ error: 'User not found' });
     }
+});
+
+
+// delete user by usename and subsequentely the active session
+usersRouter.delete('/:username', tokenExtractor, async (req: Request, res: Response) => {
+  const user = await User.findOne({ where: { username: req.params.username } });
+  if (user) {
+      await sequelize.transaction(async (transaction) => {
+          await ActiveUserSession.destroy({ where: { userId: user.id }, transaction });
+          await User.destroy({ where: { id: user.id }, transaction });
+      });
+      res.status(204).end(); 
+  } else {
+      res.status(404).json({ error: 'User not found' });
+  }
 });
 
 export default usersRouter;
