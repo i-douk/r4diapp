@@ -9,10 +9,10 @@ SubscriptionList.init({
     primaryKey: true,
     autoIncrement: true
   },
-  subscribed : {
-    type: DataTypes.BOOLEAN,
-    allowNull : false,
-    defaultValue: false
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'users', key: 'id'},
   },
   podcasterId: {
     type: DataTypes.INTEGER,

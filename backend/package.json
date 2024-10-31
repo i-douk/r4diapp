@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "npx tsc",
-    "migration:up": "ts-node ./utils/runMigrations",
-    "migration:down": "ts-node ./utils/rollBack",
+    "migration:up": "ts-node ./utils/runMigrations.ts",
+    "migration:down": "ts-node ./utils/rollback.ts",
     "dev": "ts-node-dev index.ts",
     "lint": "eslint ."
   },

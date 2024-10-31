@@ -11,7 +11,18 @@ import ActiveUserSession from '../../models/active_user_session';
 
 //get all users , their podcasters subscription and their followed podcasts
 usersRouter.get('/', async (_req : Request, res: Response) => {
-    const users = await User.findAll({});
+    const users = await User.findAll({
+        // include:[
+        //   {
+        //     model: Podcast,
+        //     attributes: { exclude: ['userId'] }
+        //   },
+        //   {
+        //     model: Podcaster,
+        //     attributes: { exclude: ['userId'] }
+        //   },
+        // ]  
+    });
     res.json(users);
 });
 

@@ -4,10 +4,23 @@ import  Podcaster  from '../../models/podcaster';
 import tokenExtractor from '../../utils/middleware';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
 import { sequelize } from '../../utils/db';
+// import Podcast from '../../models/podcast';
+import User from '../../models/user';
 
 //get all users , their podcasters subscription and their followed podcasts
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
-    const podcasters = await Podcaster.findAll({});
+    const podcasters = await Podcaster.findAll({
+            include:[
+          // {
+          //   model: Podcast,
+          //   attributes: { exclude: ['podcasterId'] }
+          // },
+          {
+            model: User,
+            attributes: { exclude: ['userId'] }
+          },
+        ]  
+    });
     res.json(podcasters);
 
 });

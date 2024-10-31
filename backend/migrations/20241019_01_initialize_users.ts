@@ -51,5 +51,7 @@ module.exports = {
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('users')
+    await queryInterface.removeColumn('users', 'podcast_id')
+    await queryInterface.removeColumn('users', 'podcaster_id')
   },
 }

@@ -9,11 +9,11 @@ import SubscriptionList from './subscription_list';
 Podcaster.hasMany(Podcast);
 Podcast.belongsTo(Podcaster);
 
-User.belongsToMany( Podcast , { through : FollowList, as : 'follows'});
-Podcast.belongsToMany( User , { through : FollowList});
+User.belongsToMany( Podcast , { through : FollowList, as : 'followings'});
+Podcast.belongsToMany( User , { through : FollowList , as : 'followers'});
 
-Podcaster.belongsToMany( Podcast , { through : SubscriptionList, as : 'subscriptions'});
-Podcast.belongsToMany( Podcaster , { through : SubscriptionList});
+User.belongsToMany( Podcaster , { through : SubscriptionList, as : 'subscriptions'});
+Podcaster.belongsToMany( User , { through : SubscriptionList , as : 'subscribers'});
 
 Podcaster.hasMany(ActivePodcasterSession);
 ActivePodcasterSession.belongsTo(Podcaster);

@@ -9,11 +9,6 @@ FollowList.init({
     primaryKey: true,
     autoIncrement: true
   },
-  followed : {
-    type: DataTypes.BOOLEAN,
-    allowNull : false,
-    defaultValue: false
-  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
