@@ -11,7 +11,6 @@ class Podcaster extends Model {
   public password?: string;
 }
 
-
 Podcaster.init({
     id: {
         type: DataTypes.INTEGER,
@@ -60,7 +59,7 @@ Podcaster.init({
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'Podcaster'
+    modelName: 'podcaster'
   });
 
   // Password hashing hook

@@ -8,6 +8,7 @@ class Podcast extends Model {
     public name?: string;
     public url?: string[];
     public description?: string;
+    public podcastId!: number
 }
 
 Podcast.init({
@@ -36,7 +37,7 @@ Podcast.init({
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'Podcast'
+    modelName: 'podcast'
   });
 
 export default Podcast;

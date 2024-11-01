@@ -34,7 +34,7 @@ loginPodcasterRouter.post('/', async (req, res) => {
     // Check if the account is disabled
     if (podcaster.disabled) {
       return res.status(401).json({
-        error: 'account disabled, please contact admin'
+        error: 'podcaster account disabled, please contact admin'
       });
     }
 

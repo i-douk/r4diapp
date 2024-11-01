@@ -1,20 +1,10 @@
 const usersRouter = require('express').Router();
 import  Subscription  from '../models/subscription';
-// import { sequelize } from '../utils/db';
+import { Request, Response} from 'express'
 
-usersRouter.get('/', async (_req: any, res: { json: (arg0: Subscription[]) => void; }) => {
+usersRouter.get('/', async (_req: Request, res: Response) => {
   
-  const subscriptions = await Subscription.findAll(
-    {
-    attributes: [
-    //     'podcaster',
-    //     [sequelize.fn('COUNT', sequelize.col('id')), 'podcasts'],
-    //     [sequelize.fn('SUM', sequelize.col('likes')), 'likes']
-    //     ],
-    // group: 'author',
-    // order: [[sequelize.literal('likes'), 'DESC']
-  ]
-    }
+  const subscriptions = await Subscription.findAll({}
 );
   res.json(subscriptions);
 });

@@ -10,21 +10,21 @@ import loginUserRouter from './controllers/users/loginUser';
 
 import podcastersRouter from './controllers/podcasters/podcasters';
 import loginPodcasterRouter from './controllers/podcasters/loginPodcaster';
-// import podcastsRouter from './controllers/podcasts';
+import podcastsRouter from './controllers/podcasts';
 // import logoutRouter from './controllers/logout';
 // import followListsRouter from './controllers/followLists';
-// import subscriptionsRouter from './controllers/subscriptions';
+import subscriptionsRouter from './controllers/subscriptions';
 app.use('/api/users', usersRouter);
 app.use('/api/userlogin', loginUserRouter);
 app.use('/api/podcasters', podcastersRouter);
 app.use('/api/podcasterlogin', loginPodcasterRouter);
-// app.use('/api/podcasts', podcastsRouter)
+app.use('/api/podcasts', podcastsRouter)
 // app.use('/api/followLists', followListsRouter)
-// app.use('/api/subscriptions', subscriptionsRouter)
+app.use('/api/subscriptions', subscriptionsRouter)
 // app.use('/api/logout', logoutRouter)
 
 // Sync Sequelize models with the database
-sequelize.sync({ force: false }) 
+sequelize.sync({ force: true }) 
   .then(() => {
     console.log('Database synchronized');
     app.listen(config.PORT, async () => {

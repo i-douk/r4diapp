@@ -28,7 +28,7 @@ Subscription.init({
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'Subscription'
+  modelName: 'subscription'
 });
 
 export default Subscription;

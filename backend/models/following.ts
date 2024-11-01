@@ -29,7 +29,7 @@ Following.init({
   sequelize,
   underscored: true,
   timestamps: false,
-  modelName: 'Following'
+  modelName: 'following'
 });
 
 export default Following;

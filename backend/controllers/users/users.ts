@@ -1,29 +1,21 @@
-import { Request, Response } from 'express';
 const usersRouter = require('express').Router();
-import  User  from '../../models/user';
+import { Request, Response } from 'express';
 import tokenExtractor  from '../../utils/middleware';
 import { sequelize } from '../../utils/db';
-import ActiveUserSession from '../../models/active_user_session';
-import Podcast from '../../models/podcast';
-import Podcaster from '../../models/podcaster';
-// import Following from '../../models/following';
-// import Subscription from '../../models/subscription';
+import models from '../../models';
 
-
-
-//get all users , their podcasters subscription and their followed podcasts
+//get all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get('/', async (_req : Request, res: Response) => {
-    const users = await User.findAll({
+    const users = await models.User.findAll({
         include:[
+          // {
+          //   model: models.Podcast,
+          //   as : 'followings',
+          //   attributes: { exclude: ['podcastId'] },
+          // },
           {
-            model: Podcast,
-            attributes: { exclude: ['userId'] },
-            as : 'subscriptions'
-          },
-          {
-            model: Podcaster,
-            attributes: { exclude: ['userId'] },
-            as : 'followings'
+            model: models.Podcaster,
+            as : 'subscriptions',
           },
         ]  
     });
@@ -33,7 +25,7 @@ usersRouter.get('/', async (_req : Request, res: Response) => {
 //create a new user
 usersRouter.post('/', async (req : Request, res: Response) => {
   const { username, name, password } = req.body;
-  const user = await User.create({
+  const user = await models.User.create({
       username: username,
       name: name,
       password: password
@@ -44,7 +36,7 @@ usersRouter.post('/', async (req : Request, res: Response) => {
 
 // Get a user by username
 usersRouter.get('/:username', async (req : Request, res: Response) => {  
-    const user = await User.findOne({ 
+    const user = await models.User.findOne({ 
       where: { username: req.params.username }
     });
     if (user) {
@@ -57,7 +49,7 @@ usersRouter.get('/:username', async (req : Request, res: Response) => {
 
 // Update a user's name
 usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
-    const user = await User.findOne({ where: { username: req.params.username } });
+    const user = await models.User.findOne({ where: { username: req.params.username } });
     if (user) {
       user.name = req.body.name;
       await user.save();
@@ -70,11 +62,11 @@ usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response
 
 // delete user by usename and subsequentely the active session
 usersRouter.delete('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const user = await User.findOne({ where: { username: req.params.username } });
+  const user = await models.User.findOne({ where: { username: req.params.username } });
   if (user) {
       await sequelize.transaction(async (transaction) => {
-          await ActiveUserSession.destroy({ where: { userId: user.id }, transaction });
-          await User.destroy({ where: { id: user.id }, transaction });
+          await models.ActiveUserSession.destroy({ where: { userId: user.id }, transaction });
+          await models.User.destroy({ where: { id: user.id }, transaction });
       });
       res.status(204).end(); 
   } else {
