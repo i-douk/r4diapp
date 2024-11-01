@@ -7,8 +7,8 @@ import Podcaster from '../../models/podcaster';
 
 const loginPodcasterRouter = Router();
 
-loginPodcasterRouter.post('/', async (request, response) => {
-  const { username, password } = request.body;
+loginPodcasterRouter.post('/', async (req, res) => {
+  const { username, password } = req.body;
 
     // Find the podcaster by username
     const podcaster : any = await Podcaster.findOne({
@@ -17,7 +17,7 @@ loginPodcasterRouter.post('/', async (request, response) => {
 
     // Check if podcaster exists
     if (!podcaster) {
-      return response.status(401).json({
+      return res.status(401).json({
         error: 'invalid username or password'
       });
     }
@@ -26,14 +26,14 @@ loginPodcasterRouter.post('/', async (request, response) => {
 
     // Check if password is correct
     if (!passwordCorrect) {
-      return response.status(401).json({
+      return res.status(401).json({
         error: 'invalid podcaster username or password'
       });
     }
 
     // Check if the account is disabled
     if (podcaster.disabled) {
-      return response.status(401).json({
+      return res.status(401).json({
         error: 'account disabled, please contact admin'
       });
     }
@@ -54,7 +54,7 @@ loginPodcasterRouter.post('/', async (request, response) => {
     });
 
     // Respond with token and podcaster information
-    return response.status(200).send({ token, username: podcaster.username, name: podcaster.name });
+    return res.status(200).send({ token, username: podcaster.username, name: podcaster.name });
 
 });
 

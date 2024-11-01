@@ -1,40 +1,34 @@
 import { Request, Response } from 'express';
 const podcastersRouter = require('express').Router();
-import  Podcaster  from '../../models/podcaster';
+import  models  from '../../models';
 import tokenExtractor from '../../utils/middleware';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
 import { sequelize } from '../../utils/db';
-import User from '../../models/user';
-import Podcast from '../../models/podcast';
-import Subscription from '../../models/subscription';
-// import Podcast from '../../models/podcast';
-// import User from '../../models/user';
 
 //get all users , their podcasters subscription and their followed podcasts
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
-    const podcasters = await Podcaster.findAll({
+    const podcasters = await models.Podcaster.findAll({
          include:[
           {
-            model: Podcast,
+            model: models.Podcast,
             as: 'podcasts',
             attributes: { exclude: ['podcasterId'] }
           },
           {
-            model: User,
+            model: models.User,
             as:'subscribers',
             attributes: { exclude: ['userId'] }
           },
          ]  
-    });
+    }) ;
     res.json(podcasters);
-
 });
 
 //create a new podcaster
 podcastersRouter.post('/', async (req : Request, res: Response) => {
   const { username, name, password } = req.body;
 
-    const podcaster = await Podcaster.create({
+    const podcaster = await models.Podcaster.create({
       username: username,
       name: name,
       password: password
@@ -45,7 +39,8 @@ podcastersRouter.post('/', async (req : Request, res: Response) => {
 
 // Update a user's name
 podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const podcaster = await Podcaster.findOne({ where: { username: req.params.username } });
+  const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username }});
+  console.log(podcaster)
   if (podcaster) {
     podcaster.name = req.body.name;
     await podcaster.save();
@@ -55,13 +50,24 @@ podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Res
   }
 });
 
-// delete podcaster by usename and subsequentely the active session
+// add a podcast for a podcaster
+podcastersRouter.post('/:username/podcasts', tokenExtractor, async (req: Request, res: Response) => {
+  const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username } });
+  if (podcaster) {
+    const newPodcast = await models.Podcast.create({ ...req.body, podcasterId: podcaster.id }) ;
+    res.status(201).json(newPodcast);
+  } else {
+    res.status(404).json({ error: 'Podcaster not found' });
+  }
+});
+
+// Delete podcaster by usename and subsequentely the active session
 podcastersRouter.delete('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const podcaster = await Podcaster.findOne({ where: { username: req.params.username } });
+  const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username } });
   if (podcaster) {
       await sequelize.transaction(async (transaction) => {
           await ActivePodcasterSession.destroy({ where: { podcasterId: podcaster.id }, transaction });
-          await Podcaster.destroy({ where: { id: podcaster.id }, transaction });
+          await models.Podcaster.destroy({ where: { id: podcaster.id }, transaction });
       });
       res.status(204).end(); 
   } else {
@@ -69,10 +75,5 @@ podcastersRouter.delete('/:username', tokenExtractor, async (req: Request, res: 
   }
 });
 
-Podcaster.hasMany(Podcast, { foreignKey: 'podcaster_id', as: 'podcasts' });
-Podcast.belongsTo(Podcaster, { foreignKey: 'podcaster_id' });
-
-User.belongsToMany( Podcaster , { through : Subscription, as : 'subscriptions'});
-Podcaster.belongsToMany( User , { through : Subscription , as : 'subscribers'});
 
 export default podcastersRouter;
