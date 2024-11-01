@@ -40,7 +40,7 @@ podcastersRouter.post('/', async (req : Request, res: Response) => {
 // Update a user's name
 podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
   const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username }});
-  console.log(podcaster)
+  console.log(podcaster);
   if (podcaster) {
     podcaster.name = req.body.name;
     await podcaster.save();

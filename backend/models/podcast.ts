@@ -6,9 +6,9 @@ class Podcast extends Model {
     public username?: string;
     public id?: number;
     public name?: string;
-    public url?: string[];
+    public urls!: string[];
     public description?: string;
-    public podcastId!: number
+    public podcastId!: number;
 }
 
 Podcast.init({

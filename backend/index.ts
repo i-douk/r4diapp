@@ -18,10 +18,11 @@ app.use('/api/users', usersRouter);
 app.use('/api/userlogin', loginUserRouter);
 app.use('/api/podcasters', podcastersRouter);
 app.use('/api/podcasterlogin', loginPodcasterRouter);
-app.use('/api/podcasts', podcastsRouter)
+app.use('/api/podcasts', podcastsRouter);
 // app.use('/api/followLists', followListsRouter)
-app.use('/api/subscriptions', subscriptionsRouter)
+app.use('/api/subscriptions', subscriptionsRouter);
 // app.use('/api/logout', logoutRouter)
+app.use(express.json())
 
 // Sync Sequelize models with the database
 sequelize.sync({ force: false }) 

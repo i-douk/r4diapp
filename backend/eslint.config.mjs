@@ -20,6 +20,7 @@ export default tseslint.config({
   ignores: ["build/*"],
   rules: {
     "@stylistic/semi": "error",
+    '@typescript-eslint/semi': ['error', 'always'],
     "@typescript-eslint/no-unsafe-assignment": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/explicit-function-return-type": "off",

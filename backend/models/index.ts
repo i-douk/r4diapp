@@ -22,4 +22,4 @@ User.hasMany(ActiveUserSession);
 ActiveUserSession.belongsTo(User);
 
 
-export default { User ,  Podcaster, Podcast, ActivePodcasterSession , ActiveUserSession, Following, Subscription };
+export default { User, Podcaster, Podcast, ActivePodcasterSession , ActiveUserSession, Following, Subscription };
