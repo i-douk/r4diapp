@@ -8,11 +8,11 @@ import models from '../../models';
 usersRouter.get('/', async (_req : Request, res: Response) => {
     const users = await models.User.findAll({
         include:[
-          // {
-          //   model: models.Podcast,
-          //   as : 'followings',
-          //   attributes: { exclude: ['podcastId'] },
-          // },
+          {
+            model: models.Podcast,
+            as : 'followings',
+            attributes: { exclude: ['podcastId'] },
+          },
           {
             model: models.Podcaster,
             as : 'subscriptions',

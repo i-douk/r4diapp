@@ -26,9 +26,9 @@ podcastsRouter.post('/:username', tokenExtractor, async ( req : Request, res : R
     //check if logged podcaster is the one adding the podcaster
     const podcaster = await models.Podcaster.findOne({ where : { username : req.params.username}});
     const activePodcaster = await models.ActivePodcasterSession.findByPk(podcaster?.toJSON().id)
-    console.log(podcaster?.toJSON() && activePodcaster)
+    console.log(podcaster?.toJSON() )
     // if checked create the podcast
-    if (podcaster ){
+    if (podcaster && activePodcaster ){
         const newpod = await models.Podcast.create({
             ...req.body,
             podcaster_id: podcaster.toJSON().id
@@ -38,8 +38,6 @@ podcastsRouter.post('/:username', tokenExtractor, async ( req : Request, res : R
         res.status(404).json({ error: 'Cant add podcast to this podcast' });
     }
 });
-
-
 
 export default podcastsRouter;
 
