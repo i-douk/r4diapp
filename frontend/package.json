@@ -19,11 +19,12 @@
     "db:migrate:new": " supabase migration new podcasts-schema",
     "db:migrate:up": " supabase migration up --linked",
     "db:reset": "supabase db reset --linked",
-    "db:seed":"node --env-file=.env database/seed.js"
+    "db:seed": "node database/seedPodcasters.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.46.1",
     "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
     "pinia": "^2.2.4",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
