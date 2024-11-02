@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import usersService from '@/services/usersService';
+import {supabase} from '@/lib/supabaseClient';
+import usersServer from '@/services/usersService'
+console.log(supabase)
 
-// Define a reactive variable for storing the users list
-const users = ref([]);
-
-// Fetch users data on component mount
-const fetchUsers = async () => {
+const fetchData = async () => {
   try {
-    const response = await usersService.getUsers();
-    users.value = response.data;
-    console.log(response)
+    const response = await usersServer.getUsers(); 
+    const data = response.data;
+    console.log(data);
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching data:", error);
   }
 };
 
-// Fetch data when component is mounted
-onMounted(fetchUsers);
+fetchData()
+console.log(fetchData()
+)
+
 </script>
 
 <template>
