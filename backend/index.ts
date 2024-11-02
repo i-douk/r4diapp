@@ -15,6 +15,8 @@ import logoutRouter from './controllers/logout';
 import followingRouter from './controllers/followings';
 import subscriptionsRouter from './controllers/subscriptions';
 
+import cors from 'cors';
+app.use(cors());
 app.use('/api/users', usersRouter);
 app.use('/api/userlogin', loginUserRouter);
 app.use('/api/podcasters', podcastersRouter);
