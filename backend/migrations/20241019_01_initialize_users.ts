@@ -35,10 +35,10 @@ module.exports = {
         defaultValue: false
       },
     
-        created_at: DataTypes.DATE,
-        updated_at: DataTypes.DATE,
+      created_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE,
         
-      });
+    });
     
     await queryInterface.addColumn('users', 'podcaster_id', {
       type: DataTypes.INTEGER,

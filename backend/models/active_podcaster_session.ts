@@ -5,16 +5,16 @@ class ActivePodcasterSession extends Model {}
 ActivePodcasterSession.init(
   {
     id: { 
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true },
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true },
     token: {
-        type: DataTypes.STRING,
-        allowNull: false },
+      type: DataTypes.STRING,
+      allowNull: false },
     podcasterId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: { model: 'podcasters', key: 'id'},
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: { model: 'podcasters', key: 'id'},
     }
   },
   {

@@ -23,18 +23,18 @@ const tokenExtractor = async (
         .json({ error: 'Session expired: please log back in.' });
     }
     if (!config.SECRET) {
-        throw new Error("Environment variable SECRET is not defined");
-      }
+      throw new Error("Environment variable SECRET is not defined");
+    }
     const decodedToken = jwt.verify(token, config.SECRET);
     if (typeof decodedToken === 'object' && 'id' in decodedToken) {
-    const user = await User.findByPk(decodedToken.id);
-    const podcaster = await Podcaster.findByPk(decodedToken.id);
+      const user = await User.findByPk(decodedToken.id);
+      const podcaster = await Podcaster.findByPk(decodedToken.id);
     
-  if (user?.disabled) { return res.status(401).json({ error: 'Account is banned' });}
-  if (podcaster?.disabled) { return res.status(401).json({ error: 'Account is banned' });}
+      if (user?.disabled) { return res.status(401).json({ error: 'Account is banned' });}
+      if (podcaster?.disabled) { return res.status(401).json({ error: 'Account is banned' });}
     } else {
-        throw new Error("Token verification failed: 'id' not found in payload");
-      }
+      throw new Error("Token verification failed: 'id' not found in payload");
+    }
     req.token = token;
     req.decodedToken = decodedToken;
   } else {

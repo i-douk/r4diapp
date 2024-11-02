@@ -8,6 +8,7 @@ class User extends Model {
   public id?: number;
   public name?: string;
   public password?: string;
+  public role!: 'admin' | 'user' | 'superuser'; 
 }
 
 User.init({
@@ -35,7 +36,7 @@ User.init({
     allowNull: false,
     validate: {
       len: [8, 100],  // Minimum length requirement
-      isStrongPassword(value) {
+      isStrongPassword(value : string) {
         if (!/[A-Z]/.test(value) || !/[a-z]/.test(value) || !/[0-9]/.test(value) || !/[@$!%*?&#]/.test(value)) {
           throw new Error('Password must contain uppercase, lowercase, number, and special character');
         }
@@ -64,7 +65,7 @@ User.beforeCreate(async (user) => {
   }
 });
 
-User.beforeUpdate(async (user : any ) => {
+User.beforeUpdate(async (user: any ) => {
   if (user.changed('password')) {
     user.password = await hashPassword(user.password);
   }

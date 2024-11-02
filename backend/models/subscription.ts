@@ -1,7 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-class Subscription extends Model {}
+class Subscription extends Model {
+  paid!: boolean;
+}
 
 Subscription.init({
   id: {

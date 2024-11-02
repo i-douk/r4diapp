@@ -23,7 +23,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       }
-      });
+    });
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('followings');

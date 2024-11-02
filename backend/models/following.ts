@@ -1,7 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-class Following extends Model {}
+class Following extends Model {
+  public starred!: boolean;
+}
 
 Following.init({
   id: {

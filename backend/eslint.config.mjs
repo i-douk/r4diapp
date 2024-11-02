@@ -1,6 +1,7 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
+import stylisticJs from '@stylistic/eslint-plugin-js';
 
 export default tseslint.config({
   files: ["**/*.ts"],
@@ -16,11 +17,12 @@ export default tseslint.config({
   },
   plugins: {
     "@stylistic": stylistic,
+    '@stylistic/js': stylisticJs
   },
   ignores: ["build/*"],
   rules: {
+    "@stylistic/js/indent": ["error", 2],
     "@stylistic/semi": "error",
-    '@typescript-eslint/semi': ['error', 'always'],
     "@typescript-eslint/no-unsafe-assignment": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/explicit-function-return-type": "off",

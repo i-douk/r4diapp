@@ -6,57 +6,57 @@ import models from '../../models';
 
 //get all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get('/', async (_req : Request, res: Response) => {
-    const users = await models.User.findAll({
-        include:[
-          {
-            model: models.Podcast,
-            as : 'followings',
-            attributes: { exclude: ['podcastId'] },
-          },
-          {
-            model: models.Podcaster,
-            as : 'subscriptions',
-          },
-        ]  
-    });
-    res.json(users);
+  const users = await models.User.findAll({
+    include:[
+      {
+        model: models.Podcast,
+        as : 'followings',
+        attributes: { exclude: ['podcastId'] },
+      },
+      {
+        model: models.Podcaster,
+        as : 'subscriptions',
+      },
+    ]  
+  });
+  res.json(users);
 });
 
 //create a new user
 usersRouter.post('/', async (req : Request, res: Response) => {
   const { username, name, password } = req.body;
   const user = await models.User.create({
-      username: username,
-      name: name,
-      password: password
-    });
+    username: username,
+    name: name,
+    password: password
+  });
   res.json(user);
 
 });
 
 // Get a user by username
 usersRouter.get('/:username', async (req : Request, res: Response) => {  
-    const user = await models.User.findOne({ 
-      where: { username: req.params.username }
-    });
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ error: 'User not found' });
-    }
+  const user = await models.User.findOne({ 
+    where: { username: req.params.username }
+  });
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
 
 });
 
 // Update a user's name
 usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
-    const user = await models.User.findOne({ where: { username: req.params.username } });
-    if (user) {
-      user.name = req.body.name;
-      await user.save();
-      res.json(user);
-    } else {
-      res.status(404).json({ error: 'User not found' });
-    }
+  const user = await models.User.findOne({ where: { username: req.params.username } });
+  if (user) {
+    user.name = req.body.name;
+    await user.save();
+    res.json(user);
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
 });
 
 
@@ -64,13 +64,13 @@ usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response
 usersRouter.delete('/:username', tokenExtractor, async (req: Request, res: Response) => {
   const user = await models.User.findOne({ where: { username: req.params.username } });
   if (user) {
-      await sequelize.transaction(async (transaction) => {
-          await models.ActiveUserSession.destroy({ where: { userId: user.id }, transaction });
-          await models.User.destroy({ where: { id: user.id }, transaction });
-      });
-      res.status(204).end(); 
+    await sequelize.transaction(async (transaction) => {
+      await models.ActiveUserSession.destroy({ where: { userId: user.id }, transaction });
+      await models.User.destroy({ where: { id: user.id }, transaction });
+    });
+    res.status(204).end(); 
   } else {
-      res.status(404).json({ error: 'User not found' });
+    res.status(404).json({ error: 'User not found' });
   }
 });
 

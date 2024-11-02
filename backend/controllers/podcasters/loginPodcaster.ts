@@ -10,51 +10,51 @@ const loginPodcasterRouter = Router();
 loginPodcasterRouter.post('/', async (req, res) => {
   const { username, password } = req.body;
 
-    // Find the podcaster by username
-    const podcaster : any = await Podcaster.findOne({
-      where: { username: username }
+  // Find the podcaster by username
+  const podcaster : any = await Podcaster.findOne({
+    where: { username: username }
+  });
+
+  // Check if podcaster exists
+  if (!podcaster) {
+    return res.status(401).json({
+      error: 'invalid username or password'
     });
+  }
+  // Compare the plaintext password with the hashed password
+  const passwordCorrect = await bcrypt.compare(password, podcaster.password);
 
-    // Check if podcaster exists
-    if (!podcaster) {
-      return res.status(401).json({
-        error: 'invalid username or password'
-      });
-    }
-    // Compare the plaintext password with the hashed password
-    const passwordCorrect = await bcrypt.compare(password, podcaster.password);
-
-    // Check if password is correct
-    if (!passwordCorrect) {
-      return res.status(401).json({
-        error: 'invalid podcaster username or password'
-      });
-    }
-
-    // Check if the account is disabled
-    if (podcaster.disabled) {
-      return res.status(401).json({
-        error: 'podcaster account disabled, please contact admin'
-      });
-    }
-
-    // Create token payload
-    const podcasterForToken = {
-      username: podcaster.username,
-      id: podcaster.id,
-    };
-
-    // Sign the token
-    const token = jwt.sign(podcasterForToken, config.SECRET!, { expiresIn: '1h' });
-
-    // Create an active podcaster session
-    await ActivePodcasterSession.create({
-      token,
-      podcasterId: podcaster.id,
+  // Check if password is correct
+  if (!passwordCorrect) {
+    return res.status(401).json({
+      error: 'invalid podcaster username or password'
     });
+  }
 
-    // Respond with token and podcaster information
-    return res.status(200).send({ token, username: podcaster.username, name: podcaster.name });
+  // Check if the account is disabled
+  if (podcaster.disabled) {
+    return res.status(401).json({
+      error: 'podcaster account disabled, please contact admin'
+    });
+  }
+
+  // Create token payload
+  const podcasterForToken = {
+    username: podcaster.username,
+    id: podcaster.id,
+  };
+
+  // Sign the token
+  const token = jwt.sign(podcasterForToken, config.SECRET!, { expiresIn: '1h' });
+
+  // Create an active podcaster session
+  await ActivePodcasterSession.create({
+    token,
+    podcasterId: podcaster.id,
+  });
+
+  // Respond with token and podcaster information
+  return res.status(200).send({ token, username: podcaster.username, name: podcaster.name });
 
 });
 
