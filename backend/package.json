@@ -9,7 +9,9 @@
     "migration:down": "ts-node ./utils/rollback.ts",
     "dev": "ts-node-dev index.ts",
     "lint:fix": "eslint --fix",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write"
+
   },
   "keywords": [],
   "author": "i-douk",
@@ -38,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^8.12.2",
     "@typescript-eslint/parser": "^8.12.2",
     "eslint": "^9.14.0",
+    "prettier": "^3.3.3",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.2.0"
