@@ -1,4 +1,13 @@
-<script setup lang="ts">
+// services/UserService.js
+import {apiClient} from '../lib/apiClient';
+
+export default {
+  getUsers() {
+    return apiClient.get(`/users`);
+  },
+ 
+};
+
 // import {supabase} from '@/lib/supabaseClient';
 // import usersServer from '@/services/expressService'
 // console.log(supabase)
@@ -15,11 +24,3 @@
 
 // fetchData()
 // console.log(fetchData())
-
-</script>
-
-<template>
-   <main>
-    <RouterView />
-   </main>
-</template>

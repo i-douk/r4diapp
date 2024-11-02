@@ -19,13 +19,20 @@
     "db:migrate:new": " supabase migration new podcasts-schema",
     "db:migrate:up": " supabase migration up --linked",
     "db:reset": "supabase db reset --linked",
-    "db:seed": "node database/seedPodcasters.js"
+    "db:seed": "node database/seedPodcasters.js",
+    "supabase:types": "npx supabase gen types --lang=typescript --project-id swdxtdivwobldhezckdn --schema public > database/types.ts"
   },
   "dependencies": {
+    "@radix-icons/vue": "^1.0.0",
     "@supabase/supabase-js": "^2.46.1",
     "axios": "^1.7.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "pinia": "^2.2.4",
+    "radix-vue": "^1.9.8",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
@@ -34,7 +41,7 @@
     "@playwright/test": "^1.48.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^20.16.11",
+    "@types/node": "^20.17.5",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitest/eslint-plugin": "1.1.7",
     "@vue/eslint-config-prettier": "^10.0.0",

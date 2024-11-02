@@ -2,21 +2,21 @@
 import { supabase } from '@/lib/supabaseClient'
 import {ref} from 'vue'
 import type { Tables } from '../../../database/types'
-const podcasts = ref< Tables<'podcasts'>[] | null >(null)
+const podcasters = ref< Tables<'podcasters'>[] | null >(null)
 
 ;(async () => {
-    const { data , error } = await supabase.from('podcasts').select()
+    const { data , error } = await supabase.from('podcasters').select()
     if (error) console.log(error)
-    podcasts.value = data
+    podcasters.value = data
 })()
 
 
 </script>
 
 <template>
-        <h1>Podcasts</h1>
+        <h1>Podcasters</h1>
         <RouterLink to="/">go back home</RouterLink>
         <ul>
-                <li v-for="podcast in podcasts" :key="podcast.id">{{ podcast.name }}</li>
+                <li v-for="podcaster in podcasters" :key="podcaster.id">{{ podcaster.name }}</li>
         </ul>
 </template>
