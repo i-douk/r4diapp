@@ -14,8 +14,7 @@ const fetchData = async () => {
 };
 
 fetchData()
-console.log(fetchData()
-)
+console.log(fetchData())
 
 </script>
 
