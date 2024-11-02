@@ -11,7 +11,7 @@ import loginUserRouter from './controllers/users/loginUser';
 import podcastersRouter from './controllers/podcasters/podcasters';
 import loginPodcasterRouter from './controllers/podcasters/loginPodcaster';
 import podcastsRouter from './controllers/podcasts';
-// import logoutRouter from './controllers/logout';
+import logoutRouter from './controllers/logout';
 import followingRouter from './controllers/followings';
 import subscriptionsRouter from './controllers/subscriptions';
 
@@ -22,7 +22,7 @@ app.use('/api/podcasterlogin', loginPodcasterRouter);
 app.use('/api/podcasts', podcastsRouter);
 app.use('/api/follows', followingRouter);
 app.use('/api/subscriptions', subscriptionsRouter);
-// app.use('/api/logout', logoutRouter)
+app.use('/api/logout', logoutRouter)
 app.use(express.json());
 
 // Sync Sequelize models with the database
