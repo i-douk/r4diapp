@@ -17,6 +17,8 @@ const podcasters = ref< Tables<'podcasters'>[] | null >(null)
         <h1>Podcasters</h1>
         <RouterLink to="/">go back home</RouterLink>
         <ul>
-                <li v-for="podcaster in podcasters" :key="podcaster.id">{{ podcaster.name }}</li>
+                <li v-for="podcaster in podcasters" :key="podcaster.id">
+                        {{ podcaster.name }}
+                </li>
         </ul>
 </template>

@@ -4,19 +4,22 @@ import { h, ref } from 'vue';
 import type { Tables } from '../../../database/types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import DataTable from '@/components/ui/data-table/DataTable.vue';
+import { RouterLink } from 'vue-router';
 
 const subscriptions = ref<Tables<'subscriptions'>[] | null>(null);
 const users = ref<Tables<'users'>[] | null>(null);
 const podcasters = ref<Tables<'podcasters'>[] | null>(null);
 
 interface SubscriptionsData {
+    user_id: number;
     user_name: string;
+    podcaster_id: number;
     podcaster_name: string;
     stipend: number;
     paid: boolean;
 }
 
-const subscriptinsDataToshow = ref<SubscriptionsData[]>([]);
+const subscriptinsDataToshow = ref<SubscriptionsData[] | null>(null);
 
 (async () => {
     const { data: subscriptionsData, error: subscriptionsError } = await supabase
@@ -32,7 +35,7 @@ const subscriptinsDataToshow = ref<SubscriptionsData[]>([]);
     // Fetch users
     const { data: usersData, error: usersError } = await supabase
         .from('users')
-        .select('id, name')
+        .select()
         .in('id', userIds);
     if (usersError) console.error(usersError);
     users.value = usersData;
@@ -40,7 +43,7 @@ const subscriptinsDataToshow = ref<SubscriptionsData[]>([]);
     // Fetch podcasters
     const { data: podcastersData, error: podcastersError } = await supabase
         .from('podcasters')
-        .select('id, name')
+        .select()
         .in('id', podcasterIds);
     if (podcastersError) console.error(podcastersError);
     podcasters.value = podcastersData;
@@ -52,8 +55,10 @@ const subscriptinsDataToshow = ref<SubscriptionsData[]>([]);
         return {
             user_name: user?.name || 'Unknown',
             podcaster_name: podcaster?.name || 'Unknown',
-            stipend: sub.stipend,
-            paid: sub.paid
+            stipend: Number(sub.stipend),
+            paid: sub.paid,
+            user_id: sub.user_id,
+            podcaster_id: sub.podcaster_id
         };
     }) || [];
 })();
@@ -62,12 +67,12 @@ const columns: ColumnDef<SubscriptionsData>[] = [
     {
         accessorKey: 'user_name',
         header: () => h('div', { class: 'text-left' }, 'User Name'),
-        cell: ({ row }) => h('div', { class: 'text-left font-medium' }, row.getValue('user_name')),
+        cell: ({ row }) => h(RouterLink, { to: `/users/${row.original.user_id }` , class: 'text-left font-medium' }, () => row.getValue('user_name')),
     },
     {
         accessorKey: 'podcaster_name',
         header: () => h('div', { class: 'text-left' }, 'Podcaster Name'),
-        cell: ({ row }) => h('div', { class: 'text-left font-medium' }, row.getValue('podcaster_name')),
+        cell: ({ row }) => h(RouterLink, { to: `/podcasters/${row.original.podcaster_id }` ,  class: 'text-left font-medium' },() => row.getValue('podcaster_name')),
     },
     {
         accessorKey: 'stipend',
@@ -77,7 +82,7 @@ const columns: ColumnDef<SubscriptionsData>[] = [
             const formatted = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
-            }).format(stipend);
+            }).format(Number(stipend));
             return h('div', { class: 'text-center font-medium' }, formatted);
         },
     },

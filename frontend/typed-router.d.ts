@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...catchAll]': RouteRecordInfo<'/[...catchAll]', '/:catchAll(.*)', { catchAll: ParamValue<true> }, { catchAll: ParamValue<false> }>,
     '/podcasters/': RouteRecordInfo<'/podcasters/', '/podcasters', Record<never, never>, Record<never, never>>,
+    '/podcasters/[id]': RouteRecordInfo<'/podcasters/[id]', '/podcasters/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/podcasts/': RouteRecordInfo<'/podcasts/', '/podcasts', Record<never, never>, Record<never, never>>,
     '/podcasts/[id]': RouteRecordInfo<'/podcasts/[id]', '/podcasts/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/subscriptions/': RouteRecordInfo<'/subscriptions/', '/subscriptions', Record<never, never>, Record<never, never>>,
