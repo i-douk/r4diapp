@@ -1,23 +1,14 @@
 <script setup lang="ts" >
 import { supabase } from '@/lib/supabaseClient';
-import { h, ref } from 'vue';
 import type { Tables } from '../../../database/types';
-import type { ColumnDef } from '@tanstack/vue-table';
-import { RouterLink } from 'vue-router';
+import type { SubscriptionsData } from '@/utils/tableColumns/subscriptionsColumn';
+import  { columns } from '@/utils/tableColumns/subscriptionsColumn';
+
 const subscriptions = ref<Tables<'subscriptions'>[] | null>(null);
 const users = ref<Tables<'users'>[] | null>(null);
 const podcasters = ref<Tables<'podcasters'>[] | null>(null);
 
 usePageStore().pageData.title = 'Subscriptions'
-
-interface SubscriptionsData {
-    user_id: number;
-    user_name: string;
-    podcaster_id: number;
-    podcaster_name: string;
-    stipend: number;
-    paid: boolean;
-}
 
 const subscriptinsDataToshow = ref<SubscriptionsData[] | null>(null);
 
@@ -27,6 +18,7 @@ const getSubscriptions = async () => {
         .select();
     if (subscriptionsError) console.error(subscriptionsError);
     subscriptions.value = subscriptionsData;
+    console.log(subscriptionsData)
 
     // Extract unique user_ids and podcaster_ids from subscriptions
     const userIds = [...new Set(subscriptionsData?.map(sub => sub.user_id))];
@@ -65,35 +57,7 @@ const getSubscriptions = async () => {
 
 await getSubscriptions()
 
-const columns: ColumnDef<SubscriptionsData>[]  = [
-    {
-        accessorKey: 'user_name',
-        header: () => h('div', { class: 'text-left' }, 'User Name'),
-        cell: ({ row }) => h(RouterLink, { to: `/users/${row.original.user_id }` , class: 'text-left font-medium' }, () => row.getValue('user_name')),
-    },
-    {
-        accessorKey: 'podcaster_name',
-        header: () => h('div', { class: 'text-left' }, 'Podcaster Name'),
-        cell: ({ row }) => h(RouterLink, { to: `/podcasters/${row.original.podcaster_id }` ,  class: 'text-left font-medium' },() => row.getValue('podcaster_name')),
-    },
-    {
-        accessorKey: 'stipend',
-        header: () => h('div', { class: 'text-center' }, 'Stipend'),
-        cell: ({ row }) => {
-            const stipend = row.getValue('stipend');
-            const formatted = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-            }).format(Number(stipend));
-            return h('div', { class: 'text-center font-medium' }, formatted);
-        },
-    },
-    {
-        accessorKey: 'paid',
-        header: () => h('div', { class: 'text-center' }, 'Paid'),
-        cell: ({ row }) => h('div', { class: 'text-center' }, row.getValue('paid') ? 'Yes' : 'No'),
-    },
-];
+
 </script>
 
 <template>

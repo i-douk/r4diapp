@@ -1,27 +1,32 @@
 <script setup lang='ts'>
-import { supabase } from '@/lib/supabaseClient'
-import type { Tables } from '../../../database/types'
+import { podcastersWithPodcastsQuery, type PodcastersWithPodcastsQuery } from '@/utils/supaQueries';
 
 usePageStore().pageData.title = 'Podcasters'
 
-const podcasters = ref< Tables<'podcasters'>[] | null >(null)
+const podcasters = ref<PodcastersWithPodcastsQuery | null >(null)
 const getPodcasters = async () => {
-    const { data , error } = await supabase.from('podcasters').select()
+    const { data , error } = await podcastersWithPodcastsQuery
     if (error) console.log(error)
     podcasters.value = data
 }
-
 getPodcasters()
-
 
 </script>
 
 <template>
-        <h1>Podcasters</h1>
-        <RouterLink to="/">go back home</RouterLink>
-        <ul>
-                <li v-for="podcaster in podcasters" :key="podcaster.id">
-                        {{ podcaster.name }}
-                </li>
-        </ul>
+        <RouterLink to="/podcasters">go back to podcasters</RouterLink>
+        <div class="grid grid-cols-3 gap-4">
+          <Card v-for="podcaster in podcasters">
+           <CardHeader>
+             <CardTitle>{{ podcaster.name }}</CardTitle>
+                <CardDescription>{{ podcaster.subscriptioncount }} subscriptions</CardDescription>
+            </CardHeader>
+              <CardContent> has posted <b>{{ podcaster.podcasts[0]? podcaster.podcasts[0].name : 'nothing yet' }}</b></CardContent>
+              <CardFooter>
+           <Button>
+                <RouterLink :to="{ name:'/podcasters/[id]', params: { id: podcaster.id }}">See podcaster</RouterLink>
+           </Button>
+         </CardFooter>
+        </Card>
+        </div>       
 </template>
