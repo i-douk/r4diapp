@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
 import { supabase } from '@/lib/supabaseClient';
 import type { Tables } from 'database/types';
-import { ref, onMounted } from 'vue';
 
 const route = useRoute();
+
 const podcaster = ref<Tables<'podcasters'> | null>(null);
 
 onMounted(async () => {
