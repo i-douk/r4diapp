@@ -1,13 +1,19 @@
 <script setup lang='ts'>
 import { supabase } from '@/lib/supabaseClient'
 import type { Tables } from '../../../database/types'
+
+
+usePageStore().pageData.title = 'Podcasts'
+
 const podcasts = ref< Tables<'podcasts'>[] | null >(null)
 
-;(async () => {
+const getPodcasts = async () => {
     const { data , error } = await supabase.from('podcasts').select()
     if (error) console.log(error)
     podcasts.value = data
-})()
+}
+
+getPodcasts()
 
 
 </script>

@@ -1,13 +1,14 @@
-<script setup lang="ts">
+<script setup lang="ts" >
 import { supabase } from '@/lib/supabaseClient';
 import { h, ref } from 'vue';
 import type { Tables } from '../../../database/types';
 import type { ColumnDef } from '@tanstack/vue-table';
 import { RouterLink } from 'vue-router';
-
 const subscriptions = ref<Tables<'subscriptions'>[] | null>(null);
 const users = ref<Tables<'users'>[] | null>(null);
 const podcasters = ref<Tables<'podcasters'>[] | null>(null);
+
+usePageStore().pageData.title = 'Subscriptions'
 
 interface SubscriptionsData {
     user_id: number;
@@ -20,7 +21,7 @@ interface SubscriptionsData {
 
 const subscriptinsDataToshow = ref<SubscriptionsData[] | null>(null);
 
-(async () => {
+const getSubscriptions = async () => {
     const { data: subscriptionsData, error: subscriptionsError } = await supabase
         .from('subscriptions')
         .select();
@@ -60,9 +61,11 @@ const subscriptinsDataToshow = ref<SubscriptionsData[] | null>(null);
             podcaster_id: sub.podcaster_id
         };
     }) || [];
-})();
+}
 
-const columns: ColumnDef<SubscriptionsData>[] = [
+await getSubscriptions()
+
+const columns: ColumnDef<SubscriptionsData>[]  = [
     {
         accessorKey: 'user_name',
         header: () => h('div', { class: 'text-left' }, 'User Name'),

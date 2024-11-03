@@ -6,7 +6,7 @@ const route = useRoute();
 
 const podcaster = ref<Tables<'podcasters'> | null>(null);
 
-onMounted(async () => {
+const getPodcaster = async () => {
     const { data, error } = await supabase
         .from('podcasters')
         .select('*') // Select all columns or specify specific ones, e.g., 'id, name'
@@ -14,10 +14,12 @@ onMounted(async () => {
     if (error) {
         console.error(error);
     } else {
-        // Assuming we expect only one result
+        // we expect only one result because ids are unique
         podcaster.value = data ? data[0] : null; 
     }
-});
+};
+
+getPodcaster()
 </script>
 
 <template>
