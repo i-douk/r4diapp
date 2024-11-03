@@ -1,0 +1,4 @@
+ALTER TABLE subscriptions
+ADD COLUMN stipend NUMERIC DEFAULT 10;
+
+

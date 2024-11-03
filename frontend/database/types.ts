@@ -212,18 +212,21 @@ export type Database = {
           id: number
           paid: boolean
           podcaster_id: number
+          stipend: number | null
           user_id: number
         }
         Insert: {
           id?: number
           paid?: boolean
           podcaster_id: number
+          stipend?: number | null
           user_id: number
         }
         Update: {
           id?: number
           paid?: boolean
           podcaster_id?: number
+          stipend?: number | null
           user_id?: number
         }
         Relationships: [

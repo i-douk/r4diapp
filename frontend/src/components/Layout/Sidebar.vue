@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import SideBarLinks from './SideBarLinks.vue';
-
-const links = [
+import Button from '../ui/button/Button.vue';
+const userlinks = [
   {
     title: "Home",
     to:"/",
@@ -29,7 +29,7 @@ const links = [
   },
 ]
 
-const accountLinks = [
+const userAccountLinks = [
   {
      title: "Account",
     to:"/myaccount",
@@ -53,22 +53,22 @@ const accountLinks = [
     class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 transition-[width]"
   >
     <div class="flex h-16 items-center border-b px-2 lg:px-4 shrink-0 gap-1 justify-between">
-      <button variant="outline" size="icon" class="w-8 h-8">
+      <Button variant="outline" size="icon" class="w-8 h-8">
         <iconify-icon icon="lucide:menu"></iconify-icon>
-      </button>
+      </Button>
 
-      <button variant="outline" size="icon" class="w-8 h-8">
+      <Button variant="outline" size="icon" class="w-8 h-8">
         <iconify-icon icon="lucide:plus"></iconify-icon>
-      </button>
+      </Button>
     </div>
 
     <nav class="flex flex-col gap-2 justify-between h-full relative">
       <div>
-        <SideBarLinks :links />
+        <SideBarLinks :links="userlinks" />
       </div>
 
       <div class="border-y text-center bg-background py-3">
-        <SideBarLinks :links="accountLinks" />
+        <SideBarLinks :links="userAccountLinks" />
       </div>
     </nav>
   </aside>

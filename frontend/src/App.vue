@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import TopNavbar from './components/Layout/TopNavbar.vue';
-import Sidebar from './components/Layout/Sidebar.vue';
+import AdminLayout from '@/components/Layout/main/AdminLayout.vue';
 </script>
 
 <template>
-
-   <Sidebar />
-  <div class="flex flex-col lg:ml-52 ml-16 transition-[margin]">
-<TopNavbar />
-    <main>
+  <AdminLayout>
       <RouterView />
-    </main>
-  </div>
+  </AdminLayout>
 </template>

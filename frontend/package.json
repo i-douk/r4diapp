@@ -16,15 +16,16 @@
     "supabase:init": "supabase init",
     "supabase:login": "supabase login",
     "supabase:link": "supabase link --project-ref swdxtdivwobldhezckdn",
-    "db:migrate:new": " supabase migration new podcasts-schema",
+    "db:migrate:new": " supabase migration new",
     "db:migrate:up": " supabase migration up --linked",
     "db:reset": "supabase db reset --linked",
-    "db:seed": "node database/seedPodcasters.js",
+    "db:seed": "node database/seedSubscriptions.js", 
     "supabase:types": "npx supabase gen types --lang=typescript --project-id swdxtdivwobldhezckdn --schema public > database/types.ts"
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
     "@supabase/supabase-js": "^2.46.1",
+    "@tanstack/vue-table": "^8.20.5",
     "@vueuse/core": "^11.2.0",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
