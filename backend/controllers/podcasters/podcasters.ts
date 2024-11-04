@@ -39,12 +39,16 @@ podcastersRouter.post('/', async (req : Request, res: Response) => {
 
 // Update a user's name
 podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username }});
-  console.log(podcaster);
-  if (podcaster) {
-    podcaster.name = req.body.name;
-    await podcaster.save();
-    res.json(podcaster);
+  const { username} = req.params
+  const [updated] = await models.Podcaster.update(req.body, {
+    where: { username },
+    returning: true,  
+  });
+
+  if (updated) {
+    // Fetch the updated podcaster data
+    const updatedPodcaster = await models.Podcaster.findOne({ where: { username } });
+    res.json(updatedPodcaster);
   } else {
     res.status(404).json({ error: 'Podcaster not found' });
   }
