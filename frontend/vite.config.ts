@@ -26,7 +26,7 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-      dirs: ['src/stores'],
+      dirs: ['src/stores/**' , 'src/composables/**'],
       dts: true,
       viteOptimizeDeps: true,
       imports: [ 'vue', VueRouterAutoImports,

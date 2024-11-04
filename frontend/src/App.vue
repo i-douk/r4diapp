@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { supabase } from './lib/supabaseClient';
+
 
 const errorStore = useErrorStore()
 const {activeError} = storeToRefs(useErrorStore())
 
 onErrorCaptured((error)=> {
     errorStore.setError({error})
+})
+
+onMounted( () => {
+ useAuthStore().trackAuthChanges()
 })
 
 </script>

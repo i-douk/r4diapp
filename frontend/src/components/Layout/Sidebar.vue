@@ -41,11 +41,24 @@ const userAccountLinks = [
     icon:"pixelarticons:sliders"
   },
   {
+     title: "Chat",
+    icon:"pixelarticons:chat"
+  },
+  {
      title: "Logout",
-    to:"/logout",
     icon:"pixelarticons:logout"
   },
 ]
+
+const router = useRouter()
+
+const excecuteAction = async ( linkTitle : string ) =>{
+  if(linkTitle === 'Logout'){
+    const {logout} = await import('@/utils/supaAuth')
+    const isLoggedOut = await logout()
+    if(isLoggedOut) router.push('/login')
+  }
+}
 </script>
 
 <template>
@@ -68,7 +81,7 @@ const userAccountLinks = [
       </div>
 
       <div class="border-y text-center bg-background py-3">
-        <SideBarLinks :links="userAccountLinks" />
+        <SideBarLinks :links="userAccountLinks" @actionClicked="excecuteAction" />
       </div>
     </nav>
   </aside>

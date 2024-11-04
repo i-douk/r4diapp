@@ -123,6 +123,7 @@ export type Database = {
       }
       podcasters: {
         Row: {
+          avatar_url: string | null
           created_at: string
           disabled: boolean | null
           id: number
@@ -135,6 +136,7 @@ export type Database = {
           verified: boolean | null
         }
         Insert: {
+          avatar_url?: string | null
           created_at: string
           disabled?: boolean | null
           id?: number
@@ -147,6 +149,7 @@ export type Database = {
           verified?: boolean | null
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           disabled?: boolean | null
           id?: number
@@ -162,6 +165,7 @@ export type Database = {
       }
       podcasts: {
         Row: {
+          avatar_url: string | null
           created_at: string
           description: string | null
           followcount: number
@@ -174,6 +178,7 @@ export type Database = {
           urls: string[]
         }
         Insert: {
+          avatar_url?: string | null
           created_at: string
           description?: string | null
           followcount?: number
@@ -186,6 +191,7 @@ export type Database = {
           urls: string[]
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           description?: string | null
           followcount?: number
@@ -206,6 +212,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string
+          id: string
+          mode: string
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name: string
+          id: string
+          mode?: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          mode?: string
+          username?: string
+        }
+        Relationships: []
       }
       subscriptions: {
         Row: {
@@ -248,6 +284,7 @@ export type Database = {
       }
       users: {
         Row: {
+          avatar_url: string | null
           created_at: string
           disabled: boolean | null
           id: number
@@ -261,6 +298,7 @@ export type Database = {
           verified: boolean | null
         }
         Insert: {
+          avatar_url?: string | null
           created_at: string
           disabled?: boolean | null
           id?: number
@@ -274,6 +312,7 @@ export type Database = {
           verified?: boolean | null
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string
           disabled?: boolean | null
           id?: number
