@@ -1,17 +1,11 @@
 <script setup lang='ts'>
-import { podcastsWithPodcastersQuery, type PodcastsWithPodcastersQuery } from '@/utils/supaQueries';
 
 usePageStore().pageData.title = 'Podcasts'
 
-const podcasts = ref< PodcastsWithPodcastersQuery | null >(null)
-
-const getPodcasts = async () => {
-    const { data , error, status } = await podcastsWithPodcastersQuery
-    if (error) useErrorStore().setError({error , customCode: status})
-    podcasts.value = data
-}
-
-getPodcasts()
+const podcastsLoader = usePodcastsStore()
+const {podcasts} = storeToRefs(podcastsLoader)
+const { getPodcasts} = podcastsLoader
+await getPodcasts()
 
 </script>
 
