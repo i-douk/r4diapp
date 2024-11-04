@@ -5,11 +5,13 @@ usePageStore().pageData.title = 'Podcasters'
 
 const podcasters = ref<PodcastersWithPodcastsQuery | null >(null)
 const getPodcasters = async () => {
-    const { data , error } = await podcastersWithPodcastsQuery
-    if (error) console.log(error)
+    const { data , error ,status} = await podcastersWithPodcastsQuery
+    if (error) useErrorStore().setError({error , customCode: status})
     podcasters.value = data
 }
 getPodcasters()
+
+useErrorStore().setError({ error : Error('Uncaught error')})
 
 </script>
 

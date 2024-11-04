@@ -13,31 +13,30 @@ usePageStore().pageData.title = 'Subscriptions'
 const subscriptinsDataToshow = ref<SubscriptionsData[] | null>(null);
 
 const getSubscriptions = async () => {
-    const { data: subscriptionsData, error: subscriptionsError } = await supabase
+    const { data: subscriptionsData, error: subscriptionsError, status:subStatus } = await supabase
         .from('subscriptions')
         .select();
-    if (subscriptionsError) console.error(subscriptionsError);
+    if (subscriptionsError) useErrorStore().setError({error:subscriptionsError , customCode: subStatus});
     subscriptions.value = subscriptionsData;
-    console.log(subscriptionsData)
 
     // Extract unique user_ids and podcaster_ids from subscriptions
     const userIds = [...new Set(subscriptionsData?.map(sub => sub.user_id))];
     const podcasterIds = [...new Set(subscriptionsData?.map(sub => sub.podcaster_id))];
 
     // Fetch users
-    const { data: usersData, error: usersError } = await supabase
+    const { data: usersData, error: usersError , status} = await supabase
         .from('users')
         .select()
         .in('id', userIds);
-    if (usersError) console.error(usersError);
+    if (usersError) useErrorStore().setError({error:usersError , customCode: status});
     users.value = usersData;
 
     // Fetch podcasters
-    const { data: podcastersData, error: podcastersError } = await supabase
+    const { data: podcastersData, error: podcastersError , status: podStatus} = await supabase
         .from('podcasters')
         .select()
         .in('id', podcasterIds);
-    if (podcastersError) console.error(podcastersError);
+    if (podcastersError) useErrorStore().setError({error:podcastersError , customCode: podStatus});
     podcasters.value = podcastersData;
 
     // Populate subscriptinsDataToshow with user and podcaster names, stipend, and paid status

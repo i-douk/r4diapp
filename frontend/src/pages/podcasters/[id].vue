@@ -13,9 +13,9 @@ const podcasterQuery = supabase
         .eq('id', route.params?.id); 
 
 const getPodcaster = async () => {
-    const { data, error } = await podcasterQuery
+    const { data, error, status } = await podcasterQuery
     if (error) {
-        console.error(error);
+        useErrorStore().setError({error , customCode: status})
     } else {
         // we expect only one result because ids are unique
         podcaster.value = data ? data[0] : null; 

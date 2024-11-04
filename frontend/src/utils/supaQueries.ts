@@ -1,6 +1,5 @@
 import { supabase } from "@/lib/supabaseClient";
 import type { QueryData } from "@supabase/supabase-js";
-
 export const podcastersWithPodcastsQuery = supabase.from('podcasters')
     .select(`
       *,
@@ -23,9 +22,9 @@ export const podcastsWithPodcastersQuery = supabase.from('podcasts')
 
   export type PodcastsWithPodcastersQuery = QueryData<typeof podcastsWithPodcastersQuery>
 
-  export const podcastQuery = (routeId: string) => supabase.from('podcasts')
+  export const podcastQuery = (id: string) => supabase.from('podcasts')
       .select('*')
-      .eq('id',Number(routeId))
+      .eq('id', Number(id))
       .single()
 
 

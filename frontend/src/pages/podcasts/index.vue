@@ -7,8 +7,8 @@ const podcasts = ref< PodcastsWithPodcastersQuery | null >(null)
 
 
 const getPodcasts = async () => {
-    const { data , error } = await podcastsWithPodcastersQuery
-    if (error) console.log(error)
+    const { data , error, status } = await podcastsWithPodcastersQuery
+    if (error) useErrorStore().setError({error , customCode: status})
     podcasts.value = data
 }
 
@@ -27,7 +27,7 @@ getPodcasts()
                  <CardContent> was posted by <b>{{ podcast.podcasters? podcast.podcasters.name : '' }}</b></CardContent>
                <CardFooter>
                 <Button>
-                     <RouterLink :to="{ name:'/podcasters/[id]', params: { id: podcast.id }}">See podcast</RouterLink>
+                     <RouterLink :to="{ name:'/podcasts/[id]', params: { id: podcast.id }}">See podcast</RouterLink>
                 </Button>
               </CardFooter>
              </Card>  

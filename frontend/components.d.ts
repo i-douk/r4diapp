@@ -8,6 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AdminLayout: typeof import('./src/components/Layout/main/AdminLayout.vue')['default']
+    AppErrorDev: typeof import('./src/components/AppError/AppErrorDev.vue')['default']
+    AppErrorPage: typeof import('./src/components/AppError/AppErrorPage.vue')['default']
+    AppErrorProd: typeof import('./src/components/AppError/AppErrorProd.vue')['default']
     Avatar: typeof import('./src/components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./src/components/ui/avatar/AvatarFallback.vue')['default']
     AvatarImage: typeof import('./src/components/ui/avatar/AvatarImage.vue')['default']
