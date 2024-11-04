@@ -31,6 +31,6 @@ export const podcastsWithPodcastersQuery = supabase.from('podcasts')
   export type PodcastQuery = QueryData<ReturnType<typeof podcastQuery>>
 
 
-  export const profileQuery = ( id: string) => {
-    return supabase.from('profiles').select().eq('id',id).single()
+  export const profileQuery = ( { column , value} : {column : string, value: string }) => {
+    return supabase.from('profiles').select().eq(column,value).single()
   }

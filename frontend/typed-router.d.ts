@@ -27,5 +27,6 @@ declare module 'vue-router/auto-routes' {
     '/podcasts/[id]': RouteRecordInfo<'/podcasts/[id]', '/podcasts/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
     '/subscriptions/': RouteRecordInfo<'/subscriptions/', '/subscriptions', Record<never, never>, Record<never, never>>,
+    '/users/[username]': RouteRecordInfo<'/users/[username]', '/users/:username', { username: ParamValue<true> }, { username: ParamValue<false> }>,
   }
 }

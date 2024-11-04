@@ -5,7 +5,6 @@ usePageStore().pageData.title = 'Podcasts'
 
 const podcasts = ref< PodcastsWithPodcastersQuery | null >(null)
 
-
 const getPodcasts = async () => {
     const { data , error, status } = await podcastsWithPodcastersQuery
     if (error) useErrorStore().setError({error , customCode: status})
