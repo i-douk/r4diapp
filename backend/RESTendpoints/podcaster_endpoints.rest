@@ -21,9 +21,21 @@ content-type: application/json
 }
 
 ###
+POST http://localhost:5173/api/podcasters/49/podcasts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVAcG9kY2FzdGVyLmNvbSIsImlkIjo0OSwiaWF0IjoxNzMwNzY0NjE4LCJleHAiOjE3MzA3NjgyMTh9.-4vom9zBLQ8RbwF83kr8ek4QTSJ8_pdvfUjvxgT_x_k
+
+{
+    "name" : "This is a podcast name",
+    "description": "This is a very thourough descrption of this added podcast where I am trying to create a placeholder",
+    "urls": ["thisisaurl.com"]
+}
+
+
+###
 PUT http://localhost:5173/api/podcasters/example@podcaster.com HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVAcG9kY2FzdGVyLmNvbSIsImlkIjo0NiwiaWF0IjoxNzMwNzU3MTc2LCJleHAiOjE3MzA3NjA3NzZ9.U74PHvycAwdafuqLWCxBSdT6rGu6hjZFD2bM8t-LRpI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVAcG9kY2FzdGVyLmNvbSIsImlkIjo0OCwiaWF0IjoxNzMwNzU4MDQwLCJleHAiOjE3MzA3NjE2NDB9.49l7kREz6MpwZ4Belez0BB_Q3gpxbyxofYA8jRRZjoc
 
 {
     "name" : "changed name",
@@ -34,4 +46,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4Y
 ###
 DELETE http://localhost:5173/api/podcasters/example@podcaster.com HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVAcG9kY2FzdGVyLmNvbSIsImlkIjo0NywiaWF0IjoxNzMwNzU3NDc1LCJleHAiOjE3MzA3NjEwNzV9.N57ozAuzxe_6_otJVcnpQED7Umv3UaGtkhG1cM_Gh90
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVAcG9kY2FzdGVyLmNvbSIsImlkIjo0OCwiaWF0IjoxNzMwNzU4MDQwLCJleHAiOjE3MzA3NjE2NDB9.49l7kREz6MpwZ4Belez0BB_Q3gpxbyxofYA8jRRZjoc

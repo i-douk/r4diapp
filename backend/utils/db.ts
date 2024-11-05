@@ -9,6 +9,7 @@ export const sequelize = new Sequelize(config.DATABASE_URL!, {
       rejectUnauthorized: false
     }
   },
+  logging: console.log, 
 });
 
 export const migrationConf = {

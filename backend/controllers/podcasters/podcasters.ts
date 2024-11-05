@@ -55,10 +55,11 @@ podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Res
 });
 
 // add a podcast for a podcaster
-podcastersRouter.post('/:username/podcasts', tokenExtractor, async (req: Request, res: Response) => {
-  const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username } });
+podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const podcaster = await models.Podcaster.findByPk( id );
   if (podcaster) {
-    const newPodcast = await models.Podcast.create({ ...req.body, podcasterId: podcaster.id }) ;
+    const newPodcast = await models.Podcast.create({ ...req.body, podcaster_id: id }) ;
     res.status(201).json(newPodcast);
   } else {
     res.status(404).json({ error: 'Podcaster not found' });
@@ -73,9 +74,9 @@ podcastersRouter.delete('/:username', tokenExtractor, async (req: Request, res: 
       await ActivePodcasterSession.destroy({ where: { podcasterId: podcaster.id }, transaction });
       await models.Podcaster.destroy({ where: { id: podcaster.id }, transaction });
     });
-    res.status(204).end(); 
+    res.status(204).json('podcaster deleted from the database'); 
   } else {
-    res.status(404).json({ error: 'Podcaster not found' });
+    res.status(404).json({ error: 'Podcaster nor found or failed to be deleted from database' });
   }
 });
 
