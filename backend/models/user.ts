@@ -55,7 +55,10 @@ User.init({
   sequelize,
   underscored: true,
   timestamps: true,
-  modelName: 'user'
+  modelName: 'user',
+  defaultScope: {
+    attributes: { exclude: ['password'] },
+  }
 });
 
 // Password hashing hook

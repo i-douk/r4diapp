@@ -2,10 +2,26 @@ const podcastsRouter = require('express').Router();
 import { Request, Response} from 'express';
 import tokenExtractor from "../utils/middleware";
 import models from "../models";
-
+// import { PodcastDTO } from '../dtos/PodcastDTO';
 // fetch all podcasts //
 podcastsRouter.get('/' , async ( _req : Request, res : Response) => {
-  const podcasts = await models.Podcast.findAll({});
+  const podcasts = await models.Podcast.findAll({
+    include:[
+      {
+        model: models.Podcaster,
+        as: 'podcaster',
+        attributes: { exclude: ['id', 'premium', 'verified', 'disabled', 'createdAt', 'updatedAt' ] }
+      },
+      {
+        model: models.User,
+        as:'followers',
+        attributes: { exclude: [] }
+      },
+    ],
+  });
+  console.log(podcasts)
+
+  // const podcastsDTOs = podcasts.map((podcast) => new PodcastDTO(podcast));
   res.json(podcasts);
 });
 

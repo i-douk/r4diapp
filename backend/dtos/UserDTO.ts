@@ -1,7 +1,5 @@
 import { PodcasterDTO } from "./PodcasterDTO";
 import { PodcastDTO } from "./PodcastDTO";
-import { SubscriptionDTO } from "./SubscriptionDTO";
-import { FollowingDTO } from "./FollowingDTO";
 
 export enum Role {
     ADMIN = 'admin',
@@ -22,10 +20,9 @@ export class UserDTO {
 
   
     // Optionally, include related data if needed
-    public podcasts?: PodcastDTO[];
-    public podcasters?: PodcasterDTO[];
-    public subscriptions?: SubscriptionDTO[];
-    public followings?: FollowingDTO[];
+ 
+    public subscriptions?: PodcasterDTO[];
+    public followings?: PodcastDTO[];
   
     constructor(user: any) {
       this.id = user.id;
@@ -39,10 +36,9 @@ export class UserDTO {
       this.verified = user.verified;
       
       // Initialize nested DTOs if needed
-      this.podcasts = user.podcasts?.map((p: any) => new PodcastDTO(p));
-      this.podcasters = user.podcasters?.map((s: any) => new PodcasterDTO(s));
-      this.subscriptions = user.subscriptions?.map((s: any) => new SubscriptionDTO(s));
-      this.followings = user.subscriptions?.map((s: any) => new FollowingDTO(s));
+
+      this.subscriptions = user.subscriptions?.map((s: any) => new PodcasterDTO(s));
+      this.followings = user.subscriptions?.map((s: any) => new PodcastDTO(s));
     }
   }
   

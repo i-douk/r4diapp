@@ -3,23 +3,27 @@ import { Request, Response } from 'express';
 import tokenExtractor  from '../../utils/middleware';
 import { sequelize } from '../../utils/db';
 import models from '../../models';
+import { UserDTO } from '../../dtos/UserDTO';
 
 //get all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get('/', async (_req : Request, res: Response) => {
-  const users = await models.User.findAll({
+  const users = await models.User.scope('defaultScope').findAll({
     include:[
       {
         model: models.Podcast,
         as : 'followings',
-        attributes: { exclude: ['podcastId'] },
+        attributes: { exclude: ['id'] },
       },
       {
         model: models.Podcaster,
         as : 'subscriptions',
+        attributes: { exclude: ['id', 'verified' , 'disabled' , 'premium' , 'username'] },
       },
     ]  
   });
-  res.json(users);
+
+  const usersDTOs = users.map((user) => new UserDTO(user));
+  res.json(usersDTOs);
 });
 
 //create a new user
@@ -36,7 +40,7 @@ usersRouter.post('/', async (req : Request, res: Response) => {
 
 // Get a user by username
 usersRouter.get('/:username', async (req : Request, res: Response) => {  
-  const user = await models.User.findOne({ 
+  const user = await models.User.scope('defaultScope').findOne({ 
     where: { username: req.params.username }
   });
   if (user) {

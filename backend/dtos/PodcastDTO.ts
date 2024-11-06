@@ -1,5 +1,6 @@
 import { FollowingDTO } from "./FollowingDTO";
 import { PodcasterDTO } from "./PodcasterDTO";
+import { UserDTO } from "./UserDTO";
 
 // dtos/podcastDTO.ts
 export class PodcastDTO {
@@ -16,7 +17,8 @@ export class PodcastDTO {
   
     // Optionally, include related data if needed
     public podcaster?: PodcasterDTO;
-    public followers?: FollowingDTO[];
+    public followers?: UserDTO[];
+    public following?: FollowingDTO[]
   
     constructor(podcast: any) {
       this.id = podcast.id;
@@ -26,10 +28,11 @@ export class PodcastDTO {
       this.avatar_url = podcast.avatar_url;
       this.updated_at = podcast.updated_at;
       this.created_at = podcast.created_at;
+      this.following = podcast.following
       
       // Initialize nested DTOs if needed
       this.podcaster = podcast.podcaster?.map((p: any) => new PodcasterDTO(p));
-      this.followers = podcast.followers?.map((s: any) => new FollowingDTO(s));
+      this.followers = podcast.followers?.map((s: any) => new UserDTO(s));
     }
   }
   

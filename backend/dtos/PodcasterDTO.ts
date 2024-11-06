@@ -1,8 +1,6 @@
-import { SubscriptionDTO } from "./SubscriptionDTO";
 import { PodcastDTO } from "./PodcastDTO";
 import { UserDTO } from "./UserDTO";
 
-// dtos/PodcasterDTO.ts
 export class PodcasterDTO {
     public id: number;
     public username: string;
@@ -17,8 +15,7 @@ export class PodcasterDTO {
 
   
     public podcasts?: PodcastDTO[];
-    public users?: UserDTO[];
-    public subscribers?: SubscriptionDTO[]
+    public subscribers?: UserDTO[];
   
     constructor(podcaster: any) {
       this.id = podcaster.id;
@@ -34,7 +31,6 @@ export class PodcasterDTO {
       
       // Initialize nested DTOs if needed
       this.podcasts = podcaster.podcasts?.map((p: any) => new PodcastDTO(p));
-      this.users = podcaster.users?.map((s: any) => new UserDTO(s));
       this.subscribers = podcaster.subscribers?.map((s: any) => new UserDTO(s));
     }
   }

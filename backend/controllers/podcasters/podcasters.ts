@@ -6,22 +6,21 @@ import ActivePodcasterSession from '../../models/active_podcaster_session';
 import { sequelize } from '../../utils/db';
 import { PodcasterDTO } from '../../dtos/PodcasterDTO';
 
-//get all podcasters with their podcasts and their subscribers
+//get all podcasters with info about added podcasts and subscribers
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
   const podcasters  = await models.Podcaster.scope('defaultScope').findAll({
     include:[
       {
         model: models.Podcast,
         as: 'podcasts',
-        attributes: { exclude: ['podcasterId'] }
+        attributes: { exclude: [''] }
       },
       {
-        model: models.User,
+        model: models.User.scope('defaultScope'),
         as:'subscribers',
-        attributes: { exclude: ['userId'] }
+        attributes: { exclude: ['password', 'id', 'verified', 'disabled', 'updatedAt', 'createdAt', 'username'] }
       },
     ],
-    // attributes : {exclude:['password']}
   }) ;
 
   const podcasterDTOs = podcasters.map((podcaster) => new PodcasterDTO(podcaster));
@@ -59,7 +58,7 @@ podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Res
   }
 });
 
-// add a podcast for a podcaster
+// add a podcast to a podcaster
 podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: Request, res: Response) => {
   const { id } = req.params;
   const podcaster = await models.Podcaster.findByPk( id );
