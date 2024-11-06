@@ -1,7 +1,7 @@
 import { PodcasterDTO } from "./PodcasterDTO";
 import { PodcastDTO } from "./PodcastDTO";
-import { SubscriptionDTO } from "../SubscriptionDTO";
-import { FollowingDTO } from "../FollowingDTO";
+import { SubscriptionDTO } from "./SubscriptionDTO";
+import { FollowingDTO } from "./FollowingDTO";
 
 export enum Role {
     ADMIN = 'admin',

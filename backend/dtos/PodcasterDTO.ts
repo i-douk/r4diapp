@@ -16,7 +16,6 @@ export class PodcasterDTO {
     public verified: boolean;
 
   
-    // Optionally, include related data if needed
     public podcasts?: PodcastDTO[];
     public users?: UserDTO[];
     public subscribers?: SubscriptionDTO[]

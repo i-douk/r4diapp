@@ -1,17 +1,19 @@
 const subscriptionsRouter = require('express').Router();
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import models from '../models';
 import tokenExtractor from "../utils/middleware";
 
-subscriptionsRouter.post('/', tokenExtractor, async (
-  req: { decodedToken: { id: number; }; body: { podcasterId: any; userId: number; };},
+
+subscriptionsRouter.post('/:username', tokenExtractor, async (
+  req: Request & { decodedToken: { id: number; }; body: { podcasterId: any; userId: number; };},
   res: Response) => {
+  const {podcasterId} = req.params
   if (req.decodedToken.id !== Number(req.body.userId)) {
     res.status(401)
-      .json({ error: 'You must be authenticated to subscribe!'});
+      .json({ error: 'You must be authenticated to subscribe to this podcaster!'});
   }
   const subscriptionAddition = {
-    podcasterId : req.body.podcasterId,
+    podcasterId : podcasterId,
     userId:req.body.userId,
     paid: true
   };

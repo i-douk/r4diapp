@@ -4,8 +4,9 @@ import  models  from '../../models';
 import tokenExtractor from '../../utils/middleware';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
 import { sequelize } from '../../utils/db';
+import { PodcasterDTO } from '../../dtos/PodcasterDTO';
 
-//get all users , their podcasters subscription and their followed podcasts
+//get all podcasters with their podcasts and their subscribers
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
   const podcasters  = await models.Podcaster.scope('defaultScope').findAll({
     include:[
@@ -22,8 +23,10 @@ podcastersRouter.get('/', async (_req: Request, res : Response) => {
     ],
     // attributes : {exclude:['password']}
   }) ;
+
+  const podcasterDTOs = podcasters.map((podcaster) => new PodcasterDTO(podcaster));
    
-  res.json(podcasters);
+  res.json(podcasterDTOs);
 });
 
 //create a new podcaster
