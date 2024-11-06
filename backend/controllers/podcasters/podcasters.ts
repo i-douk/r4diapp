@@ -7,7 +7,7 @@ import { sequelize } from '../../utils/db';
 
 //get all users , their podcasters subscription and their followed podcasts
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
-  const podcasters = await models.Podcaster.findAll({
+  const podcasters  = await models.Podcaster.scope('defaultScope').findAll({
     include:[
       {
         model: models.Podcast,
@@ -19,8 +19,10 @@ podcastersRouter.get('/', async (_req: Request, res : Response) => {
         as:'subscribers',
         attributes: { exclude: ['userId'] }
       },
-    ]  
+    ],
+    // attributes : {exclude:['password']}
   }) ;
+   
   res.json(podcasters);
 });
 

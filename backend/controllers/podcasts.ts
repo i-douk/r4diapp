@@ -67,7 +67,7 @@ podcastsRouter.put('/:id', tokenExtractor, async( req : Request, res: Response) 
     await podcastToEdit?.save();
     res.json(podcastToEdit);
   } else {
-    res.status(404).json({ error : 'unable to patch urls of this podcast'});
+    res.status(404).json({ error : 'Unable to edit because this podcast doesn\'t exist'});
   }
 });
 

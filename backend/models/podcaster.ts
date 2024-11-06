@@ -9,6 +9,7 @@ class Podcaster extends Model {
   public id?: number;
   public name?: string;
   public password?: string;
+
 }
 
 Podcaster.init({
@@ -59,7 +60,10 @@ Podcaster.init({
   sequelize,
   underscored: true,
   timestamps: true,
-  modelName: 'podcaster'
+  modelName: 'podcaster',
+  defaultScope: {
+    attributes: { exclude: ['password'] },
+  }
 });
 
 // Password hashing hook
