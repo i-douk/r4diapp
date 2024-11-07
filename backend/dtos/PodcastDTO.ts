@@ -14,11 +14,9 @@ export class PodcastDTO {
     public transcribed: boolean;
     public urls: string[];
     public slug?: string;
-  
-    // Optionally, include related data if needed
-    public podcaster?: PodcasterDTO;
+    public following?: FollowingDTO
+    public podcaster : PodcasterDTO
     public followers?: UserDTO[];
-    public following?: FollowingDTO[]
   
     constructor(podcast: any) {
       this.id = podcast.id;
@@ -28,10 +26,8 @@ export class PodcastDTO {
       this.avatar_url = podcast.avatar_url;
       this.updated_at = podcast.updated_at;
       this.created_at = podcast.created_at;
-      this.following = podcast.following
-      
-      // Initialize nested DTOs if needed
-      this.podcaster = podcast.podcaster?.map((p: any) => new PodcasterDTO(p));
+      this.following = podcast.following;
+      this.podcaster = podcast.podcaster;
       this.followers = podcast.followers?.map((s: any) => new UserDTO(s));
     }
   }

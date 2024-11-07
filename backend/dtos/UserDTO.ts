@@ -1,5 +1,7 @@
 import { PodcasterDTO } from "./PodcasterDTO";
 import { PodcastDTO } from "./PodcastDTO";
+import { FollowingDTO } from "./FollowingDTO";
+import { SubscriptionDTO } from "./SubscriptionDTO";
 
 export enum Role {
     ADMIN = 'admin',
@@ -16,13 +18,11 @@ export class UserDTO {
     public created_at: string;
     public updated_at: string;
     public verified: boolean;
-    public role: Role;
-
-  
-    // Optionally, include related data if needed
- 
+    public role: Role; 
     public subscriptions?: PodcasterDTO[];
     public followings?: PodcastDTO[];
+    public following?: FollowingDTO
+    public subscription?: SubscriptionDTO
   
     constructor(user: any) {
       this.id = user.id;
@@ -34,9 +34,8 @@ export class UserDTO {
       this.updated_at = user.updated_at;
       this.created_at = user.created_at;
       this.verified = user.verified;
-      
-      // Initialize nested DTOs if needed
-
+      this.following = user.following
+      this.subscription = user.subscription
       this.subscriptions = user.subscriptions?.map((s: any) => new PodcasterDTO(s));
       this.followings = user.subscriptions?.map((s: any) => new PodcastDTO(s));
     }

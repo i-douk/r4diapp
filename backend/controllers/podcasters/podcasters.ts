@@ -16,16 +16,20 @@ podcastersRouter.get('/', async (_req: Request, res : Response) => {
         attributes: { exclude: [''] }
       },
       {
-        model: models.User.scope('defaultScope'),
+        model: models.User,
         as:'subscribers',
-        attributes: { exclude: ['password', 'id', 'verified', 'disabled', 'updatedAt', 'createdAt', 'username'] }
-      },
+        attributes: { exclude: ['verified', 'disabled', 'updatedAt', 'createdAt', 'username'] },
+        through: {
+          attributes: { exclude: ['podcasterId' , 'userId']}
+        } 
+      }, 
     ],
   }) ;
 
   const podcasterDTOs = podcasters.map((podcaster) => new PodcasterDTO(podcaster));
    
   res.json(podcasterDTOs);
+  // res.json(podcasters);
 });
 
 //create a new podcaster
