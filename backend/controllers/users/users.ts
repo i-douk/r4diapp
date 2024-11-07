@@ -30,6 +30,7 @@ usersRouter.get('/', async (_req : Request, res: Response) => {
 
   const usersDTOs = users.map((user) => new UserDTO(user));
   res.json(usersDTOs);
+  console.log(users)
 });
 
 //create a new user

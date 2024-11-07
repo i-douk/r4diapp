@@ -1,7 +1,7 @@
 export class SubscriptionDTO {
     public id: number;
-    public userId: string;
-    public podcasterId: string;
+    public userId: number;
+    public podcasterId: number;
     public paid: boolean;
     public stipend: number;
   

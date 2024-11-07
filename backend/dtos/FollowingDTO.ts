@@ -1,7 +1,7 @@
 export class FollowingDTO {
     public id: number;
-    public userId: string;
-    public podcastId: string;
+    public userId: number;
+    public podcastId: number;
     public starred: boolean;
   
     constructor(following: any) {
