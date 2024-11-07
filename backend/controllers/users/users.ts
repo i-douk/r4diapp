@@ -7,20 +7,26 @@ import { UserDTO } from '../../dtos/UserDTO';
 
 //get all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get('/', async (_req : Request, res: Response) => {
-  const users = await models.User.scope('defaultScope').findAll({
+  const users  = await models.User.scope('defaultScope').findAll({
     include:[
       {
         model: models.Podcast,
-        as : 'followings',
-        attributes: { exclude: ['id'] },
-      },
+        as:'followings',
+        attributes: { exclude: [] },
+        through: {
+          attributes: { exclude: ['userId', 'podcastId']}
+        } 
+      }, 
       {
         model: models.Podcaster,
-        as : 'subscriptions',
-        attributes: { exclude: ['id', 'verified' , 'disabled' , 'premium' , 'username'] },
-      },
-    ]  
-  });
+        as:'subscriptions',
+        attributes: { exclude: [] },
+        through: {
+          attributes: { exclude: ['userId','podcasterId']}
+        } 
+      }, 
+    ],
+  }) ;
 
   const usersDTOs = users.map((user) => new UserDTO(user));
   res.json(usersDTOs);

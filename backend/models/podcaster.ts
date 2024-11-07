@@ -9,7 +9,6 @@ class Podcaster extends Model {
   public id?: number;
   public name?: string;
   public password?: string;
-
 }
 
 Podcaster.init({

@@ -11,11 +11,13 @@ podcastsRouter.get('/' , async ( _req : Request, res : Response) => {
     include:[
       {
         model: models.Podcaster,
+        attributes: { exclude:['password','createdAt', 'updatedAt','username', 'disabled']}
+
       },
       {
         model: models.User,
         as:'followers',
-        attributes: { exclude: ['verified', 'disabled' , 'username'] },
+        attributes: { exclude: [ 'username'] },
         through: {
           attributes: { exclude: ['podcastId' , 'userId']}
         } 

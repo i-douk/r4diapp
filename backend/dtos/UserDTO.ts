@@ -20,9 +20,9 @@ export class UserDTO {
     public verified: boolean;
     public role: Role; 
     public subscriptions?: PodcasterDTO[];
+    public subscription?: SubscriptionDTO
     public followings?: PodcastDTO[];
     public following?: FollowingDTO
-    public subscription?: SubscriptionDTO
   
     constructor(user: any) {
       this.id = user.id;

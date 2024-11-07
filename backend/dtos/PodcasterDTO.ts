@@ -1,4 +1,5 @@
 import { PodcastDTO } from "./PodcastDTO";
+import { SubscriptionDTO } from "./SubscriptionDTO";
 import { UserDTO } from "./UserDTO";
 
 export class PodcasterDTO {
@@ -13,9 +14,9 @@ export class PodcasterDTO {
     public subscriptioncount: number;
     public verified: boolean;
 
-  
     public podcasts?: PodcastDTO[];
-    public subscribers?: UserDTO[] ;
+    public subscribers?: UserDTO[];
+    public subscription?: SubscriptionDTO
   
     constructor(podcaster: any) {
       this.id = podcaster.id;
@@ -27,6 +28,7 @@ export class PodcasterDTO {
       this.updated_at = podcaster.updated_at;
       this.created_at = podcaster.created_at;
       this.verified = podcaster.verified;
+      this.subscription = podcaster.subscription
       this.subscriptioncount = podcaster.subscriptioncount;
       
       this.podcasts = podcaster.podcasts?.map((p: any) => new PodcastDTO(p));

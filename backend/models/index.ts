@@ -6,7 +6,7 @@ import Podcast from './podcast';
 import Following from './following';
 import Subscription from './subscription';
 
-Podcaster.hasMany(Podcast, { foreignKey: 'podcaster_id', as: 'podcasts' });
+Podcaster.hasMany(Podcast, { foreignKey: 'podcaster_id', as: 'podcasts'  });
 Podcast.belongsTo(Podcaster, { foreignKey: 'podcaster_id' });
 
 User.belongsToMany( Podcast , { through : Following, as : 'followings'});
