@@ -27,6 +27,11 @@ const userlinks = [
     to:"/followings",
     icon:"pixelarticons:visible"
   },
+  {
+    title: "users",
+    to:"/users",
+    icon:"pixelarticons:users"
+  },
 ]
 
 const userAccountLinks = [

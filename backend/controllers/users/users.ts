@@ -12,6 +12,37 @@ usersRouter.get('/', async (_req : Request, res: Response) => {
       {
         model: models.Podcast,
         as:'followings',
+        attributes: { exclude: [''] },
+        through: {
+          attributes: { exclude: ['userId', 'podcastId']}
+        } 
+      }, 
+      {
+        model: models.Podcaster,
+        as:'subscriptions',
+        attributes: { exclude: [] },
+        through: {
+          attributes: { exclude: ['userId','podcasterId']}
+        } 
+      }, 
+    ],
+  }) ;
+  if(users) {
+
+    const usersDTOs = users.map((user) => new UserDTO(user));
+    res.json(usersDTOs);
+  } else {
+    res.status(404).json({ message : 'users not found'})
+  }
+});
+//get single user by id withsubscriptions to podcasters and  followed podcasts
+usersRouter.get('/:id', async (req : Request, res: Response) => {
+  const { id } = req.params
+  const user  = await models.User.scope('defaultScope').findByPk(id,{
+    include:[
+      {
+        model: models.Podcast,
+        as:'followings',
         attributes: { exclude: [] },
         through: {
           attributes: { exclude: ['userId', 'podcastId']}
@@ -27,10 +58,12 @@ usersRouter.get('/', async (_req : Request, res: Response) => {
       }, 
     ],
   }) ;
-
-  const usersDTOs = users.map((user) => new UserDTO(user));
-  res.json(usersDTOs);
-  console.log(users)
+  if(user) {
+      const userDTO =  new UserDTO(user);
+      res.json(userDTO);
+  } else {
+    res.status(404).json({message : 'user not found'})
+  }
 });
 
 //create a new user

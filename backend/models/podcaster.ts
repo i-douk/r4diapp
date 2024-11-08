@@ -62,6 +62,11 @@ Podcaster.init({
   modelName: 'podcaster',
   defaultScope: {
     attributes: { exclude: ['password'] },
+  },
+  scopes: {
+    sensitive: {
+      attributes: { include: ['password'] } 
+    }
   }
 });
 
@@ -72,7 +77,7 @@ Podcaster.beforeCreate(async (podcaster) => {
   }
 });
 
-Podcaster.beforeUpdate(async (podcaster : any ) => {
+Podcaster.beforeUpdate(async (podcaster: any ) => {
   if (podcaster.changed('password')) {
     podcaster.password = await hashPassword(podcaster.password);
   }

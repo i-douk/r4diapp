@@ -11,7 +11,7 @@ loginPodcasterRouter.post('/', async (req, res) => {
   const { username, password } = req.body;
 
   // Find the podcaster by username
-  const podcaster : any = await Podcaster.findOne({
+  const podcaster : any = await Podcaster.scope('sensitive').findOne({
     where: { username: username }
   });
 

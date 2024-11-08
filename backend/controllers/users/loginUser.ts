@@ -11,7 +11,7 @@ loginUserRouter.post('/', async (request, response) => {
   const { username, password } = request.body;
 
   // Find the user by username
-  const user : any = await User.findOne({
+  const user : any = await User.scope('sensitive').findOne({
     where: { username: username }
   });
 

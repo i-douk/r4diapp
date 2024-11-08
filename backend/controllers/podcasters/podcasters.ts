@@ -29,33 +29,66 @@ podcastersRouter.get('/', async (_req: Request, res : Response) => {
   const podcasterDTOs = podcasters.map((podcaster) => new PodcasterDTO(podcaster));
    
   res.json(podcasterDTOs);
-  // res.json(podcasters);
 });
+//get single podcaster by id with info about added podcasts and subscribers
+podcastersRouter.get('/:id', async (req: Request, res : Response) => {
+  const {id} = req.params
+  const podcaster  = await models.Podcaster.scope('defaultScope').findByPk( id,{
+    include:[
+      {
+        model: models.Podcast,
+        as: 'podcasts',
+        attributes: { exclude: [''] }
+      },
+      {
+        model: models.User,
+        as:'subscribers',
+        attributes: { exclude: ['verified', 'disabled', 'updatedAt', 'createdAt', 'username'] },
+        through: {
+          attributes: { exclude: ['podcasterId' , 'userId']}
+        } 
+      }, 
+    ],
+  }) ;
+
+  const podcasterDTO = new PodcasterDTO(podcaster);
+   
+  res.json(podcasterDTO);
+});
+
+
 
 //create a new podcaster
 podcastersRouter.post('/', async (req : Request, res: Response) => {
   const { username, name, password } = req.body;
-
+  const checkExistingPodcaster = await models.Podcaster.findOne({ where: { username}})
+  if(checkExistingPodcaster){
+    res.json({ message : ' Podcaster with this email already exists'})
+  }
   const podcaster = await models.Podcaster.create({
     username: username,
     name: name,
     password: password
   });
-  res.json(podcaster);
+  if(podcaster) {
+    res.json(podcaster);
+  } else {
+    res.status(400).json({ message : 'creating podcaster failed, try again'})
+  }
 
 });
 
 // Update a user's name
-podcastersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const { username} = req.params
+podcastersRouter.put('/:id', tokenExtractor, async (req: Request, res: Response) => {
+  const { id} = req.params
   const [updated] = await models.Podcaster.update(req.body, {
-    where: { username },
+    where: { id },
     returning: true,  
   });
 
   if (updated) {
     // Fetch the updated podcaster data
-    const updatedPodcaster = await models.Podcaster.findOne({ where: { username } });
+    const updatedPodcaster = await models.Podcaster.findOne({ where: { id } });
     res.json(updatedPodcaster);
   } else {
     res.status(404).json({ error: 'Podcaster not found' });
@@ -75,8 +108,8 @@ podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: Request, res:
 });
 
 // Delete podcaster by usename and subsequentely the active session
-podcastersRouter.delete('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const podcaster = await models.Podcaster.findOne({ where: { username: req.params.username } });
+podcastersRouter.delete('/:id', tokenExtractor, async (req: Request, res: Response) => {
+  const podcaster = await models.Podcaster.findOne({ where: { id: req.params.id } });
   if (podcaster) {
     await sequelize.transaction(async (transaction) => {
       await ActivePodcasterSession.destroy({ where: { podcasterId: podcaster.id }, transaction });

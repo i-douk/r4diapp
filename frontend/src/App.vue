@@ -17,7 +17,6 @@ onMounted( () => {
 
 <template>
   <AdminLayout>
-
     <AppErrorPage v-if="activeError"/>
     <RouterView v-else v-slot="{Component , route}">
         <Suspense v-if="Component" :timeout="0"> 
