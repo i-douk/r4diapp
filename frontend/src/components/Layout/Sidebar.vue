@@ -57,7 +57,7 @@ const userAccountLinks = [
 
 const router = useRouter()
 
-const excecuteAction = async ( linkTitle : string ) =>{
+const executeAction = async ( linkTitle : string ) =>{
   if(linkTitle === 'Logout'){
     const {logout} = await import('@/utils/supaAuth')
     const isLoggedOut = await logout()
@@ -86,7 +86,7 @@ const excecuteAction = async ( linkTitle : string ) =>{
       </div>
 
       <div class="border-y text-center bg-background py-3">
-        <SideBarLinks :links="userAccountLinks" @actionClicked="excecuteAction" />
+        <SideBarLinks :links="userAccountLinks" @actionClicked="executeAction" />
       </div>
     </nav>
   </aside>

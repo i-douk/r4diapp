@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Tables } from 'database/types';
-import usersService from '../../express/index'
+import usersService from '../../express/usersService'
 import type { AxiosResponse } from 'axios';
 
 const users = ref<Tables<'users'> | null>(null)

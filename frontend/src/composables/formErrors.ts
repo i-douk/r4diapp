@@ -15,12 +15,12 @@ export const useFormErrors = () => {
 
     const handleLoginForm = async (formData: LoginForm) => {
         realtimeErrors.value = {
-            email: [],
+            username: [],
             password:[]
       }
       const {validateEmail, validatePassword} = await import('@/utils/formValidations')
-      const emailErrors = validateEmail(formData.email)
-      if(emailErrors.length) realtimeErrors.value.email = emailErrors
+      const emailErrors = validateEmail(formData.username)
+      if(emailErrors.length) realtimeErrors.value.username = emailErrors
       const passwordErrors = validatePassword(formData.password)
       if(passwordErrors.length) realtimeErrors.value.password = passwordErrors
     }

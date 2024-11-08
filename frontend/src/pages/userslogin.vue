@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { login } from '@/utils/supaAuth';
+import usersService from '@/express/usersService';
 import { watchDebounced } from '@vueuse/core'
 const formData = ref({
-    email: '',
+    username: '',
     password: ''
 })
 
-const {serverError, handleServerError , realtimeErrors, handleLoginForm } = useFormErrors()
-const router = useRouter()
+// const {serverError, handleServerError , realtimeErrors, handleLoginForm } = useFormErrors()
+const {serverError , realtimeErrors, handleLoginForm } = useFormErrors()
+// const router = useRouter()
 
 watchDebounced(formData, () => {
  handleLoginForm(formData.value)
@@ -17,9 +18,10 @@ watchDebounced(formData, () => {
 })
 
 const signin = async () => {
-     const {error} = await login(formData.value)
-     if (!error) router.push('/')
-     if(error) handleServerError(error)
+     await usersService.userslogin(formData.value)
+    //  const {axiosError} = await usersService.userslogin(formData.value)
+    //  if (!error) router.push('/')
+    //  if(error) handleServerError(error)
 }
 
 </script>
@@ -41,11 +43,11 @@ const signin = async () => {
           <div class="grid gap-2">
             <Label id="email" class="text-left">Email</Label>
             <Input type="email" placeholder="johndoe19@example.com" required
-            v-model="formData.email"
+            v-model="formData.username"
             :class="{'border-red-500': serverError}"
             />
-            <ul class="text-sm text-left text-red-500" v-if="realtimeErrors?.email.length">
-            <li v-for="error in realtimeErrors.email" :key="error" class="list-disc">
+            <ul class="text-sm text-left text-red-500" v-if="realtimeErrors?.username.length">
+            <li v-for="error in realtimeErrors.username" :key="error" class="list-disc">
                {{ error }}
             </li>
           </ul>
