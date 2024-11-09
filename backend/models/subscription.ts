@@ -3,6 +3,7 @@ import { sequelize } from '../utils/db';
 
 class Subscription extends Model {
   paid!: boolean;
+  id!: number;
 }
 
 Subscription.init({

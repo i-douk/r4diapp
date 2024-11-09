@@ -20,6 +20,7 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...catchAll]': RouteRecordInfo<'/[...catchAll]', '/:catchAll(.*)', { catchAll: ParamValue<true> }, { catchAll: ParamValue<false> }>,
+    '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/podcasters/': RouteRecordInfo<'/podcasters/', '/podcasters', Record<never, never>, Record<never, never>>,
     '/podcasters/[id]': RouteRecordInfo<'/podcasters/[id]', '/podcasters/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/podcasts/': RouteRecordInfo<'/podcasts/', '/podcasts', Record<never, never>, Record<never, never>>,
@@ -28,6 +29,5 @@ declare module 'vue-router/auto-routes' {
     '/subscriptions/': RouteRecordInfo<'/subscriptions/', '/subscriptions', Record<never, never>, Record<never, never>>,
     '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
     '/users/[username]': RouteRecordInfo<'/users/[username]', '/users/:username', { username: ParamValue<true> }, { username: ParamValue<false> }>,
-    '/userslogin': RouteRecordInfo<'/userslogin', '/userslogin', Record<never, never>, Record<never, never>>,
   }
 }

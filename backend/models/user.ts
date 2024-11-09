@@ -58,6 +58,11 @@ User.init({
   modelName: 'user',
   defaultScope: {
     attributes: { exclude: ['password'] },
+  },
+  scopes: {
+    sensitive: {
+      attributes: { include: ['password'] } 
+    }
   }
 });
 

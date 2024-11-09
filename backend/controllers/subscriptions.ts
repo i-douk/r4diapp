@@ -1,21 +1,21 @@
 const subscriptionsRouter = require('express').Router();
-import { Request, Response } from 'express';
+import {  Response } from 'express';
 import models from '../models';
 import tokenExtractor from "../utils/middleware";
+import {sequelize} from '../utils/db';
+import { JWTRequest } from '../dtos/types';
 
 
-subscriptionsRouter.post('/:username', tokenExtractor, async (
-  req: Request & { decodedToken: { id: number; }; body: { podcasterId: any; userId: number; };},
-  res: Response) => {
-  const {podcasterId} = req.params
+// add subscription to podcaster by authenticated user
+subscriptionsRouter.post('/', tokenExtractor, async ( req: JWTRequest, res: Response) => {
   if (req.decodedToken.id !== Number(req.body.userId)) {
     res.status(401)
       .json({ error: 'You must be authenticated to subscribe to this podcaster!'});
   }
   const subscriptionAddition = {
-    podcasterId : podcasterId,
+    podcasterId : req.body.podcasterId,
     userId:req.body.userId,
-    paid: true
+    stipend: req.body.stipend
   };
   console.log(subscriptionAddition);
     
@@ -23,24 +23,19 @@ subscriptionsRouter.post('/:username', tokenExtractor, async (
   res.status(201).send(subscriptionAddition);
 });
 
-// add subscription to podcaster by authenticated user
-subscriptionsRouter.patch('/:username/:id', tokenExtractor, async (
-  req: { decodedToken: { id: number; }; body: { podcasterId: string; }; params: { id: string; }; } ,
-  res: Response) => {
-
-  if (req.decodedToken.id !== Number(req.body.podcasterId)) {
+// delete subscription
+subscriptionsRouter.delete('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  if (req.decodedToken.id !== Number(req.body.userId)) {
     res.status(401)
-      .json({ error: 'You must be authenticated to subscribe to a podcaster!'});
+      .json({ error: 'You must be authenticated to subscribe to this podcaster!'});
   }
-
-  const { id } = req.params;
-  const payedSubscription =  await models.Subscription.findByPk(id)
-  if(payedSubscription){
-    payedSubscription.paid = true
-    await payedSubscription.save();
-    res.status(201).send(payedSubscription);
-  } else {
-    res.status(401).json({error: "Can't subscribe to this pdocaster"})
+  
+  const subscriptionToDelete = await models.Subscription.findByPk(req.params.id);
+  if (subscriptionToDelete) {
+      await models.Subscription.destroy({ where: { id: subscriptionToDelete.id } });
+      res.status(204).end(); 
+    } else {
+    res.status(404).json({ error: 'There is no subscription with this id' });
   }
 });
 

@@ -51,7 +51,7 @@ usersRouter.get('/:id', async (req : Request, res: Response) => {
       {
         model: models.Podcaster,
         as:'subscriptions',
-        attributes: { exclude: [] },
+        attributes: { exclude: ['username', 'premium' , 'disabled'] },
         through: {
           attributes: { exclude: ['userId','podcasterId']}
         } 
@@ -92,8 +92,8 @@ usersRouter.get('/:username', async (req : Request, res: Response) => {
 });
 
 // Update a user's name
-usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const user = await models.User.findOne({ where: { username: req.params.username } });
+usersRouter.put('/:id', tokenExtractor, async (req: Request, res: Response) => {
+  const user = await models.User.findByPk(req.params.id);
   if (user) {
     user.name = req.body.name;
     await user.save();
@@ -103,10 +103,26 @@ usersRouter.put('/:username', tokenExtractor, async (req: Request, res: Response
   }
 });
 
+// subscribe to podcaster
+usersRouter.put('/:id', tokenExtractor, async (req: Request, res: Response) => {
+  const { id } = req.params
+  const { podcasterId , stipend} = req.body
+  const user = await models.User.findByPk(id);
+  const podcaster = await models.Podcaster.findByPk(podcasterId);
+
+  if (user && podcaster) {
+    const newSubscription = await models.Subscription.create({ userId : user.id , podcasterId : podcaster.id , stipend: stipend})
+   
+    res.json(newSubscription);
+  } else {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+
 
 // delete user by usename and subsequentely the active session
-usersRouter.delete('/:username', tokenExtractor, async (req: Request, res: Response) => {
-  const user = await models.User.findOne({ where: { username: req.params.username } });
+usersRouter.delete('/:id', tokenExtractor, async (req: Request, res: Response) => {
+  const user = await models.User.findByPk(req.params.id);
   if (user) {
     await sequelize.transaction(async (transaction) => {
       await models.ActiveUserSession.destroy({ where: { userId: user.id }, transaction });
