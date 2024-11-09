@@ -4,10 +4,11 @@ import config from '../../utils/config';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
 import bcrypt from 'bcrypt';
 import Podcaster from '../../models/podcaster';
+import { Request , Response } from 'express';
 
 const loginPodcasterRouter = Router();
 
-loginPodcasterRouter.post('/', async (req, res) => {
+loginPodcasterRouter.post('/', async (req : Request, res : Response) => {
   const { username, password } = req.body;
 
   // Find the podcaster by username

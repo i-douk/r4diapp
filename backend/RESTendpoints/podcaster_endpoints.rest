@@ -1,6 +1,9 @@
 # Podcasters CRUD
+
+# GET ALL PODCASTERS
 GET http://localhost:5173/api/podcasters HTTP/1.1
 
+# CREATE NEW PODCASTER
 ###
 POST http://localhost:5173/api/podcasters HTTP/1.1
 content-type: application/json
@@ -11,6 +14,8 @@ content-type: application/json
     "name" : "Example Podcaster"
 }
 
+
+# LOGIN AS PODCASTER
 ###
 POST http://localhost:5173/api/podcasterlogin HTTP/1.1
 content-type: application/json
@@ -20,6 +25,7 @@ content-type: application/json
     "password" : "Examplepass@02"
 }
 
+# ADD PODCAST AS A PODCASTER
 ###
 POST http://localhost:5173/api/podcasters/49/podcasts
 Content-Type: application/json
@@ -31,7 +37,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4Y
     "urls": ["thisisaurl.com"]
 }
 
-
+# BULK EDIT OF PODCASTER DATA BY PODCASTER
 ###
 PUT http://localhost:5173/api/podcasters/49 HTTP/1.1
 Content-Type: application/json
@@ -43,6 +49,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4Y
     "premium": true
 }
 
+# DELETE PODCASTER 
 ###
 DELETE http://localhost:5173/api/podcasters/49 HTTP/1.1
 Content-Type: application/json

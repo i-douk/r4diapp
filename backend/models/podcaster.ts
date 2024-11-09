@@ -7,8 +7,9 @@ class Podcaster extends Model {
   public disabled?: boolean;
   public username?: string;
   public id?: number;
-  public name?: string;
+  public name!: string;
   public password?: string;
+  public verified!: boolean;
 }
 
 Podcaster.init({

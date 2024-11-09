@@ -1,5 +1,7 @@
 import { Request } from "express";
 
 export interface JWTRequest extends Request {
-    decodedToken: { id: number; }
+    decodedToken: {
+      role: string; id: number; 
+}
 }
