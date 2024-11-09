@@ -4,6 +4,7 @@ import { sequelize } from '../utils/db';
 class Subscription extends Model {
   paid!: boolean;
   id!: number;
+  userId!: number;
 }
 
 Subscription.init({

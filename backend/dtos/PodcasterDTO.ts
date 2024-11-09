@@ -4,7 +4,6 @@ import { UserDTO } from "./UserDTO";
 
 export class PodcasterDTO {
     public id: number;
-    public username: string;
     public name: string;
     public premium?: boolean;
     public disabled?: boolean;
@@ -20,7 +19,6 @@ export class PodcasterDTO {
   
     constructor(podcaster: any) {
       this.id = podcaster.id;
-      this.username = podcaster.username;
       this.name = podcaster.name;
       this.premium = podcaster.premium;
       this.disabled = podcaster.disabled;

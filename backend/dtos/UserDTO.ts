@@ -11,7 +11,6 @@ export enum Role {
 // dtos/PodcasterDTO.ts
 export class UserDTO {
     public id: number;
-    public username: string;
     public name: string;
     public disabled?: boolean;
     public avatar_url: string | null;
@@ -26,7 +25,6 @@ export class UserDTO {
   
     constructor(user: any) {
       this.id = user.id;
-      this.username = user.username;
       this.name = user.name;
       this.role = user.role;
       this.disabled = user.disabled;

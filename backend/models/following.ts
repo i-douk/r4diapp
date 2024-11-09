@@ -3,6 +3,8 @@ import { sequelize } from '../utils/db';
 
 class Following extends Model {
   public starred!: boolean;
+  public userId!: number;
+  public id!: number;
 }
 
 Following.init({

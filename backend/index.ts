@@ -22,7 +22,7 @@ app.use('/api/userlogin', loginUserRouter);
 app.use('/api/podcasters', podcastersRouter);
 app.use('/api/podcasterlogin', loginPodcasterRouter);
 app.use('/api/podcasts', podcastsRouter);
-app.use('/api/follows', followingRouter);
+app.use('/api/followings', followingRouter);
 app.use('/api/subscriptions', subscriptionsRouter);
 app.use('/api/logout', logoutRouter)
 app.use(express.json());
