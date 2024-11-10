@@ -29,7 +29,7 @@ content-type: application/json
 ###
 POST http://localhost:5173/api/podcasters/36/podcasts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVuZXdAcG9kY2FzdGVyLmNvbSIsImlkIjo1MiwiaWF0IjoxNzMxMjI5NDM2LCJleHAiOjE3MzEyMzMwMzZ9.b4xR0Xoju3N0kYfYMru6wtkSzkr97sR-FXd_Am7Jr4Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVuZXdAcG9kY2FzdGVyLmNvbSIsImlkIjo1MiwiaWF0IjoxNzMxMjY1NDUzLCJleHAiOjE3MzEyNjkwNTN9.0ggcGX2d8Bs7aDrb18GMVSNPW055BvJRB5sBi6HTEmE
 
 {
     "name" : "This is a podcast name",
@@ -37,16 +37,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvb
     "urls": ["thisisaurl.com"]
 }
 
-# BULK EDIT OF PODCASTER DATA BY PODCASTER
+# VERIFY AND DISABLE PODCASTER BY SUPEUSER AND ADMIN
 ###
-PUT http://localhost:5173/api/podcasters/41 HTTP/1.1
+PATCH http://localhost:5173/api/podcasters/41 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIyNzY1OCwiZXhwIjoxNzMxMjMxMjU4fQ.hcXSazOOUF4dgBPK9EnpsP7KbamGI1QXjLBpmCJkB20
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyQHVzZXIuY29tIiwiaWQiOjE1LCJyb2xlIjoic3VwZXJ1c2VyIiwiaWF0IjoxNzMxMjY0NDE5LCJleHAiOjE3MzEyNjgwMTl9.081deB_K2AQsqZ2bZybMRQINNxnHm9xeTE05atXJmCA
 
-{
-    
+{   
     "verified": true,
     "disabled": true
+}
+# UPDATE INFO OF PODCASTER BY LOGGEDIN PODCASTER
+###
+PUT http://localhost:5173/api/podcasters/52 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVuZXdAcG9kY2FzdGVyLmNvbSIsImlkIjo1MiwiaWF0IjoxNzMxMjY1NTUzLCJleHAiOjE3MzEyNjkxNTN9.OoWcVllYudIinXGbaZ67ZHB4NgL6_ADN7qxHyMJE480
+
+{   
+    "name" : "upddatedname",
+    "links" : ["this is an updated link"],
+    "about": "thisi is an updated bio",
+    "avatar_url": "thisisuorl.com"
 }
 
 

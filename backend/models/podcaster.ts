@@ -56,6 +56,12 @@ Podcaster.init({
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  links: {
+    type: DataTypes.ARRAY(DataTypes.TEXT)
+  },
+  about: {
+    type: DataTypes.TEXT
+  }
 }, {
   sequelize,
   underscored: true,

@@ -77,17 +77,26 @@ podcastersRouter.post('/', async (req : Request, res: Response) => {
   }
 });
 
-// UPDATE PODDACSTER NAME BY  PODCASTER
-podcastersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+// EDIT PODDACSTER NAME AND AVATAR_URL AND BIO BY  PODCASTER
+podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { id } = req.params;
+  const { avatar_url, name, links, about } = req.body;
   if(req.decodedToken.id === Number(id)){
-    const podcastToEdit = await models.Podcaster.findByPk(id);
-    if (podcastToEdit) {
-      podcastToEdit.name = req.body.name;
-      podcastToEdit.save();
-      res.json(podcastToEdit);
+    const [updateCount, updatedPodcasters] = await models.Podcaster.update(
+      {
+        avatar_url,
+        name,
+        links,
+        about,
+      },
+      { where: { id }, returning: true }
+    );
+
+    // If the update count is greater than 0, return the updated podcaster
+    if (updateCount > 0) {
+      res.json(updatedPodcasters[0]);
     } else {
-      res.status(422).json({ error: 'Podcaster not found' });
+      res.status(422).json({ error: 'Failed to update podcaster' });
     }
   } else {
     res.status(422).json({ message : 'podcaster must be authenticated to perform action'});
@@ -95,7 +104,7 @@ podcastersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Resp
 });
 
 // VERIFY AND DISABLE PODCASTER BY SUPERUSER
-podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+podcastersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { role } = req.decodedToken;
   if(role == 'superuser' || role == 'admin' ){
     const { id } = req.params;
@@ -116,7 +125,7 @@ podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Respon
   }
 });
 
-// ADD PODCAST TO PODCASTER BY PODCASTER === editing ongoing
+// ADD PODCAST TO PODCASTER BY PODCASTER
 podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { id } = req.params;
   const podcaster = await models.Podcaster.findByPk( id );
