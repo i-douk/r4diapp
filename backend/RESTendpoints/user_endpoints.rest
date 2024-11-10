@@ -8,19 +8,28 @@ POST http://localhost:5173/api/users HTTP/1.1
 content-type: application/json
 
 {
-    "username" : "somenew@user.com",
-    "password" : "Examplepass@02",
-    "name" : "Example user"
+    "username" : "regular@user.com",
+    "password" : "Regularpass@02",
+    "name" : "Regular user"
 }
 
 ###
-# USER LOGIN
+# SUPERUSER LOGIN
 POST http://localhost:5173/api/userlogin HTTP/1.1
 content-type: application/json
 
 {
-    "username" : "superuser@user.com",
-    "password" : "Somethingcomplicated02@"
+    "username" : "super@user.com",
+    "password" : "Superpass@02"
+}
+###
+# REGULAR LOGIN
+POST http://localhost:5173/api/userlogin HTTP/1.1
+content-type: application/json
+
+{
+    "username" : "regular@user.com",
+    "password" : "Regularpass@02"
 }
 
 ###
