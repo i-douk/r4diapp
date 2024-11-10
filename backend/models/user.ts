@@ -51,17 +51,20 @@ User.init({
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  role: {
+    type : DataTypes.ENUM({ values: ['user', 'superuser', 'admin']}),
+  }
 }, {
   sequelize,
   underscored: true,
   timestamps: true,
   modelName: 'user',
   defaultScope: {
-    attributes: { exclude: ['password'] },
+    attributes: { exclude: ['password' , 'role'] },
   },
   scopes: {
     sensitive: {
-      attributes: { include: ['password'] } 
+      attributes: { include: ['password' , 'role'] } 
     }
   }
 });

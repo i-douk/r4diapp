@@ -1,13 +1,13 @@
-import { Request, Response } from 'express';
 const podcastersRouter = require('express').Router();
+import { sequelize } from '../../utils/db';
+import { Request, Response } from 'express';
+import { JWTRequest } from '../../dtos/types';
+import { PodcasterDTO } from '../../dtos/PodcasterDTO';
 import  models  from '../../models';
 import tokenExtractor from '../../utils/middleware';
 import ActivePodcasterSession from '../../models/active_podcaster_session';
-import { sequelize } from '../../utils/db';
-import { PodcasterDTO } from '../../dtos/PodcasterDTO';
-import { JWTRequest } from '../../dtos/types';
 
-//get all podcasters with info about added podcasts and subscribers
+//GET ALL USERS THROUGH DEFAULT SCOPE FOR PUBLIC DATA
 podcastersRouter.get('/', async (_req: Request, res : Response) => {
   const podcasters  = await models.Podcaster.scope('defaultScope').findAll({
     include:[
@@ -25,13 +25,12 @@ podcastersRouter.get('/', async (_req: Request, res : Response) => {
         } 
       }, 
     ],
-  }) ;
-
+  });
   const podcasterDTOs = podcasters.map((podcaster) => new PodcasterDTO(podcaster));   
   res.json(podcasterDTOs);
 });
 
-//get single podcaster by id with info about added podcasts and subscribers
+// GET SINGLE PODCASTER BY ID WITH PUBLIC DATA THROUGH DEFAULTSCOPE
 podcastersRouter.get('/:id', async (req: Request, res : Response) => {
   const {id} = req.params
   const podcaster  = await models.Podcaster.scope('defaultScope').findByPk( id,{
@@ -52,15 +51,14 @@ podcastersRouter.get('/:id', async (req: Request, res : Response) => {
     ],
   });
   if(podcaster) {
-    const podcasterDTO = new PodcasterDTO(podcaster);
-     
+    const podcasterDTO = new PodcasterDTO(podcaster);  
     res.json(podcasterDTO);
   } else {
-    res.status(422).json({ message : 'podcaster does not exist'})
+    res.status(422).json({ message : 'podcaster does not exist'});
   }
 });
 
-//create a new podcaster
+// CREATE NEW PODCASTER
 podcastersRouter.post('/', async (req : Request, res: Response) => {
   const { username, name, password } = req.body;
   const checkExistingPodcaster = await models.Podcaster.findOne({ where: { username}})
@@ -79,8 +77,7 @@ podcastersRouter.post('/', async (req : Request, res: Response) => {
   }
 });
 
-
-// Update a podcaster's name by podcaster
+// UPDATE PODDACSTER NAME BY  PODCASTER
 podcastersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { id } = req.params
   if(req.decodedToken.id === Number(id)){
@@ -97,17 +94,18 @@ podcastersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Resp
   }
 });
 
-// verify or disable podcaster by admin or superuser
+// VERIFY AND DISABLE PODCASTER BY SUPERUSER
 podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
-  if(req.decodedToken.role === 'superuser' || req.decodedToken.role === 'admin' ){
+  const { role } = req.decodedToken
+  if(role == 'superuser' || role == 'admin' ){
     const { id } = req.params
     const { verified , disabled} = req.body
     const podcasterToUpdate = await models.Podcaster.findByPk(id);
     if (podcasterToUpdate) {
       // Fetch the updated podcaster data
       const [updatedPodcaster]= await models.Podcaster.update({
-        verified : podcasterToUpdate.verified !== verified ? !verified : verified,
-        disabled : podcasterToUpdate.disabled !== disabled ? !disabled : disabled,
+        verified: verified ?? podcasterToUpdate.verified,
+          disabled: disabled ?? podcasterToUpdate.disabled,
       }, { where : {id} , returning: true} )
       res.json(updatedPodcaster);
     } else {
@@ -118,7 +116,7 @@ podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Respon
   }
 });
 
-// add a podcast to a podcaster
+// ADD PODCAST TO PODCASTER ------ TO EDIT
 podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { id } = req.params;
   const podcaster = await models.Podcaster.findByPk( id );
@@ -130,7 +128,7 @@ podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: JWTRequest, r
   }
 });
 
-// Delete podcaster by id and subsequentely the active session by SUPERUSER
+// DELETE PDOCASTER BY SUPERUSER AND ACTIVE PODCSATER SESSION
 podcastersRouter.delete('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
   if( req.decodedToken.role === 'superuser') {
     const podcaster = await models.Podcaster.findOne({ where: { id: req.params.id } });
@@ -144,7 +142,7 @@ podcastersRouter.delete('/:id', tokenExtractor, async (req: JWTRequest, res: Res
       res.status(422).json({ error: 'Podcaster nor found or failed to be deleted from database' });
     }
    } else {
-    res.status(422).json({ message : 'not enough permissions to perform this action'})
+    res.status(422).json({ message : 'not enough permissions to perform this action'});
    }
 });
 

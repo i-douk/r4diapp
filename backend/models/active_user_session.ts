@@ -1,7 +1,9 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../utils/db';
 
-class ActiveUserSession extends Model {}
+class ActiveUserSession extends Model {
+  role!: string;
+}
 ActiveUserSession.init(
   {
     id: { 
@@ -15,6 +17,9 @@ ActiveUserSession.init(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: { model: 'users', key: 'id'},
+    },
+    role: {
+      type : DataTypes.ENUM({ values: ['user', 'superuser', 'admin']}),
     }
   },
   {

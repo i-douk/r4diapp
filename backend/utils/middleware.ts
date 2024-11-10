@@ -8,7 +8,10 @@ import config from './config';
 
 //extract token from user active session and podcaster active session
 const tokenExtractor = async (
-  req: { get: (arg0: string) => any; token: any; decodedToken: jwt.JwtPayload },
+  req: {
+    role: string | undefined;
+    get: (arg0: string) => any; token: any; decodedToken: jwt.JwtPayload 
+},
   res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string }): any; new(): any } } },
   next: () => void) => {
 
@@ -37,6 +40,7 @@ const tokenExtractor = async (
     }
     req.token = token;
     req.decodedToken = decodedToken;
+    req.role = activeUserSession?.role
   } else {
     return res
       .status(401)

@@ -1,24 +1,24 @@
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 import config from '../../utils/config';
-import User from '../../models/user';
+import models from '../../models';
 import ActiveUserSession from '../../models/active_user_session';
 import bcrypt from 'bcrypt';
 
 const loginUserRouter = Router();
 
-loginUserRouter.post('/', async (request, response) => {
-  const { username, password } = request.body;
+loginUserRouter.post('/', async (req, res) => {
+  const { username, password } = req.body;
 
   // Find the user by username
-  const user : any = await User.scope('sensitive').findOne({
+  const user : any = await models.User.scope('sensitive').findOne({
     where: { username: username }
   });
 
   // Check if user exists
   if (!user) {
-    return response.status(401).json({
-      error: 'invalid username or password'
+    return res.status(401).json({
+      error: 'invalid or unregistered email'
     });
   }
   // Compare the plaintext password with the hashed password
@@ -26,14 +26,14 @@ loginUserRouter.post('/', async (request, response) => {
 
   // Check if password is correct
   if (!passwordCorrect) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: 'invalid username or password'
     });
   }
 
   // Check if the account is disabled
   if (user.disabled) {
-    return response.status(401).json({
+    return res.status(401).json({
       error: 'account disabled, please contact admin'
     });
   }
@@ -42,21 +42,21 @@ loginUserRouter.post('/', async (request, response) => {
   const userForToken = {
     username: user.username,
     id: user.id,
-    role:user.role
+    role: user.role
   };
 
   // Sign the token
   const token = jwt.sign(userForToken, config.SECRET!, { expiresIn: '1h' });
 
   // Create an active user session
-  await ActiveUserSession.create({
+   await ActiveUserSession.create({
     token,
     userId: user.id,
     role: user.role
   });
 
   // Respond with token and user information
-  return response.status(200).send({ token, username: user.username, name: user.name , role: user.role});
+  return res.status(200).send({ token, username: user.username, name: user.name , role: user.role});
 
 
 });

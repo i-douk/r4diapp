@@ -51,7 +51,7 @@ loginPodcasterRouter.post('/', async (req : Request, res : Response) => {
   // Create an active podcaster session
   await ActivePodcasterSession.create({
     token,
-    podcasterId: podcaster.id,
+    podcasterId: podcaster.id
   });
 
   // Respond with token and podcaster information
