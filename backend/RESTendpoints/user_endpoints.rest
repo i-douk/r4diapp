@@ -28,5 +28,40 @@ content-type: application/json
 GET http://localhost:5173/api/users/3 HTTP/1.1
 
 ###
-#
+# EDIT USERS NAME
+PATCH http://localhost:5173/api/users/14 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
 
+{
+    "name" : "another new name for super"
+}
+###
+# EDIT USERS AVATAR
+PATCH http://localhost:5173/api/users/14 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+
+{
+    "avatar_url" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFI7xKW1DpY1MyHw8GABbqeyGKB0ZmNmQVZQ&s"
+}
+
+###
+# ADD SUBSCRIPTION RELATION 
+POST http://localhost:5173/api/users/14/subscriptions HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+
+{
+    "podcasterId" : 40,
+    "stipend" : 30
+}
+###
+# ADD FollWINGS RELATION 
+POST http://localhost:5173/api/users/14/followings HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+
+{
+    "podcastId" : 23
+}

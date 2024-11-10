@@ -116,7 +116,7 @@ podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Respon
   }
 });
 
-// ADD PODCAST TO PODCASTER ------ TO EDIT
+// ADD PODCAST TO PODCASTER BY PODCASTER === editing ongoing
 podcastersRouter.post('/:id/podcasts', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { id } = req.params;
   const podcaster = await models.Podcaster.findByPk( id );

@@ -21,15 +21,15 @@ POST http://localhost:5173/api/podcasterlogin HTTP/1.1
 content-type: application/json
 
 {
-    "username" : "example@podcaster.com",
+    "username" : "somenew@podcaster.com",
     "password" : "Examplepass@02"
 }
 
 # ADD PODCAST AS A PODCASTER
 ###
-POST http://localhost:5173/api/podcasters/49/podcasts
+POST http://localhost:5173/api/podcasters/36/podcasts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImV4YW1wbGVAcG9kY2FzdGVyLmNvbSIsImlkIjo0OSwiaWF0IjoxNzMxMDE1NTg1LCJleHAiOjE3MzEwMTkxODV9.1h2-wFyBeprhvuWxaeDjXIB_f6O3BGEHpNnWKqhc-5I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvbWVuZXdAcG9kY2FzdGVyLmNvbSIsImlkIjo1MiwiaWF0IjoxNzMxMjI5NDM2LCJleHAiOjE3MzEyMzMwMzZ9.b4xR0Xoju3N0kYfYMru6wtkSzkr97sR-FXd_Am7Jr4Q
 
 {
     "name" : "This is a podcast name",
@@ -48,6 +48,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c
     "verified": true,
     "disabled": true
 }
+
+
 
 # DELETE PODCASTER 
 ###

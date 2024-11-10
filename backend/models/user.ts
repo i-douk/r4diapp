@@ -9,6 +9,7 @@ class User extends Model {
   public name?: string;
   public password?: string;
   public role!: 'admin' | 'user' | 'superuser'; 
+  public avatar_url: string  | undefined;
 }
 
 User.init({
@@ -53,6 +54,9 @@ User.init({
   },
   role: {
     type : DataTypes.ENUM({ values: ['user', 'superuser', 'admin']}),
+  },
+  avatar_url: {
+    type: DataTypes.STRING
   }
 }, {
   sequelize,

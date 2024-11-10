@@ -4,6 +4,7 @@ import tokenExtractor  from '../../utils/middleware';
 import { sequelize } from '../../utils/db';
 import models from '../../models';
 import { UserDTO } from '../../dtos/UserDTO';
+import { JWTRequest } from '../../dtos/types';
 
 //get all users , subscriptions to podcasters and  followed podcasts
 usersRouter.get('/', async (_req : Request, res: Response) => {
@@ -78,11 +79,10 @@ usersRouter.post('/', async (req : Request, res: Response) => {
 
 });
 
-// Get a user by username
-usersRouter.get('/:username', async (req : Request, res: Response) => {  
-  const user = await models.User.scope('defaultScope').findOne({ 
-    where: { username: req.params.username }
-  });
+// Get a user by id
+usersRouter.get('/:id', async (req : Request, res: Response) => {  
+  const {id} = req.params
+  const user = await models.User.scope('defaultScope').findByPk(id);
   if (user) {
     res.json(user);
   } else {
@@ -92,30 +92,82 @@ usersRouter.get('/:username', async (req : Request, res: Response) => {
 });
 
 // Update a user's name
-usersRouter.put('/:id', tokenExtractor, async (req: Request, res: Response) => {
-  const user = await models.User.findByPk(req.params.id);
-  if (user) {
-    user.name = req.body.name;
-    await user.save();
-    res.json(user);
+usersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const {id} = req.params
+  if(req.decodedToken.id !== Number(id)) {
+    res.status(422).json({ message : 'user needs to be logged in to change name'})
   } else {
-    res.status(404).json({ error: 'User not found' });
+    const user = await models.User.findByPk(req.params.id);
+    if (user) {
+      user.name = req.body.name;
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  }
+});
+
+// Update a user's avatar_url
+usersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const {id} = req.params
+
+  if(req.decodedToken.id !== Number(id)) {
+    res.status(422).json({ message : 'user needs to be logged in to change name'})
+  } else {
+    const user = await models.User.findByPk(id);
+    if (user) {
+      user.avatar_url = req.body.avatar_url;
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
   }
 });
 
 // subscribe to podcaster
-usersRouter.put('/:id', tokenExtractor, async (req: Request, res: Response) => {
-  const { id } = req.params
-  const { podcasterId , stipend} = req.body
-  const user = await models.User.findByPk(id);
-  const podcaster = await models.Podcaster.findByPk(podcasterId);
-
-  if (user && podcaster) {
-    const newSubscription = await models.Subscription.create({ userId : user.id , podcasterId : podcaster.id , stipend: stipend})
-   
-    res.json(newSubscription);
+usersRouter.post('/:id/subscriptions', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const {id} = req.params
+  const { podcasterId , stipend } = req.body
+  if(req.decodedToken.id !== Number(id)) {
+    res.status(422).json({ message : 'user needs to be logged in to subscribe'})
   } else {
-    res.status(404).json({ error: 'User not found' });
+    const user = await models.User.findByPk(id);
+    const podcaster = await models.Podcaster.findByPk(podcasterId);
+    if (user && podcaster) {
+      const newRelation = await models.Subscription.create({
+        userId : user.id,
+        podcasterId,
+        stipend,
+        paid: stipend > 0 ? true : false
+      })
+      res.json(newRelation);
+    } else {
+      res.status(404).json({ error: 'User and podcaster not found' });
+    }
+  }
+});
+
+// follow to podcaster
+usersRouter.post('/:id/followings', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const {id} = req.params
+  const { podcastId  } = req.body
+  if(req.decodedToken.id !== Number(id)) {
+    res.status(422).json({ message : 'user needs to be logged in to subscribe'})
+  } else {
+    const user = await models.User.findByPk(id);
+    const podcast = await models.Podcast.findByPk(podcastId);
+
+    if (user && podcast) {
+      const newRelation = await models.Following.create({
+        userId : user.id,
+        podcastId,
+      })
+      res.json(newRelation);
+    } else {
+      res.status(404).json({ error: 'User and podcaster not found' });
+    }
   }
 });
 
