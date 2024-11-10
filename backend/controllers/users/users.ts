@@ -171,9 +171,32 @@ usersRouter.post('/:id/followings', tokenExtractor, async (req: JWTRequest, res:
   }
 });
 
+// unfollow podcaster
+usersRouter.delete('/:id/followings', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const {id} = req.params
+  const { podcastId  } = req.body
+  if(req.decodedToken.id !== Number(id)) {
+    res.status(422).json({ message : 'user needs to be logged in to subscribe'})
+  } else {
+    const user = await models.User.findByPk(id);
+    const podcast = await models.Podcast.findByPk(podcastId);
+
+    if (user && podcast) {
+      await models.Following.destroy({ where: { userId :user.id , podcastId: podcast.id}})
+      res.status(200).json({message: 'unfollowed'});
+    } else {
+      res.status(404).json({ error: 'User and podcaster not found' });
+    }
+  }
+});
+
 
 // delete user by usename and subsequentely the active session
-usersRouter.delete('/:id', tokenExtractor, async (req: Request, res: Response) => {
+usersRouter.delete('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const { id } = req.params
+  if(req.decodedToken.id !== Number(id)) {
+    res.status(422).json({ message : 'user needs to be logged in to subscribe'})
+  } else {
   const user = await models.User.findByPk(req.params.id);
   if (user) {
     await sequelize.transaction(async (transaction) => {
@@ -183,7 +206,7 @@ usersRouter.delete('/:id', tokenExtractor, async (req: Request, res: Response) =
     res.status(204).end(); 
   } else {
     res.status(404).json({ error: 'User not found' });
-  }
+  } }
 });
 
 export default usersRouter;

@@ -57,7 +57,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c
     "stipend" : 30
 }
 ###
-# ADD FollWINGS RELATION 
+# ADD FOllWINGS RELATION 
 POST http://localhost:5173/api/users/14/followings HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
@@ -65,3 +65,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c
 {
     "podcastId" : 23
 }
+
+###
+# DELETE FollWINGS RELATION 
+DELETE http://localhost:5173/api/users/14/followings HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+
+{
+    "podcastId" : 23
+}
+
+###
+# DELETE FollWINGS RELATION 
+DELETE http://localhost:5173/api/users/14 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+
