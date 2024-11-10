@@ -38,18 +38,18 @@ GET http://localhost:5173/api/users/3 HTTP/1.1
 
 ###
 # EDIT USERS NAME
-PATCH http://localhost:5173/api/users/14 HTTP/1.1
+PATCH http://localhost:5173/api/users/16/name HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZ3VsYXJAdXNlci5jb20iLCJpZCI6MTYsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMxMjY2ODkzLCJleHAiOjE3MzEyNzA0OTN9.EJUuoFbu6ImdZ6wHV6US3CP-fJl-IytMH41jh2oC55M
 
 {
-    "name" : "another new name for super"
+    "name" : "another new name for regular user"
 }
 ###
 # EDIT USERS AVATAR
-PATCH http://localhost:5173/api/users/14 HTTP/1.1
+PATCH http://localhost:5173/api/users/16/avatar HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVydXNlckB1c2VyLmNvbSIsImlkIjoxNCwicm9sZSI6InN1cGVydXNlciIsImlhdCI6MTczMTIzMDUwOCwiZXhwIjoxNzMxMjM0MTA4fQ.0ypWblkIVxxZEuK2Mu7k1YHPck4HLG9kIH8VRmRbU6o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZ3VsYXJAdXNlci5jb20iLCJpZCI6MTYsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMxMjY2ODkzLCJleHAiOjE3MzEyNzA0OTN9.EJUuoFbu6ImdZ6wHV6US3CP-fJl-IytMH41jh2oC55M
 
 {
     "avatar_url" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFI7xKW1DpY1MyHw8GABbqeyGKB0ZmNmQVZQ&s"
@@ -73,6 +73,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c
 
 {
     "podcastId" : 23
+}
+
+# UPDATE INFO OF PODCASTER BY LOGGEDIN PODCASTER
+###
+PUT http://localhost:5173/api/users/16 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZ3VsYXJAdXNlci5jb20iLCJpZCI6MTYsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMxMjcxNjg0LCJleHAiOjE3MzEyNzUyODR9.Js07SotfWi6ixGsvs4flaKwiyvRh72vk1_WllG-0gms
+
+{   
+    "name" : "upddatedname",
+    "balance" : 300,
+    "about": "thisi is an updated bio",
+    "avatar_url": "thisisuorl.com"
 }
 
 ###

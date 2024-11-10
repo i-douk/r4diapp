@@ -61,6 +61,9 @@ Podcaster.init({
   },
   about: {
     type: DataTypes.TEXT
+  },
+  earnings: {
+    type: DataTypes.INTEGER
   }
 }, {
   sequelize,

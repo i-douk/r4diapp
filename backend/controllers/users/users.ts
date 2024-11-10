@@ -92,7 +92,7 @@ usersRouter.get('/:id', async (req : Request, res: Response) => {
 });
 
 // Update a user's name
-usersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+usersRouter.patch('/:id/name', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const {id} = req.params;
   if(req.decodedToken.id !== Number(id)) {
     res.status(422).json({ message : 'user needs to be logged in to change name'});
@@ -109,7 +109,7 @@ usersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response)
 });
 
 // Update a user's avatar_url
-usersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+usersRouter.patch('/:id/avatar', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const {id} = req.params;
 
   if(req.decodedToken.id !== Number(id)) {
@@ -123,6 +123,32 @@ usersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response)
     } else {
       res.status(404).json({ error: 'User not found' });
     }
+  }
+});
+
+// Update user in bulk
+usersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
+  const { id } = req.params;
+  const { avatar_url, name, about, balance } = req.body;
+  if(req.decodedToken.id === Number(id)){
+    const [updateCount, updateUSer] = await models.User.update(
+      {
+        avatar_url,
+        name,
+        about,
+        balance
+      },
+      { where: { id }, returning: true }
+    );
+
+    // If the update count is greater than 0, return the updated podcaster
+    if (updateCount > 0) {
+      res.json(updateUSer[0]);
+    } else {
+      res.status(422).json({ error: 'Failed to update user' });
+    }
+  } else {
+    res.status(422).json({ message : 'user must be authenticated to perform action'});
   }
 });
 
@@ -149,7 +175,7 @@ usersRouter.post('/:id/subscriptions', tokenExtractor, async (req: JWTRequest, r
   }
 });
 
-// follow to podcaster
+// follow  podcast
 usersRouter.post('/:id/followings', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const {id} = req.params;
   const { podcastId  } = req.body;

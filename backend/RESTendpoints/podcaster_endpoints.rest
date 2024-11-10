@@ -47,6 +47,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1c
     "verified": true,
     "disabled": true
 }
+
 # UPDATE INFO OF PODCASTER BY LOGGEDIN PODCASTER
 ###
 PUT http://localhost:5173/api/podcasters/52 HTTP/1.1
@@ -59,8 +60,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNvb
     "about": "thisi is an updated bio",
     "avatar_url": "thisisuorl.com"
 }
-
-
 
 # DELETE PODCASTER 
 ###

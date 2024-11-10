@@ -57,6 +57,12 @@ User.init({
   },
   avatar_url: {
     type: DataTypes.STRING
+  },
+  about: {
+    type: DataTypes.TEXT
+  },
+  balance: {
+    type: DataTypes.INTEGER
   }
 }, {
   sequelize,

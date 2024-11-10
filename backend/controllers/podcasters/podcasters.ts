@@ -87,7 +87,7 @@ podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Respon
         avatar_url,
         name,
         links,
-        about,
+        about
       },
       { where: { id }, returning: true }
     );
