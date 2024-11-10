@@ -40,7 +40,7 @@ const tokenExtractor = async (
     }
     req.token = token;
     req.decodedToken = decodedToken;
-    req.role = activeUserSession?.role
+    req.role = activeUserSession?.role;
   } else {
     return res
       .status(401)

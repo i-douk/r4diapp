@@ -32,7 +32,7 @@ podcastersRouter.get('/', async (_req: Request, res : Response) => {
 
 // GET SINGLE PODCASTER BY ID WITH PUBLIC DATA THROUGH DEFAULTSCOPE
 podcastersRouter.get('/:id', async (req: Request, res : Response) => {
-  const {id} = req.params
+  const {id} = req.params;
   const podcaster  = await models.Podcaster.scope('defaultScope').findByPk( id,{
     include:[
       {
@@ -61,9 +61,9 @@ podcastersRouter.get('/:id', async (req: Request, res : Response) => {
 // CREATE NEW PODCASTER
 podcastersRouter.post('/', async (req : Request, res: Response) => {
   const { username, name, password } = req.body;
-  const checkExistingPodcaster = await models.Podcaster.findOne({ where: { username}})
+  const checkExistingPodcaster = await models.Podcaster.findOne({ where: { username}});
   if(checkExistingPodcaster){
-    res.json({ message : ' Podcaster with this email already exists'})
+    res.json({ message : ' Podcaster with this email already exists'});
   }
   const podcaster = await models.Podcaster.create({
     username: username,
@@ -73,46 +73,46 @@ podcastersRouter.post('/', async (req : Request, res: Response) => {
   if(podcaster) {
     res.json(podcaster);
   } else {
-    res.status(422).json({ message : 'creating podcaster failed, check data sent'})
+    res.status(422).json({ message : 'creating podcaster failed, check data sent'});
   }
 });
 
 // UPDATE PODDACSTER NAME BY  PODCASTER
 podcastersRouter.patch('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
-  const { id } = req.params
+  const { id } = req.params;
   if(req.decodedToken.id === Number(id)){
     const podcastToEdit = await models.Podcaster.findByPk(id);
     if (podcastToEdit) {
-       podcastToEdit.name = req.body.name
-       podcastToEdit.save()
+      podcastToEdit.name = req.body.name;
+      podcastToEdit.save();
       res.json(podcastToEdit);
     } else {
       res.status(422).json({ error: 'Podcaster not found' });
     }
   } else {
-    res.status(422).json({ message : 'podcaster must be authenticated to perform action'})
+    res.status(422).json({ message : 'podcaster must be authenticated to perform action'});
   }
 });
 
 // VERIFY AND DISABLE PODCASTER BY SUPERUSER
 podcastersRouter.put('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
-  const { role } = req.decodedToken
+  const { role } = req.decodedToken;
   if(role == 'superuser' || role == 'admin' ){
-    const { id } = req.params
-    const { verified , disabled} = req.body
+    const { id } = req.params;
+    const { verified , disabled} = req.body;
     const podcasterToUpdate = await models.Podcaster.findByPk(id);
     if (podcasterToUpdate) {
       // Fetch the updated podcaster data
       const [updatedPodcaster]= await models.Podcaster.update({
         verified: verified ?? podcasterToUpdate.verified,
-          disabled: disabled ?? podcasterToUpdate.disabled,
-      }, { where : {id} , returning: true} )
+        disabled: disabled ?? podcasterToUpdate.disabled,
+      }, { where : {id} , returning: true} );
       res.json(updatedPodcaster);
     } else {
       res.status(422).json({ error: 'Podcaster not found' });
     }
   } else {
-    res.status(422).json({ message : 'not enough permissions to perform this action'})
+    res.status(422).json({ message : 'not enough permissions to perform this action'});
   }
 });
 
@@ -141,9 +141,9 @@ podcastersRouter.delete('/:id', tokenExtractor, async (req: JWTRequest, res: Res
     } else {
       res.status(422).json({ error: 'Podcaster nor found or failed to be deleted from database' });
     }
-   } else {
+  } else {
     res.status(422).json({ message : 'not enough permissions to perform this action'});
-   }
+  }
 });
 
 export default podcastersRouter;

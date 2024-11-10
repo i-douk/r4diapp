@@ -24,7 +24,7 @@ app.use('/api/podcasterlogin', loginPodcasterRouter);
 app.use('/api/podcasts', podcastsRouter);
 app.use('/api/followings', followingRouter);
 app.use('/api/subscriptions', subscriptionsRouter);
-app.use('/api/logout', logoutRouter)
+app.use('/api/logout', logoutRouter);
 app.use(express.json());
 
 // Sync Sequelize models with the database

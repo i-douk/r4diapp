@@ -49,7 +49,7 @@ loginUserRouter.post('/', async (req, res) => {
   const token = jwt.sign(userForToken, config.SECRET!, { expiresIn: '1h' });
 
   // Create an active user session
-   await ActiveUserSession.create({
+  await ActiveUserSession.create({
     token,
     userId: user.id,
     role: user.role,
