@@ -15,6 +15,6 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./node_modules/@types", "utils"],
     "allowJs": true
-  },
-  // "include": ["src/**/*"], 
+  }
+  // "include": ["src/**/*"],
 }

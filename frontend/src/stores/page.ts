@@ -1,16 +1,13 @@
+export const usePageStore = defineStore('page-store', () => {
+  const pageData = ref({
+    title: '',
+  })
 
-export const usePageStore = defineStore('page-store' , () => {
-
-   const pageData = ref({
-    title: ''
-   })
-
-
-    return{
-      pageData
-    }
+  return {
+    pageData,
+  }
 })
 
 if (import.meta.hot) {
-    import.meta.hot.accept(acceptHMRUpdate(usePageStore, import.meta.hot))
-  }
+  import.meta.hot.accept(acceptHMRUpdate(usePageStore, import.meta.hot))
+}

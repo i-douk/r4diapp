@@ -1,28 +1,30 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../utils/db';
+import { Model, DataTypes } from "sequelize";
+import { sequelize } from "../utils/db";
 
 class ActivePodcasterSession extends Model {}
 ActivePodcasterSession.init(
   {
-    id: { 
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true },
+      autoIncrement: true,
+    },
     token: {
       type: DataTypes.STRING,
-      allowNull: false },
+      allowNull: false,
+    },
     podcasterId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: { model: 'podcasters', key: 'id'},
-    }
+      references: { model: "podcasters", key: "id" },
+    },
   },
   {
     sequelize,
     underscored: true,
     timestamps: true,
-    modelName: 'active_podcaster_session',
-  }
+    modelName: "active_podcaster_session",
+  },
 );
 
 export default ActivePodcasterSession;

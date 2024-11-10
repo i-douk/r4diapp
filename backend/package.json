@@ -10,7 +10,7 @@
     "dev": "ts-node-dev index.ts",
     "lint:fix": "eslint --fix",
     "lint": "eslint .",
-    "format": "prettier --write"
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "i-douk",

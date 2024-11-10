@@ -1,7 +1,7 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
-import stylisticJs from '@stylistic/eslint-plugin-js';
+import stylisticJs from "@stylistic/eslint-plugin-js";
 
 export default tseslint.config({
   files: ["**/*.ts"],
@@ -17,7 +17,7 @@ export default tseslint.config({
   },
   plugins: {
     "@stylistic": stylistic,
-    '@stylistic/js': stylisticJs
+    "@stylistic/js": stylisticJs,
   },
   ignores: ["build/*"],
   rules: {

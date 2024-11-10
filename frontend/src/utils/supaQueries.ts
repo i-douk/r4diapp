@@ -1,7 +1,6 @@
-import { supabase } from "@/lib/supabaseClient";
-import type { QueryData } from "@supabase/supabase-js";
-export const podcastersWithPodcastsQuery = supabase.from('podcasters')
-    .select(`
+import { supabase } from '@/lib/supabaseClient'
+import type { QueryData } from '@supabase/supabase-js'
+export const podcastersWithPodcastsQuery = supabase.from('podcasters').select(`
       *,
        podcasts (
        id,
@@ -9,10 +8,11 @@ export const podcastersWithPodcastsQuery = supabase.from('podcasters')
        urls
        )
     `)
-export type PodcastersWithPodcastsQuery = QueryData<typeof podcastersWithPodcastsQuery>
+export type PodcastersWithPodcastsQuery = QueryData<
+  typeof podcastersWithPodcastsQuery
+>
 
-export const podcastsWithPodcastersQuery = supabase.from('podcasts')
-.select(`
+export const podcastsWithPodcastersQuery = supabase.from('podcasts').select(`
     *,
      podcasters (
      id,
@@ -20,17 +20,21 @@ export const podcastsWithPodcastersQuery = supabase.from('podcasts')
      )
   `)
 
-  export type PodcastsWithPodcastersQuery = QueryData<typeof podcastsWithPodcastersQuery>
+export type PodcastsWithPodcastersQuery = QueryData<
+  typeof podcastsWithPodcastersQuery
+>
 
-  export const podcastQuery = (id: string) => supabase.from('podcasts')
-      .select('*')
-      .eq('id', Number(id))
-      .single()
+export const podcastQuery = (id: string) =>
+  supabase.from('podcasts').select('*').eq('id', Number(id)).single()
 
+export type PodcastQuery = QueryData<ReturnType<typeof podcastQuery>>
 
-  export type PodcastQuery = QueryData<ReturnType<typeof podcastQuery>>
-
-
-  export const profileQuery = ( { column , value} : {column : string, value: string }) => {
-    return supabase.from('profiles').select().eq(column,value).single()
-  }
+export const profileQuery = ({
+  column,
+  value,
+}: {
+  column: string
+  value: string
+}) => {
+  return supabase.from('profiles').select().eq(column, value).single()
+}

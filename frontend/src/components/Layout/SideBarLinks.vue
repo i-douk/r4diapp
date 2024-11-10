@@ -1,47 +1,48 @@
 <script setup lang="ts">
-
-interface LinkProp{
-    title: string,
-    to?: string,
-    icon: string
+interface LinkProp {
+  title: string
+  to?: string
+  icon: string
 }
 const props = defineProps<{
-    links: LinkProp[]
+  links: LinkProp[]
 }>()
 
 const emits = defineEmits<{
-  actionClicked : [string]
+  actionClicked: [string]
 }>()
 
-const emitActionClicked = (linkTitle : string) =>{
-  emits('actionClicked' , linkTitle)
+const emitActionClicked = (linkTitle: string) => {
+  emits('actionClicked', linkTitle)
 }
 
 // const  filteredLink = props.links.filter((link) : link is LinkProp & { to: string} => !!link.to)
 </script>
 
 <template>
-  <template  v-for="link in links":key="link.title">
+  <template v-for="link in links" :key="link.title">
     <RouterLink
-    v-if="link.to"
-    exactActiveClass="text-primary bg-muted"
-   
-    :to="link.to"
-         class="nav-link"
-       >
-         <iconify-icon :icon="link.icon"></iconify-icon>
-         <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
-       </RouterLink>
-       <div v-else class="nav-link cursor-pointer" @click="emitActionClicked(link.title)">
-         <iconify-icon :icon="link.icon"></iconify-icon>
-         <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
-       </div>
-
-  </template >
+      v-if="link.to"
+      exactActiveClass="text-primary bg-muted"
+      :to="link.to"
+      class="nav-link"
+    >
+      <iconify-icon :icon="link.icon"></iconify-icon>
+      <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
+    </RouterLink>
+    <div
+      v-else
+      class="nav-link cursor-pointer"
+      @click="emitActionClicked(link.title)"
+    >
+      <iconify-icon :icon="link.icon"></iconify-icon>
+      <span class="hidden lg:block text-nowrap">{{ link.title }}</span>
+    </div>
+  </template>
 </template>
 
 <style scoper>
-.nav-link{
-  @apply flex items-center gap-3 px-4 py-2 mx-2 transition-colors rounded-lg hover:text-primary justify-center lg:justify-normal text-muted-foreground
+.nav-link {
+  @apply flex items-center gap-3 px-4 py-2 mx-2 transition-colors rounded-lg hover:text-primary justify-center lg:justify-normal text-muted-foreground;
 }
 </style>

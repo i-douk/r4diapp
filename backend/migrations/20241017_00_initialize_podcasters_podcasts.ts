@@ -1,14 +1,14 @@
-import { DataTypes } from 'sequelize';
-'use strict';
+import { DataTypes } from "sequelize";
+("use strict");
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
     // Create 'podcasters' table
-    await queryInterface.createTable('podcasters', {
+    await queryInterface.createTable("podcasters", {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       username: {
         type: DataTypes.STRING,
@@ -17,7 +17,7 @@ module.exports = {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING,
@@ -25,46 +25,46 @@ module.exports = {
       },
       premium: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       verified: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       disabled: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       created_at: DataTypes.DATE,
       updated_at: DataTypes.DATE,
     });
 
     // Create 'podcasts' table
-    await queryInterface.createTable('podcasts', {
+    await queryInterface.createTable("podcasts", {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       name: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
       },
       urls: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false
+        allowNull: false,
       },
       transcribed: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-        allowNull: false
+        allowNull: false,
       },
       disabled: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       description: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
       },
       created_at: DataTypes.DATE,
       updated_at: DataTypes.DATE,
@@ -79,18 +79,18 @@ module.exports = {
     `);
 
     if (results.length === 0) {
-      await queryInterface.addColumn('podcasts', 'podcaster_id', {
+      await queryInterface.addColumn("podcasts", "podcaster_id", {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: { model: 'podcasters', key: 'id' },
+        references: { model: "podcasters", key: "id" },
       });
     }
   },
 
   down: async ({ context: queryInterface }) => {
     // Drop tables in reverse order to avoid constraint issues
-    await queryInterface.dropTable('podcasts');
-    await queryInterface.dropTable('podcasters');
+    await queryInterface.dropTable("podcasts");
+    await queryInterface.dropTable("podcasters");
 
     // Remove the 'podcaster_id' column if it exists
     const [results] = await queryInterface.sequelize.query(`
@@ -101,7 +101,7 @@ module.exports = {
     `);
 
     if (results.length > 0) {
-      await queryInterface.removeColumn('podcasts', 'podcaster_id');
+      await queryInterface.removeColumn("podcasts", "podcaster_id");
     }
-  }
+  },
 };

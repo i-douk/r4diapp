@@ -4,9 +4,9 @@ import { FollowingDTO } from "./FollowingDTO";
 import { SubscriptionDTO } from "./SubscriptionDTO";
 
 export enum Role {
-    ADMIN = 'admin',
-    USER = 'user',
-    SUPERUSER = 'superuser',
+  ADMIN = "admin",
+  USER = "user",
+  SUPERUSER = "superuser",
 }
 // dtos/PodcasterDTO.ts
 export class UserDTO {
@@ -17,12 +17,12 @@ export class UserDTO {
   public created_at: string;
   public updated_at: string;
   public verified: boolean;
-  public role: Role; 
+  public role: Role;
   public subscriptions?: PodcasterDTO[];
   public subscription?: SubscriptionDTO;
   public followings?: PodcastDTO[];
   public following?: FollowingDTO;
-  
+
   constructor(user: any) {
     this.id = user.id;
     this.name = user.name;
@@ -34,8 +34,9 @@ export class UserDTO {
     this.verified = user.verified;
     this.following = user.following;
     this.subscription = user.subscription;
-    this.subscriptions = user.subscriptions?.map((s: any) => new PodcasterDTO(s));
+    this.subscriptions = user.subscriptions?.map(
+      (s: any) => new PodcasterDTO(s),
+    );
     this.followings = user.followings?.map((s: any) => new PodcastDTO(s));
   }
 }
-  

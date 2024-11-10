@@ -16,7 +16,7 @@ export class PodcasterDTO {
   public podcasts?: PodcastDTO[];
   public subscribers?: UserDTO[];
   public subscription?: SubscriptionDTO;
-  
+
   constructor(podcaster: any) {
     this.id = podcaster.id;
     this.name = podcaster.name;
@@ -28,9 +28,10 @@ export class PodcasterDTO {
     this.verified = podcaster.verified;
     this.subscription = podcaster.subscription;
     this.subscriptioncount = podcaster.subscriptioncount;
-      
+
     this.podcasts = podcaster.podcasts?.map((p: any) => new PodcastDTO(p));
-    this.subscribers = podcaster.subscribers?.map((subscriber: any) => new UserDTO(subscriber));
+    this.subscribers = podcaster.subscribers?.map(
+      (subscriber: any) => new UserDTO(subscriber),
+    );
   }
 }
-  

@@ -14,10 +14,10 @@ export class PodcastDTO {
   public transcribed: boolean;
   public urls: string[];
   public slug?: string;
-  public podcaster : PodcasterDTO;
+  public podcaster: PodcasterDTO;
   public followers?: UserDTO[];
   public following?: FollowingDTO;
-    
+
   constructor(podcast: any) {
     this.id = podcast.id;
     this.transcribed = podcast.transcribed;
@@ -31,4 +31,3 @@ export class PodcastDTO {
     this.followers = podcast.followers?.map((s: any) => new UserDTO(s));
   }
 }
-  

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { pageData } = storeToRefs (usePageStore())
+const { pageData } = storeToRefs(usePageStore())
 </script>
 
 <template>
