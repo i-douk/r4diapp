@@ -5,6 +5,8 @@ class Subscription extends Model {
   paid!: boolean;
   id!: number;
   userId!: number;
+  comments?: string[];
+  frozen!: boolean;
 }
 
 Subscription.init({
@@ -32,6 +34,14 @@ Subscription.init({
     type: DataTypes.INTEGER,
     defaultValue : 0,
     allowNull : false
+  },
+  frozen : {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
+  },
+  comments : {
+    type: DataTypes.ARRAY(DataTypes.STRING)
   }
 }, {
   sequelize,

@@ -42,6 +42,47 @@ subscriptionsRouter.post('/', tokenExtractor, async ( req: JWTRequest, res: Resp
   }
 });
 
+// ALLOW SUPERUSER TO FREEZE SUBSCRIPTION
+subscriptionsRouter.patch('/:id', tokenExtractor, async ( req: JWTRequest, res: Response) => {
+  const { role } = req.decodedToken;
+  const { id } = req.params;
+  const { frozen }  = req.body; 
+  if(role === 'superuser'){
+  const existingSusbcription =  await models.Subscription.findByPk(id);
+    if(existingSusbcription){
+      existingSusbcription.frozen = frozen ;
+      await existingSusbcription.save();
+      res.status(200).send(existingSusbcription);
+    }else{
+      res.status(422).json({ message : 'This subscription does not exist'});
+    }
+  } else {
+    res.status(422).json({ message: 'not enough persmissions to access subscriptions'});
+  }
+});
+
+// ALLOW SUPERUSER AND ADMIN TO ADD COMMENTS TO THE SUBSCRIPTION
+subscriptionsRouter.post('/:id', tokenExtractor, async ( req: JWTRequest, res: Response) => {
+  const { role } = req.decodedToken;
+  const { id } = req.params;
+  const { comment } = req.body;
+  
+  if(role === 'superuser' || role === 'admin'){
+  const subscriptionToComment =  await models.Subscription.findByPk(id);
+    if(subscriptionToComment){
+      let currentComments : string[]= subscriptionToComment.comments || []; 
+      currentComments.push(`${role} commented: ${comment}`);
+      subscriptionToComment.comments = currentComments; 
+      subscriptionToComment.save();
+      res.status(201).send(subscriptionToComment);
+    }else{
+      res.status(422).json({ message : 'This subscription does not exist'});
+    }
+  } else {
+    res.status(422).json({ message: 'not enough persmissions to access subscriptions'});
+  }
+});
+
 // delete subscription
 subscriptionsRouter.delete('/:id', tokenExtractor, async (req: JWTRequest, res: Response) => {
   const { role } = req.decodedToken;

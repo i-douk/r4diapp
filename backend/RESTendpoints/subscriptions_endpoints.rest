@@ -2,7 +2,7 @@
 ###
 GET http://localhost:5173/api/subscriptions HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyQHVzZXIuY29tIiwiaWQiOjE1LCJyb2xlIjoic3VwZXJ1c2VyIiwiaWF0IjoxNzMxMjQzNjkxLCJleHAiOjE3MzEyNDcyOTF9.hD9vUNGnLsG53B5wtRc0F-LOIss9NpnvQGFY5bqh6lk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyQHVzZXIuY29tIiwiaWQiOjE1LCJyb2xlIjoic3VwZXJ1c2VyIiwiaWF0IjoxNzMxMjQ5NDAwLCJleHAiOjE3MzEyNTMwMDB9.wuxnGOB7XU9RBNRw_rDdE1IpDKloKfZFfgAnDwd4iz8
 
 # CREATE A SUBSCRIPTION RELATION B/W USER AND PODCASTER
 ###
@@ -15,9 +15,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZ
     "userId":"13",
     "stipend": 20
 }
-
+# FREEZE SUBSCRIPTION BY SUPERUSER
 ###
+PATCH http://localhost:5173/api/subscriptions/41 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyQHVzZXIuY29tIiwiaWQiOjE1LCJyb2xlIjoic3VwZXJ1c2VyIiwiaWF0IjoxNzMxMjQ5NDAwLCJleHAiOjE3MzEyNTMwMDB9.wuxnGOB7XU9RBNRw_rDdE1IpDKloKfZFfgAnDwd4iz8
 
+{
+    "frozen": true
+}
+# ADD COMMENT BY SUPERUSER AND ADMIN
+###
+POST http://localhost:5173/api/subscriptions/41 HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyQHVzZXIuY29tIiwiaWQiOjE1LCJyb2xlIjoic3VwZXJ1c2VyIiwiaWF0IjoxNzMxMjQ5NDAwLCJleHAiOjE3MzEyNTMwMDB9.wuxnGOB7XU9RBNRw_rDdE1IpDKloKfZFfgAnDwd4iz8
+
+{
+    "comment": "THIS IS AoterN ADDED COMMENT"
+}
+
+# DELETE SUBSCRIPTION BY ADMIN AND SUPERUSER
+###
 DELETE http://localhost:5173/api/subscriptions/22 HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyQHVzZXIuY29tIiwiaWQiOjE1LCJyb2xlIjoic3VwZXJ1c2VyIiwiaWF0IjoxNzMxMjQzNjkxLCJleHAiOjE3MzEyNDcyOTF9.hD9vUNGnLsG53B5wtRc0F-LOIss9NpnvQGFY5bqh6lk

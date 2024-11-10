@@ -52,7 +52,7 @@ loginUserRouter.post('/', async (req, res) => {
    await ActiveUserSession.create({
     token,
     userId: user.id,
-    role: user.role
+    role: user.role,
   });
 
   // Respond with token and user information
