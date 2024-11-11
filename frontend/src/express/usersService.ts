@@ -9,5 +9,5 @@ export default {
   userslogin(formData: LoginForm) {
     const returnedToken = expressClient.post('/userlogin', formData)
     return expressClient.post('/userlogin', formData)
-  },
+  }
 }

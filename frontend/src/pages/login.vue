@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import usersService from '@/express/usersService'
-import { watchDebounced } from '@vueuse/core'
+import usersService from '@/express/usersService';
+import { watchDebounced } from '@vueuse/core';
+import type { AxiosResponse } from 'axios';
+
 const formData = ref({
   username: '',
   password: '',
 })
 
-const {serverError, handleServerError , realtimeErrors, handleLoginForm } = useFormErrors()
-const router = useRouter()
+const {serverError, handleServerError , realtimeErrors, handleLoginForm } = useFormErrors();
+const router = useRouter();
 
 watchDebounced(
   formData,
   () => {
-    handleLoginForm(formData.value)
+    handleLoginForm(formData.value);
   },
   {
     debounce: 1000,
@@ -21,19 +23,18 @@ watchDebounced(
 )
 
 const signin = async () => {
-  try {
-    const response: AxiosResponse = await usersService.userslogin(formData.value);
+    const response : AxiosResponse | void = await usersService.userslogin(formData.value)
+    .catch((error) => {
+      handleServerError(error)
+      console.log(error.response.data.error)
+      return
+    });
     console.log("Response:", response);
 
-    if (response.status === 200) {
+    if (response?.status === 200 ) {
       router.push('/');
-    } else {
-      handleServerError(response.data?.error || "Unknown error occurred");
+
     }
-  } catch (err) {
-    console.error("Login failed:", err);
-    handleServerError(err);
-  }
 };
 </script>
 
@@ -80,9 +81,9 @@ const signin = async () => {
           <div class="grid gap-2">
             <div class="flex items-center">
               <Label id="password">Password</Label>
-              <a href="#" class="inline-block ml-auto text-xs underline">
+              <!-- <a href="#" class="inline-block ml-auto text-xs underline">
                 Forgot your password?
-              </a>
+              </a> -->
             </div>
             <Input
               id="password"

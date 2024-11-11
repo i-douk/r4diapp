@@ -3,9 +3,9 @@ export const validateEmail = (email: string) => {
   if (!trimmedEmail) return []
 
   const errors = []
-  const emailRegex = / ^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$ /
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   const isValidEmailFormate = emailRegex.test(trimmedEmail)
-  if (!isValidEmailFormate) errors.push('Not a valid email format')
+  if (!isValidEmailFormate) errors.push('Please enter a valid email format')
 
   return errors
 }
@@ -13,9 +13,13 @@ export const validateEmail = (email: string) => {
 export const validatePassword = (password: string) => {
   if (!password) return []
   const errors = []
-  if (password.length <= 6)
-    errors.push('enter a password longer than 6 characters')
-  if (!password.includes('@'))
-    errors.push('password must include special character @')
+  if (password.length <= 8)
+    errors.push('the password longer than 6 characters')
+  
+  const hasSpecialCharacter = (str : string) => /[!@#$%^&*()_\-+={}[\]|:;"'<>,.?/~`]/.test(str);
+  if (!hasSpecialCharacter(password)) {
+   errors.push("add at least one special character (e.g. : @,%,&, etc).");
+  }
+
   return errors
 }

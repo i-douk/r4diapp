@@ -1,5 +1,5 @@
 import type { LoginForm, RegisterForm } from '@/types/AuthForm'
-import type { AuthError } from '@supabase/supabase-js'
+import type { AxiosError } from 'axios'
 
 type FormErrors<T> = {
   [K in keyof T]: string[]
@@ -8,10 +8,12 @@ type FormErrors<T> = {
 export const useFormErrors = () => {
   const serverError = ref('')
   const realtimeErrors = ref<FormErrors<LoginForm | RegisterForm>>()
-  const handleServerError = (error: AuthError) => {
+  const handleServerError = (error: AxiosError<{ error: string }> ) => {
+
+    
     serverError.value =
-      error?.message === 'Invalid login credentials'
-        ? 'Incorrect email or password'
+      error?.response?.data?.error === 'invalid or unregistered email' || 'invalid username or password'
+        ? 'Incorrect email or password, please try again'
         : error?.message
   }
 
