@@ -6,9 +6,8 @@ const formData = ref({
   password: '',
 })
 
-// const {serverError, handleServerError , realtimeErrors, handleLoginForm } = useFormErrors()
-const { serverError, realtimeErrors, handleLoginForm } = useFormErrors()
-// const router = useRouter()
+const {serverError, handleServerError , realtimeErrors, handleLoginForm } = useFormErrors()
+const router = useRouter()
 
 watchDebounced(
   formData,
@@ -22,11 +21,20 @@ watchDebounced(
 )
 
 const signin = async () => {
-  await usersService.userslogin(formData.value)
-  //  const {axiosError} = await usersService.userslogin(formData.value)
-  //  if (!error) router.push('/')
-  //  if(error) handleServerError(error)
-}
+  try {
+    const response: AxiosResponse = await usersService.userslogin(formData.value);
+    console.log("Response:", response);
+
+    if (response.status === 200) {
+      router.push('/');
+    } else {
+      handleServerError(response.data?.error || "Unknown error occurred");
+    }
+  } catch (err) {
+    console.error("Login failed:", err);
+    handleServerError(err);
+  }
+};
 </script>
 
 <template>
