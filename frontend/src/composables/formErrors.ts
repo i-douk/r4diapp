@@ -31,6 +31,8 @@ export const useFormErrors = () => {
     if (passwordErrors.length) realtimeErrors.value.password = passwordErrors
   }
 
+  //handleRegisterForm to add here
+
   return {
     serverError,
     handleServerError,

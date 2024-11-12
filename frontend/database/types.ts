@@ -45,6 +45,7 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          role: Database["public"]["Enums"]["enum_active_user_sessions_role"]
           token: string
           updated_at: string
           user_id: number | null
@@ -52,6 +53,7 @@ export type Database = {
         Insert: {
           created_at: string
           id?: number
+          role?: Database["public"]["Enums"]["enum_active_user_sessions_role"]
           token: string
           updated_at: string
           user_id?: number | null
@@ -59,6 +61,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
+          role?: Database["public"]["Enums"]["enum_active_user_sessions_role"]
           token?: string
           updated_at?: string
           user_id?: number | null
@@ -123,10 +126,13 @@ export type Database = {
       }
       podcasters: {
         Row: {
+          about: string | null
           avatar_url: string | null
           created_at: string
           disabled: boolean | null
+          earnings: number | null
           id: number
+          links: string[] | null
           name: string
           password: string
           premium: boolean | null
@@ -136,10 +142,13 @@ export type Database = {
           verified: boolean | null
         }
         Insert: {
+          about?: string | null
           avatar_url?: string | null
           created_at: string
           disabled?: boolean | null
+          earnings?: number | null
           id?: number
+          links?: string[] | null
           name: string
           password: string
           premium?: boolean | null
@@ -149,10 +158,13 @@ export type Database = {
           verified?: boolean | null
         }
         Update: {
+          about?: string | null
           avatar_url?: string | null
           created_at?: string
           disabled?: boolean | null
+          earnings?: number | null
           id?: number
+          links?: string[] | null
           name?: string
           password?: string
           premium?: boolean | null
@@ -172,7 +184,7 @@ export type Database = {
           id: number
           name: string
           podcaster_id: number | null
-          slug: string
+          slug: string | null
           transcribed: boolean
           updated_at: string
           urls: string[]
@@ -185,7 +197,7 @@ export type Database = {
           id?: number
           name: string
           podcaster_id?: number | null
-          slug: string
+          slug?: string | null
           transcribed?: boolean
           updated_at: string
           urls: string[]
@@ -198,7 +210,7 @@ export type Database = {
           id?: number
           name?: string
           podcaster_id?: number | null
-          slug?: string
+          slug?: string | null
           transcribed?: boolean
           updated_at?: string
           urls?: string[]
@@ -213,38 +225,10 @@ export type Database = {
           },
         ]
       }
-      profiles: {
-        Row: {
-          avatar_url: string | null
-          bio: string | null
-          created_at: string
-          full_name: string
-          id: string
-          mode: string
-          username: string
-        }
-        Insert: {
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string
-          full_name: string
-          id: string
-          mode?: string
-          username: string
-        }
-        Update: {
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string
-          full_name?: string
-          id?: string
-          mode?: string
-          username?: string
-        }
-        Relationships: []
-      }
       subscriptions: {
         Row: {
+          comments: string[] | null
+          frozen: boolean
           id: number
           paid: boolean
           podcaster_id: number
@@ -252,6 +236,8 @@ export type Database = {
           user_id: number
         }
         Insert: {
+          comments?: string[] | null
+          frozen?: boolean
           id?: number
           paid?: boolean
           podcaster_id: number
@@ -259,6 +245,8 @@ export type Database = {
           user_id: number
         }
         Update: {
+          comments?: string[] | null
+          frozen?: boolean
           id?: number
           paid?: boolean
           podcaster_id?: number
@@ -284,7 +272,9 @@ export type Database = {
       }
       users: {
         Row: {
+          about: string | null
           avatar_url: string | null
+          balance: number | null
           created_at: string
           disabled: boolean | null
           id: number
@@ -298,7 +288,9 @@ export type Database = {
           verified: boolean | null
         }
         Insert: {
+          about?: string | null
           avatar_url?: string | null
+          balance?: number | null
           created_at: string
           disabled?: boolean | null
           id?: number
@@ -312,7 +304,9 @@ export type Database = {
           verified?: boolean | null
         }
         Update: {
+          about?: string | null
           avatar_url?: string | null
+          balance?: number | null
           created_at?: string
           disabled?: boolean | null
           id?: number
@@ -350,6 +344,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      enum_active_user_sessions_role: "user" | "superuser" | "admin"
       enum_users_role: "admin" | "user" | "superuser"
     }
     CompositeTypes: {
