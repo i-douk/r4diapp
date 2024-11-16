@@ -34,10 +34,19 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
       },
     ],
   });
-  const podcasterDTOs = podcasters.map(
-    (podcaster) => new PodcasterDTO(podcaster),
+  const podcastersWithubscriptionCount = await Promise.all(
+    podcasters.map(async (podcaster) => {
+      const subscriptioncount = await models.Subscription.count({
+        where: { podcaster_id: podcaster.id },
+      });
+      return {
+        ...podcaster.toJSON(), // Convert Sequelize instance to plain object
+        subscriptioncount, // Add followCount dynamically
+      };
+    })
   );
-  res.json(podcasterDTOs);
+
+  res.json(podcastersWithubscriptionCount.map((podcaster) => new PodcasterDTO(podcaster)));
 });
 
 // GET SINGLE PODCASTER BY ID WITH PUBLIC DATA THROUGH DEFAULTSCOPE
