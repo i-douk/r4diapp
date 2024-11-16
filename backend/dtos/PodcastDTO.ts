@@ -25,6 +25,7 @@ export class PodcastDTO {
     this.urls = podcast.urls;
     this.avatar_url = podcast.avatar_url;
     this.updated_at = podcast.updated_at;
+    this.followcount = podcast.followcount
     this.created_at = podcast.created_at;
     this.following = podcast.following;
     this.podcaster = podcast.podcaster;

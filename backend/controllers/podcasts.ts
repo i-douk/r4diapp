@@ -7,6 +7,7 @@ import { PodcastDTO } from "../dtos/PodcastDTO";
 // fetch all podcasts //
 podcastsRouter.get("/", async (_req: Request, res: Response) => {
   const podcasts = await models.Podcast.findAll({
+    
     include: [
       {
         model: models.Podcaster,
@@ -30,10 +31,22 @@ podcastsRouter.get("/", async (_req: Request, res: Response) => {
       },
     ],
   });
+  const podcastsWithFollowCount = await Promise.all(
+    podcasts.map(async (podcast) => {
+      const followcount = await models.Following.count({
+        where: { podcast_id: podcast.id },
+      });
+      return {
+        ...podcast.toJSON(), // Convert Sequelize instance to plain object
+        followcount, // Add followCount dynamically
+      };
+    })
+  );
 
-  const podcastsDTOs = podcasts.map((podcast) => new PodcastDTO(podcast));
-  res.json(podcastsDTOs);
+  res.json(podcastsWithFollowCount.map((podcast) => new PodcastDTO(podcast)));
 });
+
+
 
 // fetch all porcasts added by a podcaster //
 podcastsRouter.get("/:username", async (req: Request, res: Response) => {
