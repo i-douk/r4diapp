@@ -13,7 +13,6 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
       {
         model: models.Podcast,
         as: "followings",
-        attributes: { exclude: [""] },
         through: {
           attributes: { exclude: ["userId", "podcastId"] },
         },
@@ -21,11 +20,11 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
       {
         model: models.Podcaster,
         as: "subscriptions",
-        attributes: { exclude: [] },
         through: {
           attributes: { exclude: ["userId", "podcasterId"] },
         },
       },
+      
     ],
   });
   if (users) {
