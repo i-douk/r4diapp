@@ -10,7 +10,7 @@ export class PodcasterDTO {
   public avatar_url: string | null;
   public created_at: string;
   public updated_at: string;
-  public subscriptioncount: number;
+  public subscriberscount: number;
   public verified: boolean;
 
   public podcasts?: PodcastDTO[];
@@ -27,7 +27,7 @@ export class PodcasterDTO {
     this.created_at = podcaster.created_at;
     this.verified = podcaster.verified;
     this.subscription = podcaster.subscription;
-    this.subscriptioncount = podcaster.subscriptioncount;
+    this.subscriberscount = podcaster.subscriberscount;
 
     this.podcasts = podcaster.podcasts?.map((p: any) => new PodcastDTO(p));
     this.subscribers = podcaster.subscribers?.map(

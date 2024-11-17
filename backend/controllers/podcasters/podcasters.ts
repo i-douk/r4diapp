@@ -36,12 +36,12 @@ podcastersRouter.get("/", async (_req: Request, res: Response) => {
   });
   const podcastersWithubscriptionCount = await Promise.all(
     podcasters.map(async (podcaster) => {
-      const subscriptioncount = await models.Subscription.count({
+      const subscriberscount = await models.Subscription.count({
         where: { podcaster_id: podcaster.id },
       });
       return {
-        ...podcaster.toJSON(), // Convert Sequelize instance to plain object
-        subscriptioncount, // Add followCount dynamically
+        ...podcaster.toJSON(),
+        subscriberscount,
       };
     })
   );

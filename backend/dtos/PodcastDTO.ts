@@ -7,7 +7,7 @@ export class PodcastDTO {
   public id: number;
   public name: string;
   public description?: string;
-  public followcount?: number;
+  public followerscount?: number;
   public avatar_url: string | null;
   public created_at: string;
   public updated_at: string;
@@ -25,7 +25,7 @@ export class PodcastDTO {
     this.urls = podcast.urls;
     this.avatar_url = podcast.avatar_url;
     this.updated_at = podcast.updated_at;
-    this.followcount = podcast.followcount
+    this.followerscount = podcast.followerscount;
     this.created_at = podcast.created_at;
     this.following = podcast.following;
     this.podcaster = podcast.podcaster;
