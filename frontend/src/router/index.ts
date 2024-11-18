@@ -10,7 +10,7 @@ router.beforeEach(async (to, from) => {
   const authStore = useAuthStore()
   await authStore.getSession()
   const isAuthPage = !['/login', '/register'].includes(to.path)
-  // !['/login' , '/register'].includes(to.path) is equivalen to to.path !== '/login' && to.path !== '/register'
+  // !['/login' , '/register'].includes(to.path) is equivalent to to.path !== '/login' && to.path !== '/register'
   if (!authStore.user && to.path !== '/login' && to.path !== '/register') {
     return {
       name: '/login',
