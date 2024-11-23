@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import usersService from '@/express/usersService';
+import usersService from '@/services/usersService';
 import { watchDebounced } from '@vueuse/core';
 import type { AxiosResponse } from 'axios';
 
