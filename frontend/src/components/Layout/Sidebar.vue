@@ -68,9 +68,11 @@ const executeAction = async (linkTitle: string) => {
 
 <template>
   <aside
-    class="flex flex-col h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 transition-[width]"
+    class="flex flex-col p-2 h-screen gap-2 border-r fixed bg-muted/40 lg:w-52 w-16 transition-[width]"
   >
-    <div
+  <img src="../../../public/logo.png">
+
+    <!-- <div
       class="flex h-16 items-center border-b px-2 lg:px-4 shrink-0 gap-1 justify-between"
     >
       <Button variant="outline" size="icon" class="w-8 h-8">
@@ -80,7 +82,7 @@ const executeAction = async (linkTitle: string) => {
       <Button variant="outline" size="icon" class="w-8 h-8">
         <iconify-icon icon="lucide:plus"></iconify-icon>
       </Button>
-    </div>
+    </div> -->
 
     <nav class="flex flex-col gap-2 justify-between h-full relative">
       <div>
